@@ -1,0 +1,240 @@
+╭─senorbuen0@Trimethy in ~ via  v3.12.6
+╰─λ sudo mariadb -u root -p
+[sudo] password for senorbuen0:
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 11.5.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE DATABASE tbd-eva2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-eva2' at line 1
+MariaDB [(none)]> CREATE DATABASE tbd_eva2,
+-> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [(none)]> CREATE DATABASE tbd_eva2;
+Query OK, 1 row affected (0.000 sec)
+
+MariaDB [(none)]> USE tbd_eva2;
+Database changed
+MariaDB [tbd_eva2]> CREATE TABLE cliente(
+-> id INT KEY AUTO_INCREMENT,
+-> nombre VARCHAR(50) NOT NULL,
+-> apellidos VARCHAR(50).
+-> rfc VARCHAR(12) NOT NULL;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.
+rfc VARCHAR(12) NOT NULL' at line 4
+MariaDB [tbd_eva2]> CREATE TABLE cliente( id INT KEY AUTO_INCREMENT, nombre VARCHAR(50) NOT NULL, apellidos VARCHAR(50), rfc VARCHAR(12) NOT NULL);
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [tbd_eva2]> DESC cliente;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50) | NO   |     | NULL    |                |
+| apellidos | varchar(50) | YES  |     | NULL    |                |
+| rfc       | varchar(12) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO cliente(nomre, apellido, rfc) values(
+-> "Roberto
+"> ", "Ospina", "JR04567891234"),
+-> ("Katherine", "Tatlock", "KT1234567891211");
+ERROR 1054 (42S22): Unknown column 'nomre' in 'field list'
+MariaDB [tbd_eva2]> INSERT INTO cliente(nombre, apellido, rfc) values( "Roberto
+", "Ospina", "JR04567891234"), ("Katherine", "Tatlock", "KT1234567891211");
+ERROR 1054 (42S22): Unknown column 'apellido' in 'field list'
+MariaDB [tbd_eva2]> INSERT INTO cliente(nombre, apellidos, rfc) values( "Roberto
+", "Ospina", "JR04567891234"), ("Katherine", "Tatlock", "KT1234567891211");
+ERROR 1406 (22001): Data too long for column 'rfc' at row 1
+MariaDB [tbd_eva2]> INSERT INTO cliente(nombre, apellidos, rfc) values( "Roberto
+", "Ospina", "JR0456789123"), ("Katherine", "Tatlock", "KT1234567891");
+Query OK, 2 rows affected (0.006 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente;
++----+-----------+-----------+--------------+
+| id | nombre    | apellidos | rfc          |
++----+-----------+-----------+--------------+
+|  1 | Roberto
+| Ospina    | JR0456789123 |
+|  2 | Katherine | Tatlock   | KT1234567891 |
++----+-----------+-----------+--------------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente.apellidos;
+ERROR 1146 (42S02): Table 'cliente.apellidos' doesn't exist
+MariaDB [tbd_eva2]> SELECT apellidos FROM cliente;
++-----------+
+| apellidos |
++-----------+
+| Ospina    |
+| Tatlock   |
++-----------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> CREATE TABLE factura(
+-> folio INT KEY AUTO
+-> _INCREMENT,
+-> idCliente INT NOT NULL
+-> FOREIGN KEY (idCliente)
+-> REFERENCES cliente(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AUTO
+_INCREMENT,
+idCliente INT NOT NULL
+FOREIGN KEY (idCliente)
+REFERENCES cl...' at line 2
+MariaDB [tbd_eva2]> CREATE TABLE factura( folio INT KEY AUTO _INCREMENT, idCliente INT NOT NULL, FOREIGN KEY (idCliente) REFERENCES cliente(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AUTO _INCREMENT, idCliente INT NOT NULL, FOREIGN KEY (idCliente) REFERENCES c...' at line 1
+MariaDB [tbd_eva2]> CREATE TABLE factura (
+->     folio INT AUTO_INCREMENT PRIMARY KEY,
+->     idCliente INT NOT NULL,
+->     FOREIGN KEY (idCliente) REFERENCES cliente(id)
+-> );
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura;
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                               |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura | CREATE TABLE `factura` (
+`folio` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
+PRIMARY KEY (`folio`),
+KEY `idCliente` (`idCliente`),
+CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUE(5);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`tbd_eva2`.`factura`, CONSTRAINT `factura_ibfk_1`FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`))
+MariaDB [tbd_eva2]> SELECT * FROM cliente;
++----+-----------+-----------+--------------+
+| id | nombre    | apellidos | rfc          |
++----+-----------+-----------+--------------+
+|  1 | Roberto
+| Ospina    | JR0456789123 |
+|  2 | Katherine | Tatlock   | KT1234567891 |
++----+-----------+-----------+--------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUE(1);
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUE(2);
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUES(2), (1) (2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(2)' at line 1
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUES (2), (1) (2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(2)' at line 1
+MariaDB [tbd_eva2]> INSERT INTO factura (idCliente) VALUES (2), (1) (2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(2)' at line 1
+MariaDB [tbd_eva2]> INSERT INTO factura (idCliente) VALUES (2), (1), (2);
+Query OK, 3 rows affected (0.003 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM factura,
+-> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     2 |         1 |
+|     5 |         1 |
+|     3 |         2 |
+|     4 |         2 |
+|     6 |         2 |
++-------+-----------+
+5 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT FROM cliente WHERE id = 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM cliente WHERE id = 1' at line 1
+MariaDB [tbd_eva2]> SELECT * FROM cliente WHERE id = 1;
++----+----------+-----------+--------------+
+| id | nombre   | apellidos | rfc          |
++----+----------+-----------+--------------+
+|  1 | Roberto
+| Ospina    | JR0456789123 |
++----+----------+-----------+--------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura WHERE id=1;
+ERROR 1054 (42S22): Unknown column 'id' in 'where clause'
+MariaDB [tbd_eva2]> SELECT * FROM factura WHERE idCliente=1;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     2 |         1 |
+|     5 |         1 |
++-------+-----------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DELETE FROM cliente WHERE id = 1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`tbd_eva2`.`factura`, CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`))
+MariaDB [tbd_eva2]> DELETE FROM factura WHERE idCliente = 1;
+Query OK, 2 rows affected (0.006 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     3 |         2 |
+|     4 |         2 |
+|     6 |         2 |
++-------+-----------+
+3 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DELETE FROM cliente WHERE id = 1;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     3 |         2 |
+|     4 |         2 |
+|     6 |         2 |
++-------+-----------+
+3 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SHOW CREATE factura;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'factura' at line 1
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura;
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                               |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura | CREATE TABLE `factura` (
+`folio` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
+PRIMARY KEY (`folio`),
+KEY `idCliente` (`idCliente`),
+CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura DROP CONSTRAINT factura_ibfk_1;
+Query OK, 0 rows affected (0.026 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura (idCliente) VALUE(5);
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [tbd_eva2]> exit;
