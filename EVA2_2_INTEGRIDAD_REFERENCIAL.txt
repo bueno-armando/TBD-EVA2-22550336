@@ -1,0 +1,372 @@
+╭─senorbuen0@Trimethy in repo: TBD-EVA2-22550336 on  main
+╰─λ sudo mysql -u root -p
+[sudo] password for senorbuen0:
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 11.5.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| prueba             |
+| sakila             |
+| sys                |
+| tbd_eva1           |
+| tbd_eva2           |
+| test               |
+| workplace          |
++--------------------+
+10 rows in set (0.001 sec)
+
+MariaDB [(none)]> USE tbd_eva2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [tbd_eva2]> SHOW CREATE FACTURA;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'FACTURA' at line 1
+MariaDB [tbd_eva2]> SHOW CREATE factura;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'factura' at line 1
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura;
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                      |
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura | CREATE TABLE `factura` (
+`folio` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
+PRIMARY KEY (`folio`),
+KEY `idCliente` (`idCliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     3 |         2 |
+|     4 |         2 |
+|     6 |         2 |
+|     7 |         5 |
++-------+-----------+
+4 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente;
++----+-----------+-----------+--------------+
+| id | nombre    | apellidos | rfc          |
++----+-----------+-----------+--------------+
+|  2 | Katherine | Tatlock   | KT1234567891 |
++----+-----------+-----------+--------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura
+-> ADD CONSTRAINT FOREIGN KEY (idCliente)
+-> REFERENCES cliente(id);
+Query OK, 4 rows affected (0.034 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> INSERT INTO cliente(nombre, apellidos, rfc) VALUES ("Levi", "Popotes", "POP456789123");
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura ADD CONSTRAINT FOREIGN KEY (idCliente) REFERENCES cliente(id);
+Query OK, 4 rows affected (0.036 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> DELETE FROM factura WHERE idCliente = 5;
+Query OK, 1 row affected (0.005 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     3 |         2 |
+|     4 |         2 |
+|     6 |         2 |
++-------+-----------+
+3 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura ADD CONSTRAINT FOREIGN KEY (idCliente) REFERENCES cliente(id);
+Query OK, 3 rows affected (0.032 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura;
++---------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                      |
++---------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura | CREATE TABLE `factura` (
+`folio` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
+PRIMARY KEY (`folio`),
+KEY `idCliente` (`idCliente`),
+CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`),
+CONSTRAINT `factura_ibfk_2` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`),
+CONSTRAINT `factura_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.004 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura DROP CONSTRAINT factura_ibfk_3;
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> ALTER TABLE factura DROP CONSTRAINT factura_ibfk_2;
+Query OK, 0 rows affected (0.018 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SHOE CREATE TABLE factura;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'SHOE CREATE TABLE factura' at line 1
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura;
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                      |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura | CREATE TABLE `factura` (
+`folio` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
+PRIMARY KEY (`folio`),
+KEY `idCliente` (`idCliente`),
+CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura DROP CONSTRAINT factura_ibfk_1;
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> ALTER TABLE factura ADD CONSTRAINT FOREIGN KEY (idCliente) REFERENCES cliente(id);
+Query OK, 3 rows affected (0.033 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> ALTER TABLE factura DROP CONSTRAINT factura_ibfk_1;
+Query OK, 0 rows affected (0.021 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> ALTER TABLE factura ADD CONSTRAINT FOREIGN KEY (idCliente) REFERENCES cliente(id)
+-> ON DELETE RESTRICT
+-> ON UPDATE RESTRICT;
+Query OK, 3 rows affected (0.036 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura;
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                      |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura | CREATE TABLE `factura` (
+`folio` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
+PRIMARY KEY (`folio`),
+KEY `idCliente` (`idCliente`),
+CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.005 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     3 |         2 |
+|     4 |         2 |
+|     6 |         2 |
++-------+-----------+
+3 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente;
++----+-----------+-----------+--------------+
+| id | nombre    | apellidos | rfc          |
++----+-----------+-----------+--------------+
+|  2 | Katherine | Tatlock   | KT1234567891 |
+|  3 | Levi      | Popotes   | POP456789123 |
++----+-----------+-----------+--------------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DELETE FROM cliente
+-> WHERE id = 2;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`tbd_eva2`.`factura`, CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`))
+MariaDB [tbd_eva2]> UPDATE cliente
+-> SET
+-> id = 5
+-> WHERE
+-> id = 2;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`tbd_eva2`.`factura`, CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`))
+MariaDB [tbd_eva2]> ALTER TABLE factura
+-> DROP CONSTRAINT factura_ibfk_1;
+Query OK, 0 rows affected (0.023 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> ALTER TABLE factura
+-> ADD CONSTRAINT
+-> FOREIGN KEY (idCliente)
+-> REFERENCES
+-> cliente(id)
+-> ON DELETE CASCADE
+-> ON UPDATE CASCADE;
+Query OK, 3 rows affected (0.035 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> UPDATE CLIENTE
+-> SET
+-> id = 5
+-> WHERE
+-> id = 2;
+ERROR 1146 (42S02): Table 'tbd_eva2.CLIENTE' doesn't exist
+MariaDB [tbd_eva2]> UPDATE cliente SET id = 5 WHERE id = 2;
+Query OK, 1 row affected (0.013 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente, factura;
++----+-----------+-----------+--------------+-------+-----------+
+| id | nombre    | apellidos | rfc          | folio | idCliente |
++----+-----------+-----------+--------------+-------+-----------+
+|  3 | Levi      | Popotes   | POP456789123 |     3 |         5 |
+|  5 | Katherine | Tatlock   | KT1234567891 |     3 |         5 |
+|  3 | Levi      | Popotes   | POP456789123 |     4 |         5 |
+|  5 | Katherine | Tatlock   | KT1234567891 |     4 |         5 |
+|  3 | Levi      | Popotes   | POP456789123 |     6 |         5 |
+|  5 | Katherine | Tatlock   | KT1234567891 |     6 |         5 |
++----+-----------+-----------+--------------+-------+-----------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DELETE FROM cliente;
+Query OK, 2 rows affected (0.003 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente, factura;
+Empty set (0.000 sec)
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE cliente;
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                      |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| cliente | CREATE TABLE `cliente` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`nombre` varchar(50) NOT NULL,
+`apellidos` varchar(50) DEFAULT NULL,
+`rfc` varchar(12) NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura;
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                      |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura | CREATE TABLE `factura` (
+`folio` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
+PRIMARY KEY (`folio`),
+KEY `idCliente` (`idCliente`),
+CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO CLIENTE(nombre, apellidos, rfc)
+-> VALUES("Jean", "Tatlock", "JTL1234567890"),
+-> ("Gas", "Hipergas", "GH0123456890");
+ERROR 1146 (42S02): Table 'tbd_eva2.CLIENTE' doesn't exist
+MariaDB [tbd_eva2]> INSERT INTO cliente(nombre, apellidos, rfc) VALUES("Jean", "Tatlock", "JTL123456789"), ("Gas", "Hipergas","GH0123456890");
+Query OK, 2 rows affected (0.006 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente;
++----+--------+-----------+--------------+
+| id | nombre | apellidos | rfc          |
++----+--------+-----------+--------------+
+|  6 | Jean   | Tatlock   | JTL123456789 |
+|  7 | Gas    | Hipergas  | GH0123456890 |
++----+--------+-----------+--------------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
+Empty set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente)
+-> VALUES (6), (7), (7), (6), (6);
+Query OK, 5 rows affected (0.003 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     8 |         6 |
+|    11 |         6 |
+|    12 |         6 |
+|     9 |         7 |
+|    10 |         7 |
++-------+-----------+
+5 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUES (6);
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     8 |         6 |
+|    11 |         6 |
+|    12 |         6 |
+|    13 |         6 |
+|     9 |         7 |
+|    10 |         7 |
++-------+-----------+
+6 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura ORDER BY folio ASC;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     8 |         6 |
+|     9 |         7 |
+|    10 |         7 |
+|    11 |         6 |
+|    12 |         6 |
+|    13 |         6 |
++-------+-----------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura
+-> ADD CONSTRAINT FOREIGN KEY(idCliente) REFERENCES cliente(id)
+-> ON DELETE SET NULL
+-> ON UPDATE SET NULL;
+ERROR 1005 (HY000): Can't create table `tbd_eva2`.`factura` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [tbd_eva2]> ALTER TABLE factura ADD CONSTRAINT FOREIGN KEY (idCliente) REFERENCES cliente(id) ON DELETE SET NULL ON UPDATE SET NULL;
+ERROR 1005 (HY000): Can't create table `tbd_eva2`.`factura` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [tbd_eva2]> ALTER TABLE factura drop CONSTRAINT factura_ibfk_1:
+-> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near ':' at line 1
+MariaDB [tbd_eva2]> ALTER TABLE factura drop CONSTRAINT factura_ibfk_1;
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> ALTER TABLE factura
+-> ADD CONSTRAINT FOREIGN KEY(idCliente)
+-> REFERENCES cliente(id)
+-> ON DELETE cascade
+-> ON UPDATE CASCADE;
+Query OK, 6 rows affected (0.034 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> exit;
+Bye
