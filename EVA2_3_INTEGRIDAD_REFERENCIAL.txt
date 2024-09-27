@@ -1,0 +1,347 @@
+╭─senorbuen0@Trimethy in ~/ISC/sem5/bases-datos via  v3.12.6
+╰─λ sudo mysql -u root -p
+[sudo] password for senorbuen0:
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 5
+Server version: 11.5.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use tbd_eva2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura;
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                      |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura | CREATE TABLE `factura` (
+`folio` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
+PRIMARY KEY (`folio`),
+KEY `idCliente` (`idCliente`),
+CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> CREATE TABLE factura_detalle(
+-> id INT KEY AUTO_INCREMENT,
+-> idFactura INT NOT NULL,
+-> idProducto INT NOT NULL,
+-> cantidad INT NOT NULL,
+-> CONSTRAINT FOREIGN KEY (idFactura) REFERENCES factura(folio));
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura_detalle;
++-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table           | Create Table                                                                                              |
++-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura_detalle | CREATE TABLE `factura_detalle` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`idFactura` int(11) NOT NULL,
+`idProducto` int(11) NOT NULL,
+`cantidad` int(11) NOT NULL,
+PRIMARY KEY (`id`),
+KEY `idFactura` (`idFactura`),
+CONSTRAINT `factura_detalle_ibfk_1` FOREIGN KEY (`idFactura`) REFERENCES `factura` (`folio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DROP TABLE factura_detalle;
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [tbd_eva2]> CREATE TABLE factura_detalle( id INT KEY AUTO_INCREMENT, idFactura INT NOT NULL, idProducto INT NOT NULL, cantidad INT NOT NULL, CONSTRAINT FOREIGN KEY (idFactura) REFERENCES factura(folio)
+-> ON DELETE CASCADE
+-> ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.018 sec)
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura_detalle;
++-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table           | Create Table                                                                                              |
++-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura_detalle | CREATE TABLE `factura_detalle` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`idFactura` int(11) NOT NULL,
+`idProducto` int(11) NOT NULL,
+`cantidad` int(11) NOT NULL,
+PRIMARY KEY (`id`),
+KEY `idFactura` (`idFactura`),
+CONSTRAINT `factura_detalle_ibfk_1` FOREIGN KEY (`idFactura`) REFERENCES `factura` (`folio`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC factura_detalle;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| id         | int(11) | NO   | PRI | NULL    | auto_increment |
+| idFactura  | int(11) | NO   | MUL | NULL    |                |
+| idProducto | int(11) | NO   |     | NULL    |                |
+| cantidad   | int(11) | NO   |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura_detalle(idFactura, idProducto, cantidad) VALUES
+-> (1, 1, 1),
+-> (2, 1, 1),
+-> (3, 1, 1);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`tbd_eva2`.`factura_detalle`, CONSTRAINT`factura_detalle_ibfk_1` FOREIGN KEY (`idFactura`) REFERENCES `factura` (`folio`) ON DELETE CASCADE ON UPDATE CASCADE)
+MariaDB [tbd_eva2]> INSERT INTO factura (folio) VALUES (1), (2), (3);
+ERROR 1364 (HY000): Field 'idCliente' doesn't have a default value
+MariaDB [tbd_eva2]> DESC factura,
+-> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '' at line 1
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     8 |         6 |
+|    11 |         6 |
+|    12 |         6 |
+|    13 |         6 |
+|     9 |         7 |
+|    10 |         7 |
++-------+-----------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura_detalle(idFactura, idProducto, cantidad) VALUES (8, 9, 10, 11, 12, 13), (1, 1, 1, 1, 1, 1), (1, 1, 1, 1, 1, 1);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+MariaDB [tbd_eva2]> INSERT INTO factura_detalle(idFactura, idProducto, cantidad) VALUES(8, 1, 1), (9, 1, 1), (10, 1, 1), (11, 1, 1), (12, 1, 1), (13, 1, 1);
+Query OK, 6 rows affected (0.003 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM factura_detalle;
++----+-----------+------------+----------+
+| id | idFactura | idProducto | cantidad |
++----+-----------+------------+----------+
+|  4 |         8 |          1 |        1 |
+|  5 |         9 |          1 |        1 |
+|  6 |        10 |          1 |        1 |
+|  7 |        11 |          1 |        1 |
+|  8 |        12 |          1 |        1 |
+|  9 |        13 |          1 |        1 |
++----+-----------+------------+----------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura WHERE folio = 10;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|    10 |         7 |
++-------+-----------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente;
++----+--------+-----------+--------------+
+| id | nombre | apellidos | rfc          |
++----+--------+-----------+--------------+
+|  6 | Jean   | Tatlock   | JTL123456789 |
+|  7 | Gas    | Hipergas  | GH0123456890 |
++----+--------+-----------+--------------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente WHERE id = 7;
++----+--------+-----------+--------------+
+| id | nombre | apellidos | rfc          |
++----+--------+-----------+--------------+
+|  7 | Gas    | Hipergas  | GH0123456890 |
++----+--------+-----------+--------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> UPDATE CLIENTE
+-> SET id = 20
+-> WHERE id = 6;
+ERROR 1146 (42S02): Table 'tbd_eva2.CLIENTE' doesn't exist
+MariaDB [tbd_eva2]> UPDATE cliente SET id = 20 WHERE id = 6;
+Query OK, 1 row affected (0.007 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     9 |         7 |
+|    10 |         7 |
+|     8 |        20 |
+|    11 |        20 |
+|    12 |        20 |
+|    13 |        20 |
++-------+-----------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura_detalle;
++----+-----------+------------+----------+
+| id | idFactura | idProducto | cantidad |
++----+-----------+------------+----------+
+|  4 |         8 |          1 |        1 |
+|  5 |         9 |          1 |        1 |
+|  6 |        10 |          1 |        1 |
+|  7 |        11 |          1 |        1 |
+|  8 |        12 |          1 |        1 |
+|  9 |        13 |          1 |        1 |
++----+-----------+------------+----------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente WHERE id = 20;
++----+--------+-----------+--------------+
+| id | nombre | apellidos | rfc          |
++----+--------+-----------+--------------+
+| 20 | Jean   | Tatlock   | JTL123456789 |
++----+--------+-----------+--------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DELETE FROM cliente WHERE id = 20;
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura_detalle;
++----+-----------+------------+----------+
+| id | idFactura | idProducto | cantidad |
++----+-----------+------------+----------+
+|  5 |         9 |          1 |        1 |
+|  6 |        10 |          1 |        1 |
++----+-----------+------------+----------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     9 |         7 |
+|    10 |         7 |
++-------+-----------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> CREATE TABLE PRODUCTO(
+-> id INT KEY AUTO_INCREMENT,
+-> nombre VARCHAR(50) NOT NULL,
+-> precio DECIMAL(10,2) NOT NULL);
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO producto(nombre, precio) VALUES
+-> ("Elote", 30),
+-> ("Nachos", 50),
+-> ("iPhone XX", 25);
+ERROR 1146 (42S02): Table 'tbd_eva2.producto' doesn't exist
+MariaDB [tbd_eva2]> INSERT INTO producto(nombre, precio) VALUES ("Elote", 30), ("Nachos", 50), ("iPhone XX", 25));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near ')' at line 1
+MariaDB [tbd_eva2]> INSERT INTO producto(nombre, precio) VALUES ("Elote", 30), ("Nachos", 50), ("iPhone XX", 25);
+ERROR 1146 (42S02): Table 'tbd_eva2.producto' doesn't exist
+MariaDB [tbd_eva2]> RENAME PRODUCTO TO producto;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'PRODUCTO TO producto' at line 1
+MariaDB [tbd_eva2]> RENAME TABLE PRODUCTO to producto;
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO producto(nombre, precio) VALUES ("Elote", 30), ("Nachos", 50), ("iPhone XX", 25);
+Query OK, 3 rows affected (0.008 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM producto;
++----+-----------+--------+
+| id | nombre    | precio |
++----+-----------+--------+
+|  1 | Elote     |  30.00 |
+|  2 | Nachos    |  50.00 |
+|  3 | iPhone XX |  25.00 |
++----+-----------+--------+
+3 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC factura_detalle;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| id         | int(11) | NO   | PRI | NULL    | auto_increment |
+| idFactura  | int(11) | NO   | MUL | NULL    |                |
+| idProducto | int(11) | NO   |     | NULL    |                |
+| cantidad   | int(11) | NO   |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura_detalle
+-> ADD CONSTRAINT FOREIGN KEY(idProducto)
+-> REFERENCES producto(id);
+Query OK, 2 rows affected (0.047 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> ALTER TABLE factura_detalle ADD CONSTRAINT FOREIGN KEY(idProducto) REFERENCES producto(id) ON DELETE CASCADE ON UPDATE CASCADE;
+Query OK, 2 rows affected (0.056 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> ALTER TABLE factura_detalle
+-> ;
+Query OK, 0 rows affected (0.003 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura_detalle;
++-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table           | Create Table                                                                                              |
++-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura_detalle | CREATE TABLE `factura_detalle` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`idFactura` int(11) NOT NULL,
+`idProducto` int(11) NOT NULL,
+`cantidad` int(11) NOT NULL,
+PRIMARY KEY (`id`),
+KEY `idFactura` (`idFactura`),
+KEY `idProducto` (`idProducto`),
+CONSTRAINT `factura_detalle_ibfk_1` FOREIGN KEY (`idFactura`) REFERENCES `factura` (`folio`) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT `factura_detalle_ibfk_2` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`id`),
+CONSTRAINT `factura_detalle_ibfk_3` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> ALTER TABLE factura_detalle DROP CONSTRAINT factura_detalle_ibfk_2;
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM producto;
++----+-----------+--------+
+| id | nombre    | precio |
++----+-----------+--------+
+|  1 | Elote     |  30.00 |
+|  2 | Nachos    |  50.00 |
+|  3 | iPhone XX |  25.00 |
++----+-----------+--------+
+3 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura_detalle(idFactura, idProducto, cantidad)
+-> VALUES
+-> (10, 1, 50), (10, 2, 25), (10, 3, 100);
+Query OK, 3 rows affected (0.004 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> DELTE FROM producto WHERE id = 3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'DELTE FROM producto WHERE id = 3' at line 1
+MariaDB [tbd_eva2]> DELETE FROM producto WHERE id = 3;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura_detalle;
++----+-----------+------------+----------+
+| id | idFactura | idProducto | cantidad |
++----+-----------+------------+----------+
+|  5 |         9 |          1 |        1 |
+|  6 |        10 |          1 |        1 |
+| 10 |        10 |          1 |       50 |
+| 11 |        10 |          2 |       25 |
++----+-----------+------------+----------+
+4 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> exit;
+Bye
