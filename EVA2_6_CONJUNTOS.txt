@@ -1,0 +1,3420 @@
+╭─senorbuen0@Trimethy in repo: TBD-EVA2-22550336 on  main [+] as 🧙 took 1s
+╰─λ sudo mysql -u root -p
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 11.5.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE tbd-eva2;
+ERROR 1049 (42000): Unknown database 'tbd-eva2'
+MariaDB [(none)]> USE tbd_eva2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [tbd_eva2]> CREATE TABLE tablaA(
+-> id INT,
+-> nombre VARCHAR(10));
+Query OK, 0 rows affected (0.026 sec)
+
+MariaDB [tbd_eva2]> CREATE TABLE tablaB( id INT, nombre VARCHAR(10));
+Query OK, 0 rows affected (0.026 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO tablaA
+-> VALUES(1, "A"),(2, "B"),(3, "C"),(4, "D");
+Query OK, 4 rows affected (0.005 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> INSERT INTO tablaB VALUES(1, "X"),(2, "Y"),(3, "Z"),(4, "A"),(5, "B");
+Query OK, 5 rows affected (0.002 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaA;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | A      |
+|    2 | B      |
+|    3 | C      |
+|    4 | D      |
++------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaB;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | X      |
+|    2 | Y      |
+|    3 | Z      |
+|    4 | A      |
+|    5 | B      |
++------+--------+
+5 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM
+-> tablaA, tablaB;
++------+--------+------+--------+
+| id   | nombre | id   | nombre |
++------+--------+------+--------+
+|    1 | A      |    1 | X      |
+|    2 | B      |    1 | X      |
+|    3 | C      |    1 | X      |
+|    4 | D      |    1 | X      |
+|    1 | A      |    2 | Y      |
+|    2 | B      |    2 | Y      |
+|    3 | C      |    2 | Y      |
+|    4 | D      |    2 | Y      |
+|    1 | A      |    3 | Z      |
+|    2 | B      |    3 | Z      |
+|    3 | C      |    3 | Z      |
+|    4 | D      |    3 | Z      |
+|    1 | A      |    4 | A      |
+|    2 | B      |    4 | A      |
+|    3 | C      |    4 | A      |
+|    4 | D      |    4 | A      |
+|    1 | A      |    5 | B      |
+|    2 | B      |    5 | B      |
+|    3 | C      |    5 | B      |
+|    4 | D      |    5 | B      |
++------+--------+------+--------+
+20 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaA;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | A      |
+|    2 | B      |
+|    3 | C      |
+|    4 | D      |
++------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaB;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | X      |
+|    2 | Y      |
+|    3 | Z      |
+|    4 | A      |
+|    5 | B      |
++------+--------+
+5 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaA
+-> UNION
+-> SELECT * FROM tablaB;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | A      |
+|    2 | B      |
+|    3 | C      |
+|    4 | D      |
+|    1 | X      |
+|    2 | Y      |
+|    3 | Z      |
+|    4 | A      |
+|    5 | B      |
++------+--------+
+9 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> USE sakila;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [sakila]> DESC actor;
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+| Field       | Type                 | Null | Key | Default             | Extra                         |
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+| actor_id    | smallint(5) unsigned | NO   | PRI | NULL                | auto_increment                |
+| first_name  | varchar(45)          | NO   |     | NULL                |                               |
+| last_name   | varchar(45)          | NO   | MUL | NULL                |                               |
+| last_update | timestamp            | NO   |     | current_timestamp() | on update current_timestamp() |
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [sakila]> DESC customer;
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+| Field       | Type                 | Null | Key | Default             | Extra                         |
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+| customer_id | smallint(5) unsigned | NO   | PRI | NULL                | auto_increment                |
+| store_id    | tinyint(3) unsigned  | NO   | MUL | NULL                |                               |
+| first_name  | varchar(45)          | NO   |     | NULL                |                               |
+| last_name   | varchar(45)          | NO   | MUL | NULL                |                               |
+| email       | varchar(50)          | YES  |     | NULL                |                               |
+| address_id  | smallint(5) unsigned | NO   | MUL | NULL                |                               |
+| active      | tinyint(1)           | NO   |     | 1                   |                               |
+| create_date | datetime             | NO   |     | NULL                |                               |
+| last_update | timestamp            | YES  |     | current_timestamp() | on update current_timestamp() |
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+9 rows in set (0.001 sec)
+
+MariaDB [sakila]> SELECT COUNT(*) FROM actor;
++----------+
+| COUNT(*) |
++----------+
+|      200 |
++----------+
+1 row in set (0.001 sec)
+
+MariaDB [sakila]> SELECT COUNT(*) FROM customer;
++----------+
+| COUNT(*) |
++----------+
+|      600 |
++----------+
+1 row in set (0.001 sec)
+
+MariaDB [sakila]>
+MariaDB [sakila]> SELECT actor_id, first_name, last_name
+-> FROM actor;
++----------+-------------+--------------+
+| actor_id | first_name  | last_name    |
++----------+-------------+--------------+
+|        1 | PENELOPE    | GUINESS      |
+|        2 | NICK        | WAHLBERG     |
+|        3 | ED          | CHASE        |
+|        4 | JENNIFER    | DAVIS        |
+|        5 | JOHNNY      | LOLLOBRIGIDA |
+|        6 | BETTE       | NICHOLSON    |
+|        7 | GRACE       | MOSTEL       |
+|        8 | MATTHEW     | JOHANSSON    |
+|        9 | JOE         | SWANK        |
+|       10 | CHRISTIAN   | GABLE        |
+|       11 | ZERO        | CAGE         |
+|       12 | KARL        | BERRY        |
+|       13 | UMA         | WOOD         |
+|       14 | VIVIEN      | BERGEN       |
+|       15 | CUBA        | OLIVIER      |
+|       16 | FRED        | COSTNER      |
+|       17 | HELEN       | VOIGHT       |
+|       18 | DAN         | TORN         |
+|       19 | BOB         | FAWCETT      |
+|       20 | LUCILLE     | TRACY        |
+|       21 | KIRSTEN     | PALTROW      |
+|       22 | ELVIS       | MARX         |
+|       23 | SANDRA      | KILMER       |
+|       24 | CAMERON     | STREEP       |
+|       25 | KEVIN       | BLOOM        |
+|       26 | RIP         | CRAWFORD     |
+|       27 | JULIA       | MCQUEEN      |
+|       28 | WOODY       | HOFFMAN      |
+|       29 | ALEC        | WAYNE        |
+|       30 | SANDRA      | PECK         |
+|       31 | SISSY       | SOBIESKI     |
+|       32 | TIM         | HACKMAN      |
+|       33 | MILLA       | PECK         |
+|       34 | AUDREY      | OLIVIER      |
+|       35 | JUDY        | DEAN         |
+|       36 | BURT        | DUKAKIS      |
+|       37 | VAL         | BOLGER       |
+|       38 | TOM         | MCKELLEN     |
+|       39 | GOLDIE      | BRODY        |
+|       40 | JOHNNY      | CAGE         |
+|       41 | JODIE       | DEGENERES    |
+|       42 | TOM         | MIRANDA      |
+|       43 | KIRK        | JOVOVICH     |
+|       44 | NICK        | STALLONE     |
+|       45 | REESE       | KILMER       |
+|       46 | PARKER      | GOLDBERG     |
+|       47 | JULIA       | BARRYMORE    |
+|       48 | FRANCES     | DAY-LEWIS    |
+|       49 | ANNE        | CRONYN       |
+|       50 | NATALIE     | HOPKINS      |
+|       51 | GARY        | PHOENIX      |
+|       52 | CARMEN      | HUNT         |
+|       53 | MENA        | TEMPLE       |
+|       54 | PENELOPE    | PINKETT      |
+|       55 | FAY         | KILMER       |
+|       56 | DAN         | HARRIS       |
+|       57 | JUDE        | CRUISE       |
+|       58 | CHRISTIAN   | AKROYD       |
+|       59 | DUSTIN      | TAUTOU       |
+|       60 | HENRY       | BERRY        |
+|       61 | CHRISTIAN   | NEESON       |
+|       62 | JAYNE       | NEESON       |
+|       63 | CAMERON     | WRAY         |
+|       64 | RAY         | JOHANSSON    |
+|       65 | ANGELA      | HUDSON       |
+|       66 | MARY        | TANDY        |
+|       67 | JESSICA     | BAILEY       |
+|       68 | RIP         | WINSLET      |
+|       69 | KENNETH     | PALTROW      |
+|       70 | MICHELLE    | MCCONAUGHEY  |
+|       71 | ADAM        | GRANT        |
+|       72 | SEAN        | WILLIAMS     |
+|       73 | GARY        | PENN         |
+|       74 | MILLA       | KEITEL       |
+|       75 | BURT        | POSEY        |
+|       76 | ANGELINA    | ASTAIRE      |
+|       77 | CARY        | MCCONAUGHEY  |
+|       78 | GROUCHO     | SINATRA      |
+|       79 | MAE         | HOFFMAN      |
+|       80 | RALPH       | CRUZ         |
+|       81 | SCARLETT    | DAMON        |
+|       82 | WOODY       | JOLIE        |
+|       83 | BEN         | WILLIS       |
+|       84 | JAMES       | PITT         |
+|       85 | MINNIE      | ZELLWEGER    |
+|       86 | GREG        | CHAPLIN      |
+|       87 | SPENCER     | PECK         |
+|       88 | KENNETH     | PESCI        |
+|       89 | CHARLIZE    | DENCH        |
+|       90 | SEAN        | GUINESS      |
+|       91 | CHRISTOPHER | BERRY        |
+|       92 | KIRSTEN     | AKROYD       |
+|       93 | ELLEN       | PRESLEY      |
+|       94 | KENNETH     | TORN         |
+|       95 | DARYL       | WAHLBERG     |
+|       96 | GENE        | WILLIS       |
+|       97 | MEG         | HAWKE        |
+|       98 | CHRIS       | BRIDGES      |
+|       99 | JIM         | MOSTEL       |
+|      100 | SPENCER     | DEPP         |
+|      101 | SUSAN       | DAVIS        |
+|      102 | WALTER      | TORN         |
+|      103 | MATTHEW     | LEIGH        |
+|      104 | PENELOPE    | CRONYN       |
+|      105 | SIDNEY      | CROWE        |
+|      106 | GROUCHO     | DUNST        |
+|      107 | GINA        | DEGENERES    |
+|      108 | WARREN      | NOLTE        |
+|      109 | SYLVESTER   | DERN         |
+|      110 | SUSAN       | DAVIS        |
+|      111 | CAMERON     | ZELLWEGER    |
+|      112 | RUSSELL     | BACALL       |
+|      113 | MORGAN      | HOPKINS      |
+|      114 | MORGAN      | MCDORMAND    |
+|      115 | HARRISON    | BALE         |
+|      116 | DAN         | STREEP       |
+|      117 | RENEE       | TRACY        |
+|      118 | CUBA        | ALLEN        |
+|      119 | WARREN      | JACKMAN      |
+|      120 | PENELOPE    | MONROE       |
+|      121 | LIZA        | BERGMAN      |
+|      122 | SALMA       | NOLTE        |
+|      123 | JULIANNE    | DENCH        |
+|      124 | SCARLETT    | BENING       |
+|      125 | ALBERT      | NOLTE        |
+|      126 | FRANCES     | TOMEI        |
+|      127 | KEVIN       | GARLAND      |
+|      128 | CATE        | MCQUEEN      |
+|      129 | DARYL       | CRAWFORD     |
+|      130 | GRETA       | KEITEL       |
+|      131 | JANE        | JACKMAN      |
+|      132 | ADAM        | HOPPER       |
+|      133 | RICHARD     | PENN         |
+|      134 | GENE        | HOPKINS      |
+|      135 | RITA        | REYNOLDS     |
+|      136 | ED          | MANSFIELD    |
+|      137 | MORGAN      | WILLIAMS     |
+|      138 | LUCILLE     | DEE          |
+|      139 | EWAN        | GOODING      |
+|      140 | WHOOPI      | HURT         |
+|      141 | CATE        | HARRIS       |
+|      142 | JADA        | RYDER        |
+|      143 | RIVER       | DEAN         |
+|      144 | ANGELA      | WITHERSPOON  |
+|      145 | KIM         | ALLEN        |
+|      146 | ALBERT      | JOHANSSON    |
+|      147 | FAY         | WINSLET      |
+|      148 | EMILY       | DEE          |
+|      149 | RUSSELL     | TEMPLE       |
+|      150 | JAYNE       | NOLTE        |
+|      151 | GEOFFREY    | HESTON       |
+|      152 | BEN         | HARRIS       |
+|      153 | MINNIE      | KILMER       |
+|      154 | MERYL       | GIBSON       |
+|      155 | IAN         | TANDY        |
+|      156 | FAY         | WOOD         |
+|      157 | GRETA       | MALDEN       |
+|      158 | VIVIEN      | BASINGER     |
+|      159 | LAURA       | BRODY        |
+|      160 | CHRIS       | DEPP         |
+|      161 | HARVEY      | HOPE         |
+|      162 | OPRAH       | KILMER       |
+|      163 | CHRISTOPHER | WEST         |
+|      164 | HUMPHREY    | WILLIS       |
+|      165 | AL          | GARLAND      |
+|      166 | NICK        | DEGENERES    |
+|      167 | LAURENCE    | BULLOCK      |
+|      168 | WILL        | WILSON       |
+|      169 | KENNETH     | HOFFMAN      |
+|      170 | MENA        | HOPPER       |
+|      171 | OLYMPIA     | PFEIFFER     |
+|      172 | GROUCHO     | WILLIAMS     |
+|      173 | ALAN        | DREYFUSS     |
+|      174 | MICHAEL     | BENING       |
+|      175 | WILLIAM     | HACKMAN      |
+|      176 | JON         | CHASE        |
+|      177 | GENE        | MCKELLEN     |
+|      178 | LISA        | MONROE       |
+|      179 | ED          | GUINESS      |
+|      180 | JEFF        | SILVERSTONE  |
+|      181 | MATTHEW     | CARREY       |
+|      182 | DEBBIE      | AKROYD       |
+|      183 | RUSSELL     | CLOSE        |
+|      184 | HUMPHREY    | GARLAND      |
+|      185 | MICHAEL     | BOLGER       |
+|      186 | JULIA       | ZELLWEGER    |
+|      187 | RENEE       | BALL         |
+|      188 | ROCK        | DUKAKIS      |
+|      189 | CUBA        | BIRCH        |
+|      190 | AUDREY      | BAILEY       |
+|      191 | GREGORY     | GOODING      |
+|      192 | JOHN        | SUVARI       |
+|      193 | BURT        | TEMPLE       |
+|      194 | MERYL       | ALLEN        |
+|      195 | JAYNE       | SILVERSTONE  |
+|      196 | BELA        | WALKEN       |
+|      197 | REESE       | WEST         |
+|      198 | MARY        | KEITEL       |
+|      199 | JULIA       | FAWCETT      |
+|      200 | THORA       | TEMPLE       |
++----------+-------------+--------------+
+200 rows in set (0.000 sec)
+
+MariaDB [sakila]> SELECT customer_id, first_name, last_name FROM customer;
++-------------+-------------+--------------+
+| customer_id | first_name  | last_name    |
++-------------+-------------+--------------+
+|           1 | MARY        | SMITH        |
+|           2 | PATRICIA    | JOHNSON      |
+|           3 | LINDA       | WILLIAMS     |
+|           4 | BARBARA     | JONES        |
+|           5 | ELIZABETH   | BROWN        |
+|           6 | JENNIFER    | DAVIS        |
+|           7 | MARIA       | MILLER       |
+|           8 | SUSAN       | WILSON       |
+|           9 | MARGARET    | MOORE        |
+|          10 | DOROTHY     | TAYLOR       |
+|          11 | LISA        | ANDERSON     |
+|          12 | NANCY       | THOMAS       |
+|          13 | KAREN       | JACKSON      |
+|          14 | BETTY       | WHITE        |
+|          15 | HELEN       | HARRIS       |
+|          16 | SANDRA      | MARTIN       |
+|          17 | DONNA       | THOMPSON     |
+|          18 | CAROL       | GARCIA       |
+|          19 | RUTH        | MARTINEZ     |
+|          20 | SHARON      | ROBINSON     |
+|          21 | MICHELLE    | CLARK        |
+|          22 | LAURA       | RODRIGUEZ    |
+|          23 | SARAH       | LEWIS        |
+|          24 | KIMBERLY    | LEE          |
+|          25 | DEBORAH     | WALKER       |
+|          26 | JESSICA     | HALL         |
+|          27 | SHIRLEY     | ALLEN        |
+|          28 | CYNTHIA     | YOUNG        |
+|          29 | ANGELA      | HERNANDEZ    |
+|          30 | MELISSA     | KING         |
+|          31 | BRENDA      | WRIGHT       |
+|          32 | AMY         | LOPEZ        |
+|          33 | ANNA        | HILL         |
+|          34 | REBECCA     | SCOTT        |
+|          35 | VIRGINIA    | GREEN        |
+|          36 | KATHLEEN    | ADAMS        |
+|          37 | PAMELA      | BAKER        |
+|          38 | MARTHA      | GONZALEZ     |
+|          39 | DEBRA       | NELSON       |
+|          40 | AMANDA      | CARTER       |
+|          41 | STEPHANIE   | MITCHELL     |
+|          42 | CAROLYN     | PEREZ        |
+|          43 | CHRISTINE   | ROBERTS      |
+|          44 | MARIE       | TURNER       |
+|          45 | JANET       | PHILLIPS     |
+|          46 | CATHERINE   | CAMPBELL     |
+|          47 | FRANCES     | PARKER       |
+|          48 | ANN         | EVANS        |
+|          49 | JOYCE       | EDWARDS      |
+|          50 | DIANE       | COLLINS      |
+|          51 | ALICE       | STEWART      |
+|          52 | JULIE       | SANCHEZ      |
+|          53 | HEATHER     | MORRIS       |
+|          54 | TERESA      | ROGERS       |
+|          55 | DORIS       | REED         |
+|          56 | GLORIA      | COOK         |
+|          57 | EVELYN      | MORGAN       |
+|          58 | JEAN        | BELL         |
+|          59 | CHERYL      | MURPHY       |
+|          60 | MILDRED     | BAILEY       |
+|          61 | KATHERINE   | RIVERA       |
+|          62 | JOAN        | COOPER       |
+|          63 | ASHLEY      | RICHARDSON   |
+|          64 | JUDITH      | COX          |
+|          65 | ROSE        | HOWARD       |
+|          66 | JANICE      | WARD         |
+|          67 | KELLY       | TORRES       |
+|          68 | NICOLE      | PETERSON     |
+|          69 | JUDY        | GRAY         |
+|          70 | CHRISTINA   | RAMIREZ      |
+|          71 | KATHY       | JAMES        |
+|          72 | THERESA     | WATSON       |
+|          73 | BEVERLY     | BROOKS       |
+|          74 | DENISE      | KELLY        |
+|          75 | TAMMY       | SANDERS      |
+|          76 | IRENE       | PRICE        |
+|          77 | JANE        | BENNETT      |
+|          78 | LORI        | WOOD         |
+|          79 | RACHEL      | BARNES       |
+|          80 | MARILYN     | ROSS         |
+|          81 | ANDREA      | HENDERSON    |
+|          82 | KATHRYN     | COLEMAN      |
+|          83 | LOUISE      | JENKINS      |
+|          84 | SARA        | PERRY        |
+|          85 | ANNE        | POWELL       |
+|          86 | JACQUELINE  | LONG         |
+|          87 | WANDA       | PATTERSON    |
+|          88 | BONNIE      | HUGHES       |
+|          89 | JULIA       | FLORES       |
+|          90 | RUBY        | WASHINGTON   |
+|          91 | LOIS        | BUTLER       |
+|          92 | TINA        | SIMMONS      |
+|          93 | PHYLLIS     | FOSTER       |
+|          94 | NORMA       | GONZALES     |
+|          95 | PAULA       | BRYANT       |
+|          96 | DIANA       | ALEXANDER    |
+|          97 | ANNIE       | RUSSELL      |
+|          98 | LILLIAN     | GRIFFIN      |
+|          99 | EMILY       | DIAZ         |
+|         100 | ROBIN       | HAYES        |
+|         101 | PEGGY       | MYERS        |
+|         102 | CRYSTAL     | FORD         |
+|         103 | GLADYS      | HAMILTON     |
+|         104 | RITA        | GRAHAM       |
+|         105 | DAWN        | SULLIVAN     |
+|         106 | CONNIE      | WALLACE      |
+|         107 | FLORENCE    | WOODS        |
+|         108 | TRACY       | COLE         |
+|         109 | EDNA        | WEST         |
+|         110 | TIFFANY     | JORDAN       |
+|         111 | CARMEN      | OWENS        |
+|         112 | ROSA        | REYNOLDS     |
+|         113 | CINDY       | FISHER       |
+|         114 | GRACE       | ELLIS        |
+|         115 | WENDY       | HARRISON     |
+|         116 | VICTORIA    | GIBSON       |
+|         117 | EDITH       | MCDONALD     |
+|         118 | KIM         | CRUZ         |
+|         119 | SHERRY      | MARSHALL     |
+|         120 | SYLVIA      | ORTIZ        |
+|         121 | JOSEPHINE   | GOMEZ        |
+|         122 | THELMA      | MURRAY       |
+|         123 | SHANNON     | FREEMAN      |
+|         124 | SHEILA      | WELLS        |
+|         125 | ETHEL       | WEBB         |
+|         126 | ELLEN       | SIMPSON      |
+|         127 | ELAINE      | STEVENS      |
+|         128 | MARJORIE    | TUCKER       |
+|         129 | CARRIE      | PORTER       |
+|         130 | CHARLOTTE   | HUNTER       |
+|         131 | MONICA      | HICKS        |
+|         132 | ESTHER      | CRAWFORD     |
+|         133 | PAULINE     | HENRY        |
+|         134 | EMMA        | BOYD         |
+|         135 | JUANITA     | MASON        |
+|         136 | ANITA       | MORALES      |
+|         137 | RHONDA      | KENNEDY      |
+|         138 | HAZEL       | WARREN       |
+|         139 | AMBER       | DIXON        |
+|         140 | EVA         | RAMOS        |
+|         141 | DEBBIE      | REYES        |
+|         142 | APRIL       | BURNS        |
+|         143 | LESLIE      | GORDON       |
+|         144 | CLARA       | SHAW         |
+|         145 | LUCILLE     | HOLMES       |
+|         146 | JAMIE       | RICE         |
+|         147 | JOANNE      | ROBERTSON    |
+|         148 | ELEANOR     | HUNT         |
+|         149 | VALERIE     | BLACK        |
+|         150 | DANIELLE    | DANIELS      |
+|         151 | MEGAN       | PALMER       |
+|         152 | ALICIA      | MILLS        |
+|         153 | SUZANNE     | NICHOLS      |
+|         154 | MICHELE     | GRANT        |
+|         155 | GAIL        | KNIGHT       |
+|         156 | BERTHA      | FERGUSON     |
+|         157 | DARLENE     | ROSE         |
+|         158 | VERONICA    | STONE        |
+|         159 | JILL        | HAWKINS      |
+|         160 | ERIN        | DUNN         |
+|         161 | GERALDINE   | PERKINS      |
+|         162 | LAUREN      | HUDSON       |
+|         163 | CATHY       | SPENCER      |
+|         164 | JOANN       | GARDNER      |
+|         165 | LORRAINE    | STEPHENS     |
+|         166 | LYNN        | PAYNE        |
+|         167 | SALLY       | PIERCE       |
+|         168 | REGINA      | BERRY        |
+|         169 | ERICA       | MATTHEWS     |
+|         170 | BEATRICE    | ARNOLD       |
+|         171 | DOLORES     | WAGNER       |
+|         172 | BERNICE     | WILLIS       |
+|         173 | AUDREY      | RAY          |
+|         174 | YVONNE      | WATKINS      |
+|         175 | ANNETTE     | OLSON        |
+|         176 | JUNE        | CARROLL      |
+|         177 | SAMANTHA    | DUNCAN       |
+|         178 | MARION      | SNYDER       |
+|         179 | DANA        | HART         |
+|         180 | STACY       | CUNNINGHAM   |
+|         181 | ANA         | BRADLEY      |
+|         182 | RENEE       | LANE         |
+|         183 | IDA         | ANDREWS      |
+|         184 | VIVIAN      | RUIZ         |
+|         185 | ROBERTA     | HARPER       |
+|         186 | HOLLY       | FOX          |
+|         187 | BRITTANY    | RILEY        |
+|         188 | MELANIE     | ARMSTRONG    |
+|         189 | LORETTA     | CARPENTER    |
+|         190 | YOLANDA     | WEAVER       |
+|         191 | JEANETTE    | GREENE       |
+|         192 | LAURIE      | LAWRENCE     |
+|         193 | KATIE       | ELLIOTT      |
+|         194 | KRISTEN     | CHAVEZ       |
+|         195 | VANESSA     | SIMS         |
+|         196 | ALMA        | AUSTIN       |
+|         197 | SUE         | PETERS       |
+|         198 | ELSIE       | KELLEY       |
+|         199 | BETH        | FRANKLIN     |
+|         200 | JEANNE      | LAWSON       |
+|         201 | VICKI       | FIELDS       |
+|         202 | CARLA       | GUTIERREZ    |
+|         203 | TARA        | RYAN         |
+|         204 | ROSEMARY    | SCHMIDT      |
+|         205 | EILEEN      | CARR         |
+|         206 | TERRI       | VASQUEZ      |
+|         207 | GERTRUDE    | CASTILLO     |
+|         208 | LUCY        | WHEELER      |
+|         209 | TONYA       | CHAPMAN      |
+|         210 | ELLA        | OLIVER       |
+|         211 | STACEY      | MONTGOMERY   |
+|         212 | WILMA       | RICHARDS     |
+|         213 | GINA        | WILLIAMSON   |
+|         214 | KRISTIN     | JOHNSTON     |
+|         215 | JESSIE      | BANKS        |
+|         216 | NATALIE     | MEYER        |
+|         217 | AGNES       | BISHOP       |
+|         218 | VERA        | MCCOY        |
+|         219 | WILLIE      | HOWELL       |
+|         220 | CHARLENE    | ALVAREZ      |
+|         221 | BESSIE      | MORRISON     |
+|         222 | DELORES     | HANSEN       |
+|         223 | MELINDA     | FERNANDEZ    |
+|         224 | PEARL       | GARZA        |
+|         225 | ARLENE      | HARVEY       |
+|         226 | MAUREEN     | LITTLE       |
+|         227 | COLLEEN     | BURTON       |
+|         228 | ALLISON     | STANLEY      |
+|         229 | TAMARA      | NGUYEN       |
+|         230 | JOY         | GEORGE       |
+|         231 | GEORGIA     | JACOBS       |
+|         232 | CONSTANCE   | REID         |
+|         233 | LILLIE      | KIM          |
+|         234 | CLAUDIA     | FULLER       |
+|         235 | JACKIE      | LYNCH        |
+|         236 | MARCIA      | DEAN         |
+|         237 | TANYA       | GILBERT      |
+|         238 | NELLIE      | GARRETT      |
+|         239 | MINNIE      | ROMERO       |
+|         240 | MARLENE     | WELCH        |
+|         241 | HEIDI       | LARSON       |
+|         242 | GLENDA      | FRAZIER      |
+|         243 | LYDIA       | BURKE        |
+|         244 | VIOLA       | HANSON       |
+|         245 | COURTNEY    | DAY          |
+|         246 | MARIAN      | MENDOZA      |
+|         247 | STELLA      | MORENO       |
+|         248 | CAROLINE    | BOWMAN       |
+|         249 | DORA        | MEDINA       |
+|         250 | JO          | FOWLER       |
+|         251 | VICKIE      | BREWER       |
+|         252 | MATTIE      | HOFFMAN      |
+|         253 | TERRY       | CARLSON      |
+|         254 | MAXINE      | SILVA        |
+|         255 | IRMA        | PEARSON      |
+|         256 | MABEL       | HOLLAND      |
+|         257 | MARSHA      | DOUGLAS      |
+|         258 | MYRTLE      | FLEMING      |
+|         259 | LENA        | JENSEN       |
+|         260 | CHRISTY     | VARGAS       |
+|         261 | DEANNA      | BYRD         |
+|         262 | PATSY       | DAVIDSON     |
+|         263 | HILDA       | HOPKINS      |
+|         264 | GWENDOLYN   | MAY          |
+|         265 | JENNIE      | TERRY        |
+|         266 | NORA        | HERRERA      |
+|         267 | MARGIE      | WADE         |
+|         268 | NINA        | SOTO         |
+|         269 | CASSANDRA   | WALTERS      |
+|         270 | LEAH        | CURTIS       |
+|         271 | PENNY       | NEAL         |
+|         272 | KAY         | CALDWELL     |
+|         273 | PRISCILLA   | LOWE         |
+|         274 | NAOMI       | JENNINGS     |
+|         275 | CAROLE      | BARNETT      |
+|         276 | BRANDY      | GRAVES       |
+|         277 | OLGA        | JIMENEZ      |
+|         278 | BILLIE      | HORTON       |
+|         279 | DIANNE      | SHELTON      |
+|         280 | TRACEY      | BARRETT      |
+|         281 | LEONA       | OBRIEN       |
+|         282 | JENNY       | CASTRO       |
+|         283 | FELICIA     | SUTTON       |
+|         284 | SONIA       | GREGORY      |
+|         285 | MIRIAM      | MCKINNEY     |
+|         286 | VELMA       | LUCAS        |
+|         287 | BECKY       | MILES        |
+|         288 | BOBBIE      | CRAIG        |
+|         289 | VIOLET      | RODRIQUEZ    |
+|         290 | KRISTINA    | CHAMBERS     |
+|         291 | TONI        | HOLT         |
+|         292 | MISTY       | LAMBERT      |
+|         293 | MAE         | FLETCHER     |
+|         294 | SHELLY      | WATTS        |
+|         295 | DAISY       | BATES        |
+|         296 | RAMONA      | HALE         |
+|         297 | SHERRI      | RHODES       |
+|         298 | ERIKA       | PENA         |
+|         299 | JAMES       | GANNON       |
+|         300 | JOHN        | FARNSWORTH   |
+|         301 | ROBERT      | BAUGHMAN     |
+|         302 | MICHAEL     | SILVERMAN    |
+|         303 | WILLIAM     | SATTERFIELD  |
+|         304 | DAVID       | ROYAL        |
+|         305 | RICHARD     | MCCRARY      |
+|         306 | CHARLES     | KOWALSKI     |
+|         307 | JOSEPH      | JOY          |
+|         308 | THOMAS      | GRIGSBY      |
+|         309 | CHRISTOPHER | GRECO        |
+|         310 | DANIEL      | CABRAL       |
+|         311 | PAUL        | TROUT        |
+|         312 | MARK        | RINEHART     |
+|         313 | DONALD      | MAHON        |
+|         314 | GEORGE      | LINTON       |
+|         315 | KENNETH     | GOODEN       |
+|         316 | STEVEN      | CURLEY       |
+|         317 | EDWARD      | BAUGH        |
+|         318 | BRIAN       | WYMAN        |
+|         319 | RONALD      | WEINER       |
+|         320 | ANTHONY     | SCHWAB       |
+|         321 | KEVIN       | SCHULER      |
+|         322 | JASON       | MORRISSEY    |
+|         323 | MATTHEW     | MAHAN        |
+|         324 | GARY        | COY          |
+|         325 | TIMOTHY     | BUNN         |
+|         326 | JOSE        | ANDREW       |
+|         327 | LARRY       | THRASHER     |
+|         328 | JEFFREY     | SPEAR        |
+|         329 | FRANK       | WAGGONER     |
+|         330 | SCOTT       | SHELLEY      |
+|         331 | ERIC        | ROBERT       |
+|         332 | STEPHEN     | QUALLS       |
+|         333 | ANDREW      | PURDY        |
+|         334 | RAYMOND     | MCWHORTER    |
+|         335 | GREGORY     | MAULDIN      |
+|         336 | JOSHUA      | MARK         |
+|         337 | JERRY       | JORDON       |
+|         338 | DENNIS      | GILMAN       |
+|         339 | WALTER      | PERRYMAN     |
+|         340 | PATRICK     | NEWSOM       |
+|         341 | PETER       | MENARD       |
+|         342 | HAROLD      | MARTINO      |
+|         343 | DOUGLAS     | GRAF         |
+|         344 | HENRY       | BILLINGSLEY  |
+|         345 | CARL        | ARTIS        |
+|         346 | ARTHUR      | SIMPKINS     |
+|         347 | RYAN        | SALISBURY    |
+|         348 | ROGER       | QUINTANILLA  |
+|         349 | JOE         | GILLILAND    |
+|         350 | JUAN        | FRALEY       |
+|         351 | JACK        | FOUST        |
+|         352 | ALBERT      | CROUSE       |
+|         353 | JONATHAN    | SCARBOROUGH  |
+|         354 | JUSTIN      | NGO          |
+|         355 | TERRY       | GRISSOM      |
+|         356 | GERALD      | FULTZ        |
+|         357 | KEITH       | RICO         |
+|         358 | SAMUEL      | MARLOW       |
+|         359 | WILLIE      | MARKHAM      |
+|         360 | RALPH       | MADRIGAL     |
+|         361 | LAWRENCE    | LAWTON       |
+|         362 | NICHOLAS    | BARFIELD     |
+|         363 | ROY         | WHITING      |
+|         364 | BENJAMIN    | VARNEY       |
+|         365 | BRUCE       | SCHWARZ      |
+|         366 | BRANDON     | HUEY         |
+|         367 | ADAM        | GOOCH        |
+|         368 | HARRY       | ARCE         |
+|         369 | FRED        | WHEAT        |
+|         370 | WAYNE       | TRUONG       |
+|         371 | BILLY       | POULIN       |
+|         372 | STEVE       | MACKENZIE    |
+|         373 | LOUIS       | LEONE        |
+|         374 | JEREMY      | HURTADO      |
+|         375 | AARON       | SELBY        |
+|         376 | RANDY       | GAITHER      |
+|         377 | HOWARD      | FORTNER      |
+|         378 | EUGENE      | CULPEPPER    |
+|         379 | CARLOS      | COUGHLIN     |
+|         380 | RUSSELL     | BRINSON      |
+|         381 | BOBBY       | BOUDREAU     |
+|         382 | VICTOR      | BARKLEY      |
+|         383 | MARTIN      | BALES        |
+|         384 | ERNEST      | STEPP        |
+|         385 | PHILLIP     | HOLM         |
+|         386 | TODD        | TAN          |
+|         387 | JESSE       | SCHILLING    |
+|         388 | CRAIG       | MORRELL      |
+|         389 | ALAN        | KAHN         |
+|         390 | SHAWN       | HEATON       |
+|         391 | CLARENCE    | GAMEZ        |
+|         392 | SEAN        | DOUGLASS     |
+|         393 | PHILIP      | CAUSEY       |
+|         394 | CHRIS       | BROTHERS     |
+|         395 | JOHNNY      | TURPIN       |
+|         396 | EARL        | SHANKS       |
+|         397 | JIMMY       | SCHRADER     |
+|         398 | ANTONIO     | MEEK         |
+|         399 | DANNY       | ISOM         |
+|         400 | BRYAN       | HARDISON     |
+|         401 | TONY        | CARRANZA     |
+|         402 | LUIS        | YANEZ        |
+|         403 | MIKE        | WAY          |
+|         404 | STANLEY     | SCROGGINS    |
+|         405 | LEONARD     | SCHOFIELD    |
+|         406 | NATHAN      | RUNYON       |
+|         407 | DALE        | RATCLIFF     |
+|         408 | MANUEL      | MURRELL      |
+|         409 | RODNEY      | MOELLER      |
+|         410 | CURTIS      | IRBY         |
+|         411 | NORMAN      | CURRIER      |
+|         412 | ALLEN       | BUTTERFIELD  |
+|         413 | MARVIN      | YEE          |
+|         414 | VINCENT     | RALSTON      |
+|         415 | GLENN       | PULLEN       |
+|         416 | JEFFERY     | PINSON       |
+|         417 | TRAVIS      | ESTEP        |
+|         418 | JEFF        | EAST         |
+|         419 | CHAD        | CARBONE      |
+|         420 | JACOB       | LANCE        |
+|         421 | LEE         | HAWKS        |
+|         422 | MELVIN      | ELLINGTON    |
+|         423 | ALFRED      | CASILLAS     |
+|         424 | KYLE        | SPURLOCK     |
+|         425 | FRANCIS     | SIKES        |
+|         426 | BRADLEY     | MOTLEY       |
+|         427 | JESUS       | MCCARTNEY    |
+|         428 | HERBERT     | KRUGER       |
+|         429 | FREDERICK   | ISBELL       |
+|         430 | RAY         | HOULE        |
+|         431 | JOEL        | FRANCISCO    |
+|         432 | EDWIN       | BURK         |
+|         433 | DON         | BONE         |
+|         434 | EDDIE       | TOMLIN       |
+|         435 | RICKY       | SHELBY       |
+|         436 | TROY        | QUIGLEY      |
+|         437 | RANDALL     | NEUMANN      |
+|         438 | BARRY       | LOVELACE     |
+|         439 | ALEXANDER   | FENNELL      |
+|         440 | BERNARD     | COLBY        |
+|         441 | MARIO       | CHEATHAM     |
+|         442 | LEROY       | BUSTAMANTE   |
+|         443 | FRANCISCO   | SKIDMORE     |
+|         444 | MARCUS      | HIDALGO      |
+|         445 | MICHEAL     | FORMAN       |
+|         446 | THEODORE    | CULP         |
+|         447 | CLIFFORD    | BOWENS       |
+|         448 | MIGUEL      | BETANCOURT   |
+|         449 | OSCAR       | AQUINO       |
+|         450 | JAY         | ROBB         |
+|         451 | JIM         | REA          |
+|         452 | TOM         | MILNER       |
+|         453 | CALVIN      | MARTEL       |
+|         454 | ALEX        | GRESHAM      |
+|         455 | JON         | WILES        |
+|         456 | RONNIE      | RICKETTS     |
+|         457 | BILL        | GAVIN        |
+|         458 | LLOYD       | DOWD         |
+|         459 | TOMMY       | COLLAZO      |
+|         460 | LEON        | BOSTIC       |
+|         461 | DEREK       | BLAKELY      |
+|         462 | WARREN      | SHERROD      |
+|         463 | DARRELL     | POWER        |
+|         464 | JEROME      | KENYON       |
+|         465 | FLOYD       | GANDY        |
+|         466 | LEO         | EBERT        |
+|         467 | ALVIN       | DELOACH      |
+|         468 | TIM         | CARY         |
+|         469 | WESLEY      | BULL         |
+|         470 | GORDON      | ALLARD       |
+|         471 | DEAN        | SAUER        |
+|         472 | GREG        | ROBINS       |
+|         473 | JORGE       | OLIVARES     |
+|         474 | DUSTIN      | GILLETTE     |
+|         475 | PEDRO       | CHESTNUT     |
+|         476 | DERRICK     | BOURQUE      |
+|         477 | DAN         | PAINE        |
+|         478 | LEWIS       | LYMAN        |
+|         479 | ZACHARY     | HITE         |
+|         480 | COREY       | HAUSER       |
+|         481 | HERMAN      | DEVORE       |
+|         482 | MAURICE     | CRAWLEY      |
+|         483 | VERNON      | CHAPA        |
+|         484 | ROBERTO     | VU           |
+|         485 | CLYDE       | TOBIAS       |
+|         486 | GLEN        | TALBERT      |
+|         487 | HECTOR      | POINDEXTER   |
+|         488 | SHANE       | MILLARD      |
+|         489 | RICARDO     | MEADOR       |
+|         490 | SAM         | MCDUFFIE     |
+|         491 | RICK        | MATTOX       |
+|         492 | LESTER      | KRAUS        |
+|         493 | BRENT       | HARKINS      |
+|         494 | RAMON       | CHOATE       |
+|         495 | CHARLIE     | BESS         |
+|         496 | TYLER       | WREN         |
+|         497 | GILBERT     | SLEDGE       |
+|         498 | GENE        | SANBORN      |
+|         499 | MARC        | OUTLAW       |
+|         500 | REGINALD    | KINDER       |
+|         501 | RUBEN       | GEARY        |
+|         502 | BRETT       | CORNWELL     |
+|         503 | ANGEL       | BARCLAY      |
+|         504 | NATHANIEL   | ADAM         |
+|         505 | RAFAEL      | ABNEY        |
+|         506 | LESLIE      | SEWARD       |
+|         507 | EDGAR       | RHOADS       |
+|         508 | MILTON      | HOWLAND      |
+|         509 | RAUL        | FORTIER      |
+|         510 | BEN         | EASTER       |
+|         511 | CHESTER     | BENNER       |
+|         512 | CECIL       | VINES        |
+|         513 | DUANE       | TUBBS        |
+|         514 | FRANKLIN    | TROUTMAN     |
+|         515 | ANDRE       | RAPP         |
+|         516 | ELMER       | NOE          |
+|         517 | BRAD        | MCCURDY      |
+|         518 | GABRIEL     | HARDER       |
+|         519 | RON         | DELUCA       |
+|         520 | MITCHELL    | WESTMORELAND |
+|         521 | ROLAND      | SOUTH        |
+|         522 | ARNOLD      | HAVENS       |
+|         523 | HARVEY      | GUAJARDO     |
+|         524 | JARED       | ELY          |
+|         525 | ADRIAN      | CLARY        |
+|         526 | KARL        | SEAL         |
+|         527 | CORY        | MEEHAN       |
+|         528 | CLAUDE      | HERZOG       |
+|         529 | ERIK        | GUILLEN      |
+|         530 | DARRYL      | ASHCRAFT     |
+|         531 | JAMIE       | WAUGH        |
+|         532 | NEIL        | RENNER       |
+|         533 | JESSIE      | MILAM        |
+|         534 | CHRISTIAN   | JUNG         |
+|         535 | JAVIER      | ELROD        |
+|         536 | FERNANDO    | CHURCHILL    |
+|         537 | CLINTON     | BUFORD       |
+|         538 | TED         | BREAUX       |
+|         539 | MATHEW      | BOLIN        |
+|         540 | TYRONE      | ASHER        |
+|         541 | DARREN      | WINDHAM      |
+|         542 | LONNIE      | TIRADO       |
+|         543 | LANCE       | PEMBERTON    |
+|         544 | CODY        | NOLEN        |
+|         545 | JULIO       | NOLAND       |
+|         546 | KELLY       | KNOTT        |
+|         547 | KURT        | EMMONS       |
+|         548 | ALLAN       | CORNISH      |
+|         549 | NELSON      | CHRISTENSON  |
+|         550 | GUY         | BROWNLEE     |
+|         551 | CLAYTON     | BARBEE       |
+|         552 | HUGH        | WALDROP      |
+|         553 | MAX         | PITT         |
+|         554 | DWAYNE      | OLVERA       |
+|         555 | DWIGHT      | LOMBARDI     |
+|         556 | ARMANDO     | GRUBER       |
+|         557 | FELIX       | GAFFNEY      |
+|         558 | JIMMIE      | EGGLESTON    |
+|         559 | EVERETT     | BANDA        |
+|         560 | JORDAN      | ARCHULETA    |
+|         561 | IAN         | STILL        |
+|         562 | WALLACE     | SLONE        |
+|         563 | KEN         | PREWITT      |
+|         564 | BOB         | PFEIFFER     |
+|         565 | JAIME       | NETTLES      |
+|         566 | CASEY       | MENA         |
+|         567 | ALFREDO     | MCADAMS      |
+|         568 | ALBERTO     | HENNING      |
+|         569 | DAVE        | GARDINER     |
+|         570 | IVAN        | CROMWELL     |
+|         571 | JOHNNIE     | CHISHOLM     |
+|         572 | SIDNEY      | BURLESON     |
+|         573 | BYRON       | BOX          |
+|         574 | JULIAN      | VEST         |
+|         575 | ISAAC       | OGLESBY      |
+|         576 | MORRIS      | MCCARTER     |
+|         577 | CLIFTON     | MALCOLM      |
+|         578 | WILLARD     | LUMPKIN      |
+|         579 | DARYL       | LARUE        |
+|         580 | ROSS        | GREY         |
+|         581 | VIRGIL      | WOFFORD      |
+|         582 | ANDY        | VANHORN      |
+|         583 | MARSHALL    | THORN        |
+|         584 | SALVADOR    | TEEL         |
+|         585 | PERRY       | SWAFFORD     |
+|         586 | KIRK        | STCLAIR      |
+|         587 | SERGIO      | STANFIELD    |
+|         588 | MARION      | OCAMPO       |
+|         589 | TRACY       | HERRMANN     |
+|         590 | SETH        | HANNON       |
+|         591 | KENT        | ARSENAULT    |
+|         592 | TERRANCE    | ROUSH        |
+|         593 | RENE        | MCALISTER    |
+|         594 | EDUARDO     | HIATT        |
+|         595 | TERRENCE    | GUNDERSON    |
+|         596 | ENRIQUE     | FORSYTHE     |
+|         597 | FREDDIE     | DUGGAN       |
+|         598 | WADE        | DELVALLE     |
+|         599 | AUSTIN      | CINTRON      |
+|         600 | JOHN        | DOE          |
++-------------+-------------+--------------+
+600 rows in set (0.001 sec)
+
+MariaDB [sakila]> SELECT customer_id, first_name, last_name FROM customer
+-> UNION
+-> SELECT actor_id, first_name, last_name FROM actor;
++-------------+-------------+--------------+
+| customer_id | first_name  | last_name    |
++-------------+-------------+--------------+
+|           1 | MARY        | SMITH        |
+|           2 | PATRICIA    | JOHNSON      |
+|           3 | LINDA       | WILLIAMS     |
+|           4 | BARBARA     | JONES        |
+|           5 | ELIZABETH   | BROWN        |
+|           6 | JENNIFER    | DAVIS        |
+|           7 | MARIA       | MILLER       |
+|           8 | SUSAN       | WILSON       |
+|           9 | MARGARET    | MOORE        |
+|          10 | DOROTHY     | TAYLOR       |
+|          11 | LISA        | ANDERSON     |
+|          12 | NANCY       | THOMAS       |
+|          13 | KAREN       | JACKSON      |
+|          14 | BETTY       | WHITE        |
+|          15 | HELEN       | HARRIS       |
+|          16 | SANDRA      | MARTIN       |
+|          17 | DONNA       | THOMPSON     |
+|          18 | CAROL       | GARCIA       |
+|          19 | RUTH        | MARTINEZ     |
+|          20 | SHARON      | ROBINSON     |
+|          21 | MICHELLE    | CLARK        |
+|          22 | LAURA       | RODRIGUEZ    |
+|          23 | SARAH       | LEWIS        |
+|          24 | KIMBERLY    | LEE          |
+|          25 | DEBORAH     | WALKER       |
+|          26 | JESSICA     | HALL         |
+|          27 | SHIRLEY     | ALLEN        |
+|          28 | CYNTHIA     | YOUNG        |
+|          29 | ANGELA      | HERNANDEZ    |
+|          30 | MELISSA     | KING         |
+|          31 | BRENDA      | WRIGHT       |
+|          32 | AMY         | LOPEZ        |
+|          33 | ANNA        | HILL         |
+|          34 | REBECCA     | SCOTT        |
+|          35 | VIRGINIA    | GREEN        |
+|          36 | KATHLEEN    | ADAMS        |
+|          37 | PAMELA      | BAKER        |
+|          38 | MARTHA      | GONZALEZ     |
+|          39 | DEBRA       | NELSON       |
+|          40 | AMANDA      | CARTER       |
+|          41 | STEPHANIE   | MITCHELL     |
+|          42 | CAROLYN     | PEREZ        |
+|          43 | CHRISTINE   | ROBERTS      |
+|          44 | MARIE       | TURNER       |
+|          45 | JANET       | PHILLIPS     |
+|          46 | CATHERINE   | CAMPBELL     |
+|          47 | FRANCES     | PARKER       |
+|          48 | ANN         | EVANS        |
+|          49 | JOYCE       | EDWARDS      |
+|          50 | DIANE       | COLLINS      |
+|          51 | ALICE       | STEWART      |
+|          52 | JULIE       | SANCHEZ      |
+|          53 | HEATHER     | MORRIS       |
+|          54 | TERESA      | ROGERS       |
+|          55 | DORIS       | REED         |
+|          56 | GLORIA      | COOK         |
+|          57 | EVELYN      | MORGAN       |
+|          58 | JEAN        | BELL         |
+|          59 | CHERYL      | MURPHY       |
+|          60 | MILDRED     | BAILEY       |
+|          61 | KATHERINE   | RIVERA       |
+|          62 | JOAN        | COOPER       |
+|          63 | ASHLEY      | RICHARDSON   |
+|          64 | JUDITH      | COX          |
+|          65 | ROSE        | HOWARD       |
+|          66 | JANICE      | WARD         |
+|          67 | KELLY       | TORRES       |
+|          68 | NICOLE      | PETERSON     |
+|          69 | JUDY        | GRAY         |
+|          70 | CHRISTINA   | RAMIREZ      |
+|          71 | KATHY       | JAMES        |
+|          72 | THERESA     | WATSON       |
+|          73 | BEVERLY     | BROOKS       |
+|          74 | DENISE      | KELLY        |
+|          75 | TAMMY       | SANDERS      |
+|          76 | IRENE       | PRICE        |
+|          77 | JANE        | BENNETT      |
+|          78 | LORI        | WOOD         |
+|          79 | RACHEL      | BARNES       |
+|          80 | MARILYN     | ROSS         |
+|          81 | ANDREA      | HENDERSON    |
+|          82 | KATHRYN     | COLEMAN      |
+|          83 | LOUISE      | JENKINS      |
+|          84 | SARA        | PERRY        |
+|          85 | ANNE        | POWELL       |
+|          86 | JACQUELINE  | LONG         |
+|          87 | WANDA       | PATTERSON    |
+|          88 | BONNIE      | HUGHES       |
+|          89 | JULIA       | FLORES       |
+|          90 | RUBY        | WASHINGTON   |
+|          91 | LOIS        | BUTLER       |
+|          92 | TINA        | SIMMONS      |
+|          93 | PHYLLIS     | FOSTER       |
+|          94 | NORMA       | GONZALES     |
+|          95 | PAULA       | BRYANT       |
+|          96 | DIANA       | ALEXANDER    |
+|          97 | ANNIE       | RUSSELL      |
+|          98 | LILLIAN     | GRIFFIN      |
+|          99 | EMILY       | DIAZ         |
+|         100 | ROBIN       | HAYES        |
+|         101 | PEGGY       | MYERS        |
+|         102 | CRYSTAL     | FORD         |
+|         103 | GLADYS      | HAMILTON     |
+|         104 | RITA        | GRAHAM       |
+|         105 | DAWN        | SULLIVAN     |
+|         106 | CONNIE      | WALLACE      |
+|         107 | FLORENCE    | WOODS        |
+|         108 | TRACY       | COLE         |
+|         109 | EDNA        | WEST         |
+|         110 | TIFFANY     | JORDAN       |
+|         111 | CARMEN      | OWENS        |
+|         112 | ROSA        | REYNOLDS     |
+|         113 | CINDY       | FISHER       |
+|         114 | GRACE       | ELLIS        |
+|         115 | WENDY       | HARRISON     |
+|         116 | VICTORIA    | GIBSON       |
+|         117 | EDITH       | MCDONALD     |
+|         118 | KIM         | CRUZ         |
+|         119 | SHERRY      | MARSHALL     |
+|         120 | SYLVIA      | ORTIZ        |
+|         121 | JOSEPHINE   | GOMEZ        |
+|         122 | THELMA      | MURRAY       |
+|         123 | SHANNON     | FREEMAN      |
+|         124 | SHEILA      | WELLS        |
+|         125 | ETHEL       | WEBB         |
+|         126 | ELLEN       | SIMPSON      |
+|         127 | ELAINE      | STEVENS      |
+|         128 | MARJORIE    | TUCKER       |
+|         129 | CARRIE      | PORTER       |
+|         130 | CHARLOTTE   | HUNTER       |
+|         131 | MONICA      | HICKS        |
+|         132 | ESTHER      | CRAWFORD     |
+|         133 | PAULINE     | HENRY        |
+|         134 | EMMA        | BOYD         |
+|         135 | JUANITA     | MASON        |
+|         136 | ANITA       | MORALES      |
+|         137 | RHONDA      | KENNEDY      |
+|         138 | HAZEL       | WARREN       |
+|         139 | AMBER       | DIXON        |
+|         140 | EVA         | RAMOS        |
+|         141 | DEBBIE      | REYES        |
+|         142 | APRIL       | BURNS        |
+|         143 | LESLIE      | GORDON       |
+|         144 | CLARA       | SHAW         |
+|         145 | LUCILLE     | HOLMES       |
+|         146 | JAMIE       | RICE         |
+|         147 | JOANNE      | ROBERTSON    |
+|         148 | ELEANOR     | HUNT         |
+|         149 | VALERIE     | BLACK        |
+|         150 | DANIELLE    | DANIELS      |
+|         151 | MEGAN       | PALMER       |
+|         152 | ALICIA      | MILLS        |
+|         153 | SUZANNE     | NICHOLS      |
+|         154 | MICHELE     | GRANT        |
+|         155 | GAIL        | KNIGHT       |
+|         156 | BERTHA      | FERGUSON     |
+|         157 | DARLENE     | ROSE         |
+|         158 | VERONICA    | STONE        |
+|         159 | JILL        | HAWKINS      |
+|         160 | ERIN        | DUNN         |
+|         161 | GERALDINE   | PERKINS      |
+|         162 | LAUREN      | HUDSON       |
+|         163 | CATHY       | SPENCER      |
+|         164 | JOANN       | GARDNER      |
+|         165 | LORRAINE    | STEPHENS     |
+|         166 | LYNN        | PAYNE        |
+|         167 | SALLY       | PIERCE       |
+|         168 | REGINA      | BERRY        |
+|         169 | ERICA       | MATTHEWS     |
+|         170 | BEATRICE    | ARNOLD       |
+|         171 | DOLORES     | WAGNER       |
+|         172 | BERNICE     | WILLIS       |
+|         173 | AUDREY      | RAY          |
+|         174 | YVONNE      | WATKINS      |
+|         175 | ANNETTE     | OLSON        |
+|         176 | JUNE        | CARROLL      |
+|         177 | SAMANTHA    | DUNCAN       |
+|         178 | MARION      | SNYDER       |
+|         179 | DANA        | HART         |
+|         180 | STACY       | CUNNINGHAM   |
+|         181 | ANA         | BRADLEY      |
+|         182 | RENEE       | LANE         |
+|         183 | IDA         | ANDREWS      |
+|         184 | VIVIAN      | RUIZ         |
+|         185 | ROBERTA     | HARPER       |
+|         186 | HOLLY       | FOX          |
+|         187 | BRITTANY    | RILEY        |
+|         188 | MELANIE     | ARMSTRONG    |
+|         189 | LORETTA     | CARPENTER    |
+|         190 | YOLANDA     | WEAVER       |
+|         191 | JEANETTE    | GREENE       |
+|         192 | LAURIE      | LAWRENCE     |
+|         193 | KATIE       | ELLIOTT      |
+|         194 | KRISTEN     | CHAVEZ       |
+|         195 | VANESSA     | SIMS         |
+|         196 | ALMA        | AUSTIN       |
+|         197 | SUE         | PETERS       |
+|         198 | ELSIE       | KELLEY       |
+|         199 | BETH        | FRANKLIN     |
+|         200 | JEANNE      | LAWSON       |
+|         201 | VICKI       | FIELDS       |
+|         202 | CARLA       | GUTIERREZ    |
+|         203 | TARA        | RYAN         |
+|         204 | ROSEMARY    | SCHMIDT      |
+|         205 | EILEEN      | CARR         |
+|         206 | TERRI       | VASQUEZ      |
+|         207 | GERTRUDE    | CASTILLO     |
+|         208 | LUCY        | WHEELER      |
+|         209 | TONYA       | CHAPMAN      |
+|         210 | ELLA        | OLIVER       |
+|         211 | STACEY      | MONTGOMERY   |
+|         212 | WILMA       | RICHARDS     |
+|         213 | GINA        | WILLIAMSON   |
+|         214 | KRISTIN     | JOHNSTON     |
+|         215 | JESSIE      | BANKS        |
+|         216 | NATALIE     | MEYER        |
+|         217 | AGNES       | BISHOP       |
+|         218 | VERA        | MCCOY        |
+|         219 | WILLIE      | HOWELL       |
+|         220 | CHARLENE    | ALVAREZ      |
+|         221 | BESSIE      | MORRISON     |
+|         222 | DELORES     | HANSEN       |
+|         223 | MELINDA     | FERNANDEZ    |
+|         224 | PEARL       | GARZA        |
+|         225 | ARLENE      | HARVEY       |
+|         226 | MAUREEN     | LITTLE       |
+|         227 | COLLEEN     | BURTON       |
+|         228 | ALLISON     | STANLEY      |
+|         229 | TAMARA      | NGUYEN       |
+|         230 | JOY         | GEORGE       |
+|         231 | GEORGIA     | JACOBS       |
+|         232 | CONSTANCE   | REID         |
+|         233 | LILLIE      | KIM          |
+|         234 | CLAUDIA     | FULLER       |
+|         235 | JACKIE      | LYNCH        |
+|         236 | MARCIA      | DEAN         |
+|         237 | TANYA       | GILBERT      |
+|         238 | NELLIE      | GARRETT      |
+|         239 | MINNIE      | ROMERO       |
+|         240 | MARLENE     | WELCH        |
+|         241 | HEIDI       | LARSON       |
+|         242 | GLENDA      | FRAZIER      |
+|         243 | LYDIA       | BURKE        |
+|         244 | VIOLA       | HANSON       |
+|         245 | COURTNEY    | DAY          |
+|         246 | MARIAN      | MENDOZA      |
+|         247 | STELLA      | MORENO       |
+|         248 | CAROLINE    | BOWMAN       |
+|         249 | DORA        | MEDINA       |
+|         250 | JO          | FOWLER       |
+|         251 | VICKIE      | BREWER       |
+|         252 | MATTIE      | HOFFMAN      |
+|         253 | TERRY       | CARLSON      |
+|         254 | MAXINE      | SILVA        |
+|         255 | IRMA        | PEARSON      |
+|         256 | MABEL       | HOLLAND      |
+|         257 | MARSHA      | DOUGLAS      |
+|         258 | MYRTLE      | FLEMING      |
+|         259 | LENA        | JENSEN       |
+|         260 | CHRISTY     | VARGAS       |
+|         261 | DEANNA      | BYRD         |
+|         262 | PATSY       | DAVIDSON     |
+|         263 | HILDA       | HOPKINS      |
+|         264 | GWENDOLYN   | MAY          |
+|         265 | JENNIE      | TERRY        |
+|         266 | NORA        | HERRERA      |
+|         267 | MARGIE      | WADE         |
+|         268 | NINA        | SOTO         |
+|         269 | CASSANDRA   | WALTERS      |
+|         270 | LEAH        | CURTIS       |
+|         271 | PENNY       | NEAL         |
+|         272 | KAY         | CALDWELL     |
+|         273 | PRISCILLA   | LOWE         |
+|         274 | NAOMI       | JENNINGS     |
+|         275 | CAROLE      | BARNETT      |
+|         276 | BRANDY      | GRAVES       |
+|         277 | OLGA        | JIMENEZ      |
+|         278 | BILLIE      | HORTON       |
+|         279 | DIANNE      | SHELTON      |
+|         280 | TRACEY      | BARRETT      |
+|         281 | LEONA       | OBRIEN       |
+|         282 | JENNY       | CASTRO       |
+|         283 | FELICIA     | SUTTON       |
+|         284 | SONIA       | GREGORY      |
+|         285 | MIRIAM      | MCKINNEY     |
+|         286 | VELMA       | LUCAS        |
+|         287 | BECKY       | MILES        |
+|         288 | BOBBIE      | CRAIG        |
+|         289 | VIOLET      | RODRIQUEZ    |
+|         290 | KRISTINA    | CHAMBERS     |
+|         291 | TONI        | HOLT         |
+|         292 | MISTY       | LAMBERT      |
+|         293 | MAE         | FLETCHER     |
+|         294 | SHELLY      | WATTS        |
+|         295 | DAISY       | BATES        |
+|         296 | RAMONA      | HALE         |
+|         297 | SHERRI      | RHODES       |
+|         298 | ERIKA       | PENA         |
+|         299 | JAMES       | GANNON       |
+|         300 | JOHN        | FARNSWORTH   |
+|         301 | ROBERT      | BAUGHMAN     |
+|         302 | MICHAEL     | SILVERMAN    |
+|         303 | WILLIAM     | SATTERFIELD  |
+|         304 | DAVID       | ROYAL        |
+|         305 | RICHARD     | MCCRARY      |
+|         306 | CHARLES     | KOWALSKI     |
+|         307 | JOSEPH      | JOY          |
+|         308 | THOMAS      | GRIGSBY      |
+|         309 | CHRISTOPHER | GRECO        |
+|         310 | DANIEL      | CABRAL       |
+|         311 | PAUL        | TROUT        |
+|         312 | MARK        | RINEHART     |
+|         313 | DONALD      | MAHON        |
+|         314 | GEORGE      | LINTON       |
+|         315 | KENNETH     | GOODEN       |
+|         316 | STEVEN      | CURLEY       |
+|         317 | EDWARD      | BAUGH        |
+|         318 | BRIAN       | WYMAN        |
+|         319 | RONALD      | WEINER       |
+|         320 | ANTHONY     | SCHWAB       |
+|         321 | KEVIN       | SCHULER      |
+|         322 | JASON       | MORRISSEY    |
+|         323 | MATTHEW     | MAHAN        |
+|         324 | GARY        | COY          |
+|         325 | TIMOTHY     | BUNN         |
+|         326 | JOSE        | ANDREW       |
+|         327 | LARRY       | THRASHER     |
+|         328 | JEFFREY     | SPEAR        |
+|         329 | FRANK       | WAGGONER     |
+|         330 | SCOTT       | SHELLEY      |
+|         331 | ERIC        | ROBERT       |
+|         332 | STEPHEN     | QUALLS       |
+|         333 | ANDREW      | PURDY        |
+|         334 | RAYMOND     | MCWHORTER    |
+|         335 | GREGORY     | MAULDIN      |
+|         336 | JOSHUA      | MARK         |
+|         337 | JERRY       | JORDON       |
+|         338 | DENNIS      | GILMAN       |
+|         339 | WALTER      | PERRYMAN     |
+|         340 | PATRICK     | NEWSOM       |
+|         341 | PETER       | MENARD       |
+|         342 | HAROLD      | MARTINO      |
+|         343 | DOUGLAS     | GRAF         |
+|         344 | HENRY       | BILLINGSLEY  |
+|         345 | CARL        | ARTIS        |
+|         346 | ARTHUR      | SIMPKINS     |
+|         347 | RYAN        | SALISBURY    |
+|         348 | ROGER       | QUINTANILLA  |
+|         349 | JOE         | GILLILAND    |
+|         350 | JUAN        | FRALEY       |
+|         351 | JACK        | FOUST        |
+|         352 | ALBERT      | CROUSE       |
+|         353 | JONATHAN    | SCARBOROUGH  |
+|         354 | JUSTIN      | NGO          |
+|         355 | TERRY       | GRISSOM      |
+|         356 | GERALD      | FULTZ        |
+|         357 | KEITH       | RICO         |
+|         358 | SAMUEL      | MARLOW       |
+|         359 | WILLIE      | MARKHAM      |
+|         360 | RALPH       | MADRIGAL     |
+|         361 | LAWRENCE    | LAWTON       |
+|         362 | NICHOLAS    | BARFIELD     |
+|         363 | ROY         | WHITING      |
+|         364 | BENJAMIN    | VARNEY       |
+|         365 | BRUCE       | SCHWARZ      |
+|         366 | BRANDON     | HUEY         |
+|         367 | ADAM        | GOOCH        |
+|         368 | HARRY       | ARCE         |
+|         369 | FRED        | WHEAT        |
+|         370 | WAYNE       | TRUONG       |
+|         371 | BILLY       | POULIN       |
+|         372 | STEVE       | MACKENZIE    |
+|         373 | LOUIS       | LEONE        |
+|         374 | JEREMY      | HURTADO      |
+|         375 | AARON       | SELBY        |
+|         376 | RANDY       | GAITHER      |
+|         377 | HOWARD      | FORTNER      |
+|         378 | EUGENE      | CULPEPPER    |
+|         379 | CARLOS      | COUGHLIN     |
+|         380 | RUSSELL     | BRINSON      |
+|         381 | BOBBY       | BOUDREAU     |
+|         382 | VICTOR      | BARKLEY      |
+|         383 | MARTIN      | BALES        |
+|         384 | ERNEST      | STEPP        |
+|         385 | PHILLIP     | HOLM         |
+|         386 | TODD        | TAN          |
+|         387 | JESSE       | SCHILLING    |
+|         388 | CRAIG       | MORRELL      |
+|         389 | ALAN        | KAHN         |
+|         390 | SHAWN       | HEATON       |
+|         391 | CLARENCE    | GAMEZ        |
+|         392 | SEAN        | DOUGLASS     |
+|         393 | PHILIP      | CAUSEY       |
+|         394 | CHRIS       | BROTHERS     |
+|         395 | JOHNNY      | TURPIN       |
+|         396 | EARL        | SHANKS       |
+|         397 | JIMMY       | SCHRADER     |
+|         398 | ANTONIO     | MEEK         |
+|         399 | DANNY       | ISOM         |
+|         400 | BRYAN       | HARDISON     |
+|         401 | TONY        | CARRANZA     |
+|         402 | LUIS        | YANEZ        |
+|         403 | MIKE        | WAY          |
+|         404 | STANLEY     | SCROGGINS    |
+|         405 | LEONARD     | SCHOFIELD    |
+|         406 | NATHAN      | RUNYON       |
+|         407 | DALE        | RATCLIFF     |
+|         408 | MANUEL      | MURRELL      |
+|         409 | RODNEY      | MOELLER      |
+|         410 | CURTIS      | IRBY         |
+|         411 | NORMAN      | CURRIER      |
+|         412 | ALLEN       | BUTTERFIELD  |
+|         413 | MARVIN      | YEE          |
+|         414 | VINCENT     | RALSTON      |
+|         415 | GLENN       | PULLEN       |
+|         416 | JEFFERY     | PINSON       |
+|         417 | TRAVIS      | ESTEP        |
+|         418 | JEFF        | EAST         |
+|         419 | CHAD        | CARBONE      |
+|         420 | JACOB       | LANCE        |
+|         421 | LEE         | HAWKS        |
+|         422 | MELVIN      | ELLINGTON    |
+|         423 | ALFRED      | CASILLAS     |
+|         424 | KYLE        | SPURLOCK     |
+|         425 | FRANCIS     | SIKES        |
+|         426 | BRADLEY     | MOTLEY       |
+|         427 | JESUS       | MCCARTNEY    |
+|         428 | HERBERT     | KRUGER       |
+|         429 | FREDERICK   | ISBELL       |
+|         430 | RAY         | HOULE        |
+|         431 | JOEL        | FRANCISCO    |
+|         432 | EDWIN       | BURK         |
+|         433 | DON         | BONE         |
+|         434 | EDDIE       | TOMLIN       |
+|         435 | RICKY       | SHELBY       |
+|         436 | TROY        | QUIGLEY      |
+|         437 | RANDALL     | NEUMANN      |
+|         438 | BARRY       | LOVELACE     |
+|         439 | ALEXANDER   | FENNELL      |
+|         440 | BERNARD     | COLBY        |
+|         441 | MARIO       | CHEATHAM     |
+|         442 | LEROY       | BUSTAMANTE   |
+|         443 | FRANCISCO   | SKIDMORE     |
+|         444 | MARCUS      | HIDALGO      |
+|         445 | MICHEAL     | FORMAN       |
+|         446 | THEODORE    | CULP         |
+|         447 | CLIFFORD    | BOWENS       |
+|         448 | MIGUEL      | BETANCOURT   |
+|         449 | OSCAR       | AQUINO       |
+|         450 | JAY         | ROBB         |
+|         451 | JIM         | REA          |
+|         452 | TOM         | MILNER       |
+|         453 | CALVIN      | MARTEL       |
+|         454 | ALEX        | GRESHAM      |
+|         455 | JON         | WILES        |
+|         456 | RONNIE      | RICKETTS     |
+|         457 | BILL        | GAVIN        |
+|         458 | LLOYD       | DOWD         |
+|         459 | TOMMY       | COLLAZO      |
+|         460 | LEON        | BOSTIC       |
+|         461 | DEREK       | BLAKELY      |
+|         462 | WARREN      | SHERROD      |
+|         463 | DARRELL     | POWER        |
+|         464 | JEROME      | KENYON       |
+|         465 | FLOYD       | GANDY        |
+|         466 | LEO         | EBERT        |
+|         467 | ALVIN       | DELOACH      |
+|         468 | TIM         | CARY         |
+|         469 | WESLEY      | BULL         |
+|         470 | GORDON      | ALLARD       |
+|         471 | DEAN        | SAUER        |
+|         472 | GREG        | ROBINS       |
+|         473 | JORGE       | OLIVARES     |
+|         474 | DUSTIN      | GILLETTE     |
+|         475 | PEDRO       | CHESTNUT     |
+|         476 | DERRICK     | BOURQUE      |
+|         477 | DAN         | PAINE        |
+|         478 | LEWIS       | LYMAN        |
+|         479 | ZACHARY     | HITE         |
+|         480 | COREY       | HAUSER       |
+|         481 | HERMAN      | DEVORE       |
+|         482 | MAURICE     | CRAWLEY      |
+|         483 | VERNON      | CHAPA        |
+|         484 | ROBERTO     | VU           |
+|         485 | CLYDE       | TOBIAS       |
+|         486 | GLEN        | TALBERT      |
+|         487 | HECTOR      | POINDEXTER   |
+|         488 | SHANE       | MILLARD      |
+|         489 | RICARDO     | MEADOR       |
+|         490 | SAM         | MCDUFFIE     |
+|         491 | RICK        | MATTOX       |
+|         492 | LESTER      | KRAUS        |
+|         493 | BRENT       | HARKINS      |
+|         494 | RAMON       | CHOATE       |
+|         495 | CHARLIE     | BESS         |
+|         496 | TYLER       | WREN         |
+|         497 | GILBERT     | SLEDGE       |
+|         498 | GENE        | SANBORN      |
+|         499 | MARC        | OUTLAW       |
+|         500 | REGINALD    | KINDER       |
+|         501 | RUBEN       | GEARY        |
+|         502 | BRETT       | CORNWELL     |
+|         503 | ANGEL       | BARCLAY      |
+|         504 | NATHANIEL   | ADAM         |
+|         505 | RAFAEL      | ABNEY        |
+|         506 | LESLIE      | SEWARD       |
+|         507 | EDGAR       | RHOADS       |
+|         508 | MILTON      | HOWLAND      |
+|         509 | RAUL        | FORTIER      |
+|         510 | BEN         | EASTER       |
+|         511 | CHESTER     | BENNER       |
+|         512 | CECIL       | VINES        |
+|         513 | DUANE       | TUBBS        |
+|         514 | FRANKLIN    | TROUTMAN     |
+|         515 | ANDRE       | RAPP         |
+|         516 | ELMER       | NOE          |
+|         517 | BRAD        | MCCURDY      |
+|         518 | GABRIEL     | HARDER       |
+|         519 | RON         | DELUCA       |
+|         520 | MITCHELL    | WESTMORELAND |
+|         521 | ROLAND      | SOUTH        |
+|         522 | ARNOLD      | HAVENS       |
+|         523 | HARVEY      | GUAJARDO     |
+|         524 | JARED       | ELY          |
+|         525 | ADRIAN      | CLARY        |
+|         526 | KARL        | SEAL         |
+|         527 | CORY        | MEEHAN       |
+|         528 | CLAUDE      | HERZOG       |
+|         529 | ERIK        | GUILLEN      |
+|         530 | DARRYL      | ASHCRAFT     |
+|         531 | JAMIE       | WAUGH        |
+|         532 | NEIL        | RENNER       |
+|         533 | JESSIE      | MILAM        |
+|         534 | CHRISTIAN   | JUNG         |
+|         535 | JAVIER      | ELROD        |
+|         536 | FERNANDO    | CHURCHILL    |
+|         537 | CLINTON     | BUFORD       |
+|         538 | TED         | BREAUX       |
+|         539 | MATHEW      | BOLIN        |
+|         540 | TYRONE      | ASHER        |
+|         541 | DARREN      | WINDHAM      |
+|         542 | LONNIE      | TIRADO       |
+|         543 | LANCE       | PEMBERTON    |
+|         544 | CODY        | NOLEN        |
+|         545 | JULIO       | NOLAND       |
+|         546 | KELLY       | KNOTT        |
+|         547 | KURT        | EMMONS       |
+|         548 | ALLAN       | CORNISH      |
+|         549 | NELSON      | CHRISTENSON  |
+|         550 | GUY         | BROWNLEE     |
+|         551 | CLAYTON     | BARBEE       |
+|         552 | HUGH        | WALDROP      |
+|         553 | MAX         | PITT         |
+|         554 | DWAYNE      | OLVERA       |
+|         555 | DWIGHT      | LOMBARDI     |
+|         556 | ARMANDO     | GRUBER       |
+|         557 | FELIX       | GAFFNEY      |
+|         558 | JIMMIE      | EGGLESTON    |
+|         559 | EVERETT     | BANDA        |
+|         560 | JORDAN      | ARCHULETA    |
+|         561 | IAN         | STILL        |
+|         562 | WALLACE     | SLONE        |
+|         563 | KEN         | PREWITT      |
+|         564 | BOB         | PFEIFFER     |
+|         565 | JAIME       | NETTLES      |
+|         566 | CASEY       | MENA         |
+|         567 | ALFREDO     | MCADAMS      |
+|         568 | ALBERTO     | HENNING      |
+|         569 | DAVE        | GARDINER     |
+|         570 | IVAN        | CROMWELL     |
+|         571 | JOHNNIE     | CHISHOLM     |
+|         572 | SIDNEY      | BURLESON     |
+|         573 | BYRON       | BOX          |
+|         574 | JULIAN      | VEST         |
+|         575 | ISAAC       | OGLESBY      |
+|         576 | MORRIS      | MCCARTER     |
+|         577 | CLIFTON     | MALCOLM      |
+|         578 | WILLARD     | LUMPKIN      |
+|         579 | DARYL       | LARUE        |
+|         580 | ROSS        | GREY         |
+|         581 | VIRGIL      | WOFFORD      |
+|         582 | ANDY        | VANHORN      |
+|         583 | MARSHALL    | THORN        |
+|         584 | SALVADOR    | TEEL         |
+|         585 | PERRY       | SWAFFORD     |
+|         586 | KIRK        | STCLAIR      |
+|         587 | SERGIO      | STANFIELD    |
+|         588 | MARION      | OCAMPO       |
+|         589 | TRACY       | HERRMANN     |
+|         590 | SETH        | HANNON       |
+|         591 | KENT        | ARSENAULT    |
+|         592 | TERRANCE    | ROUSH        |
+|         593 | RENE        | MCALISTER    |
+|         594 | EDUARDO     | HIATT        |
+|         595 | TERRENCE    | GUNDERSON    |
+|         596 | ENRIQUE     | FORSYTHE     |
+|         597 | FREDDIE     | DUGGAN       |
+|         598 | WADE        | DELVALLE     |
+|         599 | AUSTIN      | CINTRON      |
+|         600 | JOHN        | DOE          |
+|           1 | PENELOPE    | GUINESS      |
+|           2 | NICK        | WAHLBERG     |
+|           3 | ED          | CHASE        |
+|           4 | JENNIFER    | DAVIS        |
+|           5 | JOHNNY      | LOLLOBRIGIDA |
+|           6 | BETTE       | NICHOLSON    |
+|           7 | GRACE       | MOSTEL       |
+|           8 | MATTHEW     | JOHANSSON    |
+|           9 | JOE         | SWANK        |
+|          10 | CHRISTIAN   | GABLE        |
+|          11 | ZERO        | CAGE         |
+|          12 | KARL        | BERRY        |
+|          13 | UMA         | WOOD         |
+|          14 | VIVIEN      | BERGEN       |
+|          15 | CUBA        | OLIVIER      |
+|          16 | FRED        | COSTNER      |
+|          17 | HELEN       | VOIGHT       |
+|          18 | DAN         | TORN         |
+|          19 | BOB         | FAWCETT      |
+|          20 | LUCILLE     | TRACY        |
+|          21 | KIRSTEN     | PALTROW      |
+|          22 | ELVIS       | MARX         |
+|          23 | SANDRA      | KILMER       |
+|          24 | CAMERON     | STREEP       |
+|          25 | KEVIN       | BLOOM        |
+|          26 | RIP         | CRAWFORD     |
+|          27 | JULIA       | MCQUEEN      |
+|          28 | WOODY       | HOFFMAN      |
+|          29 | ALEC        | WAYNE        |
+|          30 | SANDRA      | PECK         |
+|          31 | SISSY       | SOBIESKI     |
+|          32 | TIM         | HACKMAN      |
+|          33 | MILLA       | PECK         |
+|          34 | AUDREY      | OLIVIER      |
+|          35 | JUDY        | DEAN         |
+|          36 | BURT        | DUKAKIS      |
+|          37 | VAL         | BOLGER       |
+|          38 | TOM         | MCKELLEN     |
+|          39 | GOLDIE      | BRODY        |
+|          40 | JOHNNY      | CAGE         |
+|          41 | JODIE       | DEGENERES    |
+|          42 | TOM         | MIRANDA      |
+|          43 | KIRK        | JOVOVICH     |
+|          44 | NICK        | STALLONE     |
+|          45 | REESE       | KILMER       |
+|          46 | PARKER      | GOLDBERG     |
+|          47 | JULIA       | BARRYMORE    |
+|          48 | FRANCES     | DAY-LEWIS    |
+|          49 | ANNE        | CRONYN       |
+|          50 | NATALIE     | HOPKINS      |
+|          51 | GARY        | PHOENIX      |
+|          52 | CARMEN      | HUNT         |
+|          53 | MENA        | TEMPLE       |
+|          54 | PENELOPE    | PINKETT      |
+|          55 | FAY         | KILMER       |
+|          56 | DAN         | HARRIS       |
+|          57 | JUDE        | CRUISE       |
+|          58 | CHRISTIAN   | AKROYD       |
+|          59 | DUSTIN      | TAUTOU       |
+|          60 | HENRY       | BERRY        |
+|          61 | CHRISTIAN   | NEESON       |
+|          62 | JAYNE       | NEESON       |
+|          63 | CAMERON     | WRAY         |
+|          64 | RAY         | JOHANSSON    |
+|          65 | ANGELA      | HUDSON       |
+|          66 | MARY        | TANDY        |
+|          67 | JESSICA     | BAILEY       |
+|          68 | RIP         | WINSLET      |
+|          69 | KENNETH     | PALTROW      |
+|          70 | MICHELLE    | MCCONAUGHEY  |
+|          71 | ADAM        | GRANT        |
+|          72 | SEAN        | WILLIAMS     |
+|          73 | GARY        | PENN         |
+|          74 | MILLA       | KEITEL       |
+|          75 | BURT        | POSEY        |
+|          76 | ANGELINA    | ASTAIRE      |
+|          77 | CARY        | MCCONAUGHEY  |
+|          78 | GROUCHO     | SINATRA      |
+|          79 | MAE         | HOFFMAN      |
+|          80 | RALPH       | CRUZ         |
+|          81 | SCARLETT    | DAMON        |
+|          82 | WOODY       | JOLIE        |
+|          83 | BEN         | WILLIS       |
+|          84 | JAMES       | PITT         |
+|          85 | MINNIE      | ZELLWEGER    |
+|          86 | GREG        | CHAPLIN      |
+|          87 | SPENCER     | PECK         |
+|          88 | KENNETH     | PESCI        |
+|          89 | CHARLIZE    | DENCH        |
+|          90 | SEAN        | GUINESS      |
+|          91 | CHRISTOPHER | BERRY        |
+|          92 | KIRSTEN     | AKROYD       |
+|          93 | ELLEN       | PRESLEY      |
+|          94 | KENNETH     | TORN         |
+|          95 | DARYL       | WAHLBERG     |
+|          96 | GENE        | WILLIS       |
+|          97 | MEG         | HAWKE        |
+|          98 | CHRIS       | BRIDGES      |
+|          99 | JIM         | MOSTEL       |
+|         100 | SPENCER     | DEPP         |
+|         101 | SUSAN       | DAVIS        |
+|         102 | WALTER      | TORN         |
+|         103 | MATTHEW     | LEIGH        |
+|         104 | PENELOPE    | CRONYN       |
+|         105 | SIDNEY      | CROWE        |
+|         106 | GROUCHO     | DUNST        |
+|         107 | GINA        | DEGENERES    |
+|         108 | WARREN      | NOLTE        |
+|         109 | SYLVESTER   | DERN         |
+|         110 | SUSAN       | DAVIS        |
+|         111 | CAMERON     | ZELLWEGER    |
+|         112 | RUSSELL     | BACALL       |
+|         113 | MORGAN      | HOPKINS      |
+|         114 | MORGAN      | MCDORMAND    |
+|         115 | HARRISON    | BALE         |
+|         116 | DAN         | STREEP       |
+|         117 | RENEE       | TRACY        |
+|         118 | CUBA        | ALLEN        |
+|         119 | WARREN      | JACKMAN      |
+|         120 | PENELOPE    | MONROE       |
+|         121 | LIZA        | BERGMAN      |
+|         122 | SALMA       | NOLTE        |
+|         123 | JULIANNE    | DENCH        |
+|         124 | SCARLETT    | BENING       |
+|         125 | ALBERT      | NOLTE        |
+|         126 | FRANCES     | TOMEI        |
+|         127 | KEVIN       | GARLAND      |
+|         128 | CATE        | MCQUEEN      |
+|         129 | DARYL       | CRAWFORD     |
+|         130 | GRETA       | KEITEL       |
+|         131 | JANE        | JACKMAN      |
+|         132 | ADAM        | HOPPER       |
+|         133 | RICHARD     | PENN         |
+|         134 | GENE        | HOPKINS      |
+|         135 | RITA        | REYNOLDS     |
+|         136 | ED          | MANSFIELD    |
+|         137 | MORGAN      | WILLIAMS     |
+|         138 | LUCILLE     | DEE          |
+|         139 | EWAN        | GOODING      |
+|         140 | WHOOPI      | HURT         |
+|         141 | CATE        | HARRIS       |
+|         142 | JADA        | RYDER        |
+|         143 | RIVER       | DEAN         |
+|         144 | ANGELA      | WITHERSPOON  |
+|         145 | KIM         | ALLEN        |
+|         146 | ALBERT      | JOHANSSON    |
+|         147 | FAY         | WINSLET      |
+|         148 | EMILY       | DEE          |
+|         149 | RUSSELL     | TEMPLE       |
+|         150 | JAYNE       | NOLTE        |
+|         151 | GEOFFREY    | HESTON       |
+|         152 | BEN         | HARRIS       |
+|         153 | MINNIE      | KILMER       |
+|         154 | MERYL       | GIBSON       |
+|         155 | IAN         | TANDY        |
+|         156 | FAY         | WOOD         |
+|         157 | GRETA       | MALDEN       |
+|         158 | VIVIEN      | BASINGER     |
+|         159 | LAURA       | BRODY        |
+|         160 | CHRIS       | DEPP         |
+|         161 | HARVEY      | HOPE         |
+|         162 | OPRAH       | KILMER       |
+|         163 | CHRISTOPHER | WEST         |
+|         164 | HUMPHREY    | WILLIS       |
+|         165 | AL          | GARLAND      |
+|         166 | NICK        | DEGENERES    |
+|         167 | LAURENCE    | BULLOCK      |
+|         168 | WILL        | WILSON       |
+|         169 | KENNETH     | HOFFMAN      |
+|         170 | MENA        | HOPPER       |
+|         171 | OLYMPIA     | PFEIFFER     |
+|         172 | GROUCHO     | WILLIAMS     |
+|         173 | ALAN        | DREYFUSS     |
+|         174 | MICHAEL     | BENING       |
+|         175 | WILLIAM     | HACKMAN      |
+|         176 | JON         | CHASE        |
+|         177 | GENE        | MCKELLEN     |
+|         178 | LISA        | MONROE       |
+|         179 | ED          | GUINESS      |
+|         180 | JEFF        | SILVERSTONE  |
+|         181 | MATTHEW     | CARREY       |
+|         182 | DEBBIE      | AKROYD       |
+|         183 | RUSSELL     | CLOSE        |
+|         184 | HUMPHREY    | GARLAND      |
+|         185 | MICHAEL     | BOLGER       |
+|         186 | JULIA       | ZELLWEGER    |
+|         187 | RENEE       | BALL         |
+|         188 | ROCK        | DUKAKIS      |
+|         189 | CUBA        | BIRCH        |
+|         190 | AUDREY      | BAILEY       |
+|         191 | GREGORY     | GOODING      |
+|         192 | JOHN        | SUVARI       |
+|         193 | BURT        | TEMPLE       |
+|         194 | MERYL       | ALLEN        |
+|         195 | JAYNE       | SILVERSTONE  |
+|         196 | BELA        | WALKEN       |
+|         197 | REESE       | WEST         |
+|         198 | MARY        | KEITEL       |
+|         199 | JULIA       | FAWCETT      |
+|         200 | THORA       | TEMPLE       |
++-------------+-------------+--------------+
+800 rows in set (0.003 sec)
+
+MariaDB [sakila]> SELECT * FROM tablaA, tablaB;
+ERROR 1146 (42S02): Table 'sakila.tablaA' doesn't exist
+MariaDB [sakila]> USE tbd_eva2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [tbd_eva2]> SELECT * FROM tablaA, tablaB;
++------+--------+------+--------+
+| id   | nombre | id   | nombre |
++------+--------+------+--------+
+|    1 | A      |    1 | X      |
+|    2 | B      |    1 | X      |
+|    3 | C      |    1 | X      |
+|    4 | D      |    1 | X      |
+|    1 | A      |    2 | Y      |
+|    2 | B      |    2 | Y      |
+|    3 | C      |    2 | Y      |
+|    4 | D      |    2 | Y      |
+|    1 | A      |    3 | Z      |
+|    2 | B      |    3 | Z      |
+|    3 | C      |    3 | Z      |
+|    4 | D      |    3 | Z      |
+|    1 | A      |    4 | A      |
+|    2 | B      |    4 | A      |
+|    3 | C      |    4 | A      |
+|    4 | D      |    4 | A      |
+|    1 | A      |    5 | B      |
+|    2 | B      |    5 | B      |
+|    3 | C      |    5 | B      |
+|    4 | D      |    5 | B      |
++------+--------+------+--------+
+20 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaA, tablaB ORDER BY tablaA.nombre;
++------+--------+------+--------+
+| id   | nombre | id   | nombre |
++------+--------+------+--------+
+|    1 | A      |    1 | X      |
+|    1 | A      |    3 | Z      |
+|    1 | A      |    5 | B      |
+|    1 | A      |    2 | Y      |
+|    1 | A      |    4 | A      |
+|    2 | B      |    2 | Y      |
+|    2 | B      |    4 | A      |
+|    2 | B      |    1 | X      |
+|    2 | B      |    3 | Z      |
+|    2 | B      |    5 | B      |
+|    3 | C      |    1 | X      |
+|    3 | C      |    3 | Z      |
+|    3 | C      |    5 | B      |
+|    3 | C      |    2 | Y      |
+|    3 | C      |    4 | A      |
+|    4 | D      |    1 | X      |
+|    4 | D      |    3 | Z      |
+|    4 | D      |    5 | B      |
+|    4 | D      |    2 | Y      |
+|    4 | D      |    4 | A      |
++------+--------+------+--------+
+20 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaA AS a, tablaB as b ORDER BY a.nombre;
++------+--------+------+--------+
+| id   | nombre | id   | nombre |
++------+--------+------+--------+
+|    1 | A      |    2 | Y      |
+|    1 | A      |    4 | A      |
+|    1 | A      |    1 | X      |
+|    1 | A      |    3 | Z      |
+|    1 | A      |    5 | B      |
+|    2 | B      |    1 | X      |
+|    2 | B      |    3 | Z      |
+|    2 | B      |    5 | B      |
+|    2 | B      |    2 | Y      |
+|    2 | B      |    4 | A      |
+|    3 | C      |    2 | Y      |
+|    3 | C      |    4 | A      |
+|    3 | C      |    1 | X      |
+|    3 | C      |    3 | Z      |
+|    3 | C      |    5 | B      |
+|    4 | D      |    2 | Y      |
+|    4 | D      |    4 | A      |
+|    4 | D      |    1 | X      |
+|    4 | D      |    3 | Z      |
+|    4 | D      |    5 | B      |
++------+--------+------+--------+
+20 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, b.nombre FROM tablaA a, tablaB b, ORDER BY nombre;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'ORDER BY nombre' at line 1
+MariaDB [tbd_eva2]> SELECT a.nombre, b.nombre FROM tablaA a, tablaB b, ORDER BY a.nombre;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'ORDER BY a.nombre' at line 1
+MariaDB [tbd_eva2]> SELECT a.nombre, b.nombre FROM tablaA a, tablaB b ORDER BY a.nombre;
++--------+--------+
+| nombre | nombre |
++--------+--------+
+| A      | Z      |
+| A      | X      |
+| A      | A      |
+| A      | Y      |
+| A      | B      |
+| B      | Y      |
+| B      | B      |
+| B      | Z      |
+| B      | X      |
+| B      | A      |
+| C      | X      |
+| C      | A      |
+| C      | Y      |
+| C      | B      |
+| C      | Z      |
+| D      | Z      |
+| D      | X      |
+| D      | A      |
+| D      | Y      |
+| D      | B      |
++--------+--------+
+20 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> USE sakila;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [sakila]> SELECT DISTINCT(first_name)
+-> FROM customer
+-> UNION
+-> SELECT DISTINCT(first_name)
+-> FROM actor;
++-------------+
+| first_name  |
++-------------+
+| MARY        |
+| PATRICIA    |
+| LINDA       |
+| BARBARA     |
+| ELIZABETH   |
+| JENNIFER    |
+| MARIA       |
+| SUSAN       |
+| MARGARET    |
+| DOROTHY     |
+| LISA        |
+| NANCY       |
+| KAREN       |
+| BETTY       |
+| HELEN       |
+| SANDRA      |
+| DONNA       |
+| CAROL       |
+| RUTH        |
+| SHARON      |
+| MICHELLE    |
+| LAURA       |
+| SARAH       |
+| KIMBERLY    |
+| DEBORAH     |
+| JESSICA     |
+| SHIRLEY     |
+| CYNTHIA     |
+| ANGELA      |
+| MELISSA     |
+| BRENDA      |
+| AMY         |
+| ANNA        |
+| REBECCA     |
+| VIRGINIA    |
+| KATHLEEN    |
+| PAMELA      |
+| MARTHA      |
+| DEBRA       |
+| AMANDA      |
+| STEPHANIE   |
+| CAROLYN     |
+| CHRISTINE   |
+| MARIE       |
+| JANET       |
+| CATHERINE   |
+| FRANCES     |
+| ANN         |
+| JOYCE       |
+| DIANE       |
+| ALICE       |
+| JULIE       |
+| HEATHER     |
+| TERESA      |
+| DORIS       |
+| GLORIA      |
+| EVELYN      |
+| JEAN        |
+| CHERYL      |
+| MILDRED     |
+| KATHERINE   |
+| JOAN        |
+| ASHLEY      |
+| JUDITH      |
+| ROSE        |
+| JANICE      |
+| KELLY       |
+| NICOLE      |
+| JUDY        |
+| CHRISTINA   |
+| KATHY       |
+| THERESA     |
+| BEVERLY     |
+| DENISE      |
+| TAMMY       |
+| IRENE       |
+| JANE        |
+| LORI        |
+| RACHEL      |
+| MARILYN     |
+| ANDREA      |
+| KATHRYN     |
+| LOUISE      |
+| SARA        |
+| ANNE        |
+| JACQUELINE  |
+| WANDA       |
+| BONNIE      |
+| JULIA       |
+| RUBY        |
+| LOIS        |
+| TINA        |
+| PHYLLIS     |
+| NORMA       |
+| PAULA       |
+| DIANA       |
+| ANNIE       |
+| LILLIAN     |
+| EMILY       |
+| ROBIN       |
+| PEGGY       |
+| CRYSTAL     |
+| GLADYS      |
+| RITA        |
+| DAWN        |
+| CONNIE      |
+| FLORENCE    |
+| TRACY       |
+| EDNA        |
+| TIFFANY     |
+| CARMEN      |
+| ROSA        |
+| CINDY       |
+| GRACE       |
+| WENDY       |
+| VICTORIA    |
+| EDITH       |
+| KIM         |
+| SHERRY      |
+| SYLVIA      |
+| JOSEPHINE   |
+| THELMA      |
+| SHANNON     |
+| SHEILA      |
+| ETHEL       |
+| ELLEN       |
+| ELAINE      |
+| MARJORIE    |
+| CARRIE      |
+| CHARLOTTE   |
+| MONICA      |
+| ESTHER      |
+| PAULINE     |
+| EMMA        |
+| JUANITA     |
+| ANITA       |
+| RHONDA      |
+| HAZEL       |
+| AMBER       |
+| EVA         |
+| DEBBIE      |
+| APRIL       |
+| LESLIE      |
+| CLARA       |
+| LUCILLE     |
+| JAMIE       |
+| JOANNE      |
+| ELEANOR     |
+| VALERIE     |
+| DANIELLE    |
+| MEGAN       |
+| ALICIA      |
+| SUZANNE     |
+| MICHELE     |
+| GAIL        |
+| BERTHA      |
+| DARLENE     |
+| VERONICA    |
+| JILL        |
+| ERIN        |
+| GERALDINE   |
+| LAUREN      |
+| CATHY       |
+| JOANN       |
+| LORRAINE    |
+| LYNN        |
+| SALLY       |
+| REGINA      |
+| ERICA       |
+| BEATRICE    |
+| DOLORES     |
+| BERNICE     |
+| AUDREY      |
+| YVONNE      |
+| ANNETTE     |
+| JUNE        |
+| SAMANTHA    |
+| MARION      |
+| DANA        |
+| STACY       |
+| ANA         |
+| RENEE       |
+| IDA         |
+| VIVIAN      |
+| ROBERTA     |
+| HOLLY       |
+| BRITTANY    |
+| MELANIE     |
+| LORETTA     |
+| YOLANDA     |
+| JEANETTE    |
+| LAURIE      |
+| KATIE       |
+| KRISTEN     |
+| VANESSA     |
+| ALMA        |
+| SUE         |
+| ELSIE       |
+| BETH        |
+| JEANNE      |
+| VICKI       |
+| CARLA       |
+| TARA        |
+| ROSEMARY    |
+| EILEEN      |
+| TERRI       |
+| GERTRUDE    |
+| LUCY        |
+| TONYA       |
+| ELLA        |
+| STACEY      |
+| WILMA       |
+| GINA        |
+| KRISTIN     |
+| JESSIE      |
+| NATALIE     |
+| AGNES       |
+| VERA        |
+| WILLIE      |
+| CHARLENE    |
+| BESSIE      |
+| DELORES     |
+| MELINDA     |
+| PEARL       |
+| ARLENE      |
+| MAUREEN     |
+| COLLEEN     |
+| ALLISON     |
+| TAMARA      |
+| JOY         |
+| GEORGIA     |
+| CONSTANCE   |
+| LILLIE      |
+| CLAUDIA     |
+| JACKIE      |
+| MARCIA      |
+| TANYA       |
+| NELLIE      |
+| MINNIE      |
+| MARLENE     |
+| HEIDI       |
+| GLENDA      |
+| LYDIA       |
+| VIOLA       |
+| COURTNEY    |
+| MARIAN      |
+| STELLA      |
+| CAROLINE    |
+| DORA        |
+| JO          |
+| VICKIE      |
+| MATTIE      |
+| TERRY       |
+| MAXINE      |
+| IRMA        |
+| MABEL       |
+| MARSHA      |
+| MYRTLE      |
+| LENA        |
+| CHRISTY     |
+| DEANNA      |
+| PATSY       |
+| HILDA       |
+| GWENDOLYN   |
+| JENNIE      |
+| NORA        |
+| MARGIE      |
+| NINA        |
+| CASSANDRA   |
+| LEAH        |
+| PENNY       |
+| KAY         |
+| PRISCILLA   |
+| NAOMI       |
+| CAROLE      |
+| BRANDY      |
+| OLGA        |
+| BILLIE      |
+| DIANNE      |
+| TRACEY      |
+| LEONA       |
+| JENNY       |
+| FELICIA     |
+| SONIA       |
+| MIRIAM      |
+| VELMA       |
+| BECKY       |
+| BOBBIE      |
+| VIOLET      |
+| KRISTINA    |
+| TONI        |
+| MISTY       |
+| MAE         |
+| SHELLY      |
+| DAISY       |
+| RAMONA      |
+| SHERRI      |
+| ERIKA       |
+| JAMES       |
+| JOHN        |
+| ROBERT      |
+| MICHAEL     |
+| WILLIAM     |
+| DAVID       |
+| RICHARD     |
+| CHARLES     |
+| JOSEPH      |
+| THOMAS      |
+| CHRISTOPHER |
+| DANIEL      |
+| PAUL        |
+| MARK        |
+| DONALD      |
+| GEORGE      |
+| KENNETH     |
+| STEVEN      |
+| EDWARD      |
+| BRIAN       |
+| RONALD      |
+| ANTHONY     |
+| KEVIN       |
+| JASON       |
+| MATTHEW     |
+| GARY        |
+| TIMOTHY     |
+| JOSE        |
+| LARRY       |
+| JEFFREY     |
+| FRANK       |
+| SCOTT       |
+| ERIC        |
+| STEPHEN     |
+| ANDREW      |
+| RAYMOND     |
+| GREGORY     |
+| JOSHUA      |
+| JERRY       |
+| DENNIS      |
+| WALTER      |
+| PATRICK     |
+| PETER       |
+| HAROLD      |
+| DOUGLAS     |
+| HENRY       |
+| CARL        |
+| ARTHUR      |
+| RYAN        |
+| ROGER       |
+| JOE         |
+| JUAN        |
+| JACK        |
+| ALBERT      |
+| JONATHAN    |
+| JUSTIN      |
+| GERALD      |
+| KEITH       |
+| SAMUEL      |
+| RALPH       |
+| LAWRENCE    |
+| NICHOLAS    |
+| ROY         |
+| BENJAMIN    |
+| BRUCE       |
+| BRANDON     |
+| ADAM        |
+| HARRY       |
+| FRED        |
+| WAYNE       |
+| BILLY       |
+| STEVE       |
+| LOUIS       |
+| JEREMY      |
+| AARON       |
+| RANDY       |
+| HOWARD      |
+| EUGENE      |
+| CARLOS      |
+| RUSSELL     |
+| BOBBY       |
+| VICTOR      |
+| MARTIN      |
+| ERNEST      |
+| PHILLIP     |
+| TODD        |
+| JESSE       |
+| CRAIG       |
+| ALAN        |
+| SHAWN       |
+| CLARENCE    |
+| SEAN        |
+| PHILIP      |
+| CHRIS       |
+| JOHNNY      |
+| EARL        |
+| JIMMY       |
+| ANTONIO     |
+| DANNY       |
+| BRYAN       |
+| TONY        |
+| LUIS        |
+| MIKE        |
+| STANLEY     |
+| LEONARD     |
+| NATHAN      |
+| DALE        |
+| MANUEL      |
+| RODNEY      |
+| CURTIS      |
+| NORMAN      |
+| ALLEN       |
+| MARVIN      |
+| VINCENT     |
+| GLENN       |
+| JEFFERY     |
+| TRAVIS      |
+| JEFF        |
+| CHAD        |
+| JACOB       |
+| LEE         |
+| MELVIN      |
+| ALFRED      |
+| KYLE        |
+| FRANCIS     |
+| BRADLEY     |
+| JESUS       |
+| HERBERT     |
+| FREDERICK   |
+| RAY         |
+| JOEL        |
+| EDWIN       |
+| DON         |
+| EDDIE       |
+| RICKY       |
+| TROY        |
+| RANDALL     |
+| BARRY       |
+| ALEXANDER   |
+| BERNARD     |
+| MARIO       |
+| LEROY       |
+| FRANCISCO   |
+| MARCUS      |
+| MICHEAL     |
+| THEODORE    |
+| CLIFFORD    |
+| MIGUEL      |
+| OSCAR       |
+| JAY         |
+| JIM         |
+| TOM         |
+| CALVIN      |
+| ALEX        |
+| JON         |
+| RONNIE      |
+| BILL        |
+| LLOYD       |
+| TOMMY       |
+| LEON        |
+| DEREK       |
+| WARREN      |
+| DARRELL     |
+| JEROME      |
+| FLOYD       |
+| LEO         |
+| ALVIN       |
+| TIM         |
+| WESLEY      |
+| GORDON      |
+| DEAN        |
+| GREG        |
+| JORGE       |
+| DUSTIN      |
+| PEDRO       |
+| DERRICK     |
+| DAN         |
+| LEWIS       |
+| ZACHARY     |
+| COREY       |
+| HERMAN      |
+| MAURICE     |
+| VERNON      |
+| ROBERTO     |
+| CLYDE       |
+| GLEN        |
+| HECTOR      |
+| SHANE       |
+| RICARDO     |
+| SAM         |
+| RICK        |
+| LESTER      |
+| BRENT       |
+| RAMON       |
+| CHARLIE     |
+| TYLER       |
+| GILBERT     |
+| GENE        |
+| MARC        |
+| REGINALD    |
+| RUBEN       |
+| BRETT       |
+| ANGEL       |
+| NATHANIEL   |
+| RAFAEL      |
+| EDGAR       |
+| MILTON      |
+| RAUL        |
+| BEN         |
+| CHESTER     |
+| CECIL       |
+| DUANE       |
+| FRANKLIN    |
+| ANDRE       |
+| ELMER       |
+| BRAD        |
+| GABRIEL     |
+| RON         |
+| MITCHELL    |
+| ROLAND      |
+| ARNOLD      |
+| HARVEY      |
+| JARED       |
+| ADRIAN      |
+| KARL        |
+| CORY        |
+| CLAUDE      |
+| ERIK        |
+| DARRYL      |
+| NEIL        |
+| CHRISTIAN   |
+| JAVIER      |
+| FERNANDO    |
+| CLINTON     |
+| TED         |
+| MATHEW      |
+| TYRONE      |
+| DARREN      |
+| LONNIE      |
+| LANCE       |
+| CODY        |
+| JULIO       |
+| KURT        |
+| ALLAN       |
+| NELSON      |
+| GUY         |
+| CLAYTON     |
+| HUGH        |
+| MAX         |
+| DWAYNE      |
+| DWIGHT      |
+| ARMANDO     |
+| FELIX       |
+| JIMMIE      |
+| EVERETT     |
+| JORDAN      |
+| IAN         |
+| WALLACE     |
+| KEN         |
+| BOB         |
+| JAIME       |
+| CASEY       |
+| ALFREDO     |
+| ALBERTO     |
+| DAVE        |
+| IVAN        |
+| JOHNNIE     |
+| SIDNEY      |
+| BYRON       |
+| JULIAN      |
+| ISAAC       |
+| MORRIS      |
+| CLIFTON     |
+| WILLARD     |
+| DARYL       |
+| ROSS        |
+| VIRGIL      |
+| ANDY        |
+| MARSHALL    |
+| SALVADOR    |
+| PERRY       |
+| KIRK        |
+| SERGIO      |
+| SETH        |
+| KENT        |
+| TERRANCE    |
+| RENE        |
+| EDUARDO     |
+| TERRENCE    |
+| ENRIQUE     |
+| FREDDIE     |
+| WADE        |
+| AUSTIN      |
+| PENELOPE    |
+| NICK        |
+| ED          |
+| BETTE       |
+| ZERO        |
+| UMA         |
+| VIVIEN      |
+| CUBA        |
+| KIRSTEN     |
+| ELVIS       |
+| CAMERON     |
+| RIP         |
+| WOODY       |
+| ALEC        |
+| SISSY       |
+| MILLA       |
+| BURT        |
+| VAL         |
+| GOLDIE      |
+| JODIE       |
+| REESE       |
+| PARKER      |
+| MENA        |
+| FAY         |
+| JUDE        |
+| JAYNE       |
+| ANGELINA    |
+| CARY        |
+| GROUCHO     |
+| SCARLETT    |
+| SPENCER     |
+| CHARLIZE    |
+| MEG         |
+| SYLVESTER   |
+| MORGAN      |
+| HARRISON    |
+| LIZA        |
+| SALMA       |
+| JULIANNE    |
+| CATE        |
+| GRETA       |
+| EWAN        |
+| WHOOPI      |
+| JADA        |
+| RIVER       |
+| GEOFFREY    |
+| MERYL       |
+| OPRAH       |
+| HUMPHREY    |
+| AL          |
+| LAURENCE    |
+| WILL        |
+| OLYMPIA     |
+| ROCK        |
+| BELA        |
+| THORA       |
++-------------+
+647 rows in set (0.001 sec)
+
+MariaDB [sakila]> SELECT DISTINCT(first_name) FROM customer UNION SELECT DISTINCT(first_name) FROM actor ORDER BY nombre;
+ERROR 1054 (42S22): Unknown column 'nombre' in 'order clause'
+MariaDB [sakila]> SELECT DISTINCT(first_name) FROM customer UNION SELECT DISTINCT(first_name) FROM actor ORDER BY name;
+ERROR 1054 (42S22): Unknown column 'name' in 'order clause'
+MariaDB [sakila]> SELECT DISTINCT(first_name) AS nombre FROM customer ORDER BY nombre UNION SELECT DISTINCT(fist_name) AS nombre FROM actor ORDER BY nombre;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'UNION SELECT DISTINCT(fist_name) AS nombre FROM actor ORDER BY nombre' at line 1
+MariaDB [sakila]> SELECT DISTINCT(first_name) AS nombre FROM customer ORDER BY nombre UNION SELECT DISTINCT(first_name) AS nombre FROM actor ORDER BY nombre;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'UNION SELECT DISTINCT(first_name) AS nombre FROM actor ORDER BY nombre' at line 1
+MariaDB [sakila]> SELECT DISTINCT first_name AS nombre FROM customer
+-> UNION
+-> SELECT DISTINCT first_name AS nombre FROM actor
+-> ORDER BY nombre;
++-------------+
+| nombre      |
++-------------+
+| AARON       |
+| ADAM        |
+| ADRIAN      |
+| AGNES       |
+| AL          |
+| ALAN        |
+| ALBERT      |
+| ALBERTO     |
+| ALEC        |
+| ALEX        |
+| ALEXANDER   |
+| ALFRED      |
+| ALFREDO     |
+| ALICE       |
+| ALICIA      |
+| ALLAN       |
+| ALLEN       |
+| ALLISON     |
+| ALMA        |
+| ALVIN       |
+| AMANDA      |
+| AMBER       |
+| AMY         |
+| ANA         |
+| ANDRE       |
+| ANDREA      |
+| ANDREW      |
+| ANDY        |
+| ANGEL       |
+| ANGELA      |
+| ANGELINA    |
+| ANITA       |
+| ANN         |
+| ANNA        |
+| ANNE        |
+| ANNETTE     |
+| ANNIE       |
+| ANTHONY     |
+| ANTONIO     |
+| APRIL       |
+| ARLENE      |
+| ARMANDO     |
+| ARNOLD      |
+| ARTHUR      |
+| ASHLEY      |
+| AUDREY      |
+| AUSTIN      |
+| BARBARA     |
+| BARRY       |
+| BEATRICE    |
+| BECKY       |
+| BELA        |
+| BEN         |
+| BENJAMIN    |
+| BERNARD     |
+| BERNICE     |
+| BERTHA      |
+| BESSIE      |
+| BETH        |
+| BETTE       |
+| BETTY       |
+| BEVERLY     |
+| BILL        |
+| BILLIE      |
+| BILLY       |
+| BOB         |
+| BOBBIE      |
+| BOBBY       |
+| BONNIE      |
+| BRAD        |
+| BRADLEY     |
+| BRANDON     |
+| BRANDY      |
+| BRENDA      |
+| BRENT       |
+| BRETT       |
+| BRIAN       |
+| BRITTANY    |
+| BRUCE       |
+| BRYAN       |
+| BURT        |
+| BYRON       |
+| CALVIN      |
+| CAMERON     |
+| CARL        |
+| CARLA       |
+| CARLOS      |
+| CARMEN      |
+| CAROL       |
+| CAROLE      |
+| CAROLINE    |
+| CAROLYN     |
+| CARRIE      |
+| CARY        |
+| CASEY       |
+| CASSANDRA   |
+| CATE        |
+| CATHERINE   |
+| CATHY       |
+| CECIL       |
+| CHAD        |
+| CHARLENE    |
+| CHARLES     |
+| CHARLIE     |
+| CHARLIZE    |
+| CHARLOTTE   |
+| CHERYL      |
+| CHESTER     |
+| CHRIS       |
+| CHRISTIAN   |
+| CHRISTINA   |
+| CHRISTINE   |
+| CHRISTOPHER |
+| CHRISTY     |
+| CINDY       |
+| CLARA       |
+| CLARENCE    |
+| CLAUDE      |
+| CLAUDIA     |
+| CLAYTON     |
+| CLIFFORD    |
+| CLIFTON     |
+| CLINTON     |
+| CLYDE       |
+| CODY        |
+| COLLEEN     |
+| CONNIE      |
+| CONSTANCE   |
+| COREY       |
+| CORY        |
+| COURTNEY    |
+| CRAIG       |
+| CRYSTAL     |
+| CUBA        |
+| CURTIS      |
+| CYNTHIA     |
+| DAISY       |
+| DALE        |
+| DAN         |
+| DANA        |
+| DANIEL      |
+| DANIELLE    |
+| DANNY       |
+| DARLENE     |
+| DARRELL     |
+| DARREN      |
+| DARRYL      |
+| DARYL       |
+| DAVE        |
+| DAVID       |
+| DAWN        |
+| DEAN        |
+| DEANNA      |
+| DEBBIE      |
+| DEBORAH     |
+| DEBRA       |
+| DELORES     |
+| DENISE      |
+| DENNIS      |
+| DEREK       |
+| DERRICK     |
+| DIANA       |
+| DIANE       |
+| DIANNE      |
+| DOLORES     |
+| DON         |
+| DONALD      |
+| DONNA       |
+| DORA        |
+| DORIS       |
+| DOROTHY     |
+| DOUGLAS     |
+| DUANE       |
+| DUSTIN      |
+| DWAYNE      |
+| DWIGHT      |
+| EARL        |
+| ED          |
+| EDDIE       |
+| EDGAR       |
+| EDITH       |
+| EDNA        |
+| EDUARDO     |
+| EDWARD      |
+| EDWIN       |
+| EILEEN      |
+| ELAINE      |
+| ELEANOR     |
+| ELIZABETH   |
+| ELLA        |
+| ELLEN       |
+| ELMER       |
+| ELSIE       |
+| ELVIS       |
+| EMILY       |
+| EMMA        |
+| ENRIQUE     |
+| ERIC        |
+| ERICA       |
+| ERIK        |
+| ERIKA       |
+| ERIN        |
+| ERNEST      |
+| ESTHER      |
+| ETHEL       |
+| EUGENE      |
+| EVA         |
+| EVELYN      |
+| EVERETT     |
+| EWAN        |
+| FAY         |
+| FELICIA     |
+| FELIX       |
+| FERNANDO    |
+| FLORENCE    |
+| FLOYD       |
+| FRANCES     |
+| FRANCIS     |
+| FRANCISCO   |
+| FRANK       |
+| FRANKLIN    |
+| FRED        |
+| FREDDIE     |
+| FREDERICK   |
+| GABRIEL     |
+| GAIL        |
+| GARY        |
+| GENE        |
+| GEOFFREY    |
+| GEORGE      |
+| GEORGIA     |
+| GERALD      |
+| GERALDINE   |
+| GERTRUDE    |
+| GILBERT     |
+| GINA        |
+| GLADYS      |
+| GLEN        |
+| GLENDA      |
+| GLENN       |
+| GLORIA      |
+| GOLDIE      |
+| GORDON      |
+| GRACE       |
+| GREG        |
+| GREGORY     |
+| GRETA       |
+| GROUCHO     |
+| GUY         |
+| GWENDOLYN   |
+| HAROLD      |
+| HARRISON    |
+| HARRY       |
+| HARVEY      |
+| HAZEL       |
+| HEATHER     |
+| HECTOR      |
+| HEIDI       |
+| HELEN       |
+| HENRY       |
+| HERBERT     |
+| HERMAN      |
+| HILDA       |
+| HOLLY       |
+| HOWARD      |
+| HUGH        |
+| HUMPHREY    |
+| IAN         |
+| IDA         |
+| IRENE       |
+| IRMA        |
+| ISAAC       |
+| IVAN        |
+| JACK        |
+| JACKIE      |
+| JACOB       |
+| JACQUELINE  |
+| JADA        |
+| JAIME       |
+| JAMES       |
+| JAMIE       |
+| JANE        |
+| JANET       |
+| JANICE      |
+| JARED       |
+| JASON       |
+| JAVIER      |
+| JAY         |
+| JAYNE       |
+| JEAN        |
+| JEANETTE    |
+| JEANNE      |
+| JEFF        |
+| JEFFERY     |
+| JEFFREY     |
+| JENNIE      |
+| JENNIFER    |
+| JENNY       |
+| JEREMY      |
+| JEROME      |
+| JERRY       |
+| JESSE       |
+| JESSICA     |
+| JESSIE      |
+| JESUS       |
+| JILL        |
+| JIM         |
+| JIMMIE      |
+| JIMMY       |
+| JO          |
+| JOAN        |
+| JOANN       |
+| JOANNE      |
+| JODIE       |
+| JOE         |
+| JOEL        |
+| JOHN        |
+| JOHNNIE     |
+| JOHNNY      |
+| JON         |
+| JONATHAN    |
+| JORDAN      |
+| JORGE       |
+| JOSE        |
+| JOSEPH      |
+| JOSEPHINE   |
+| JOSHUA      |
+| JOY         |
+| JOYCE       |
+| JUAN        |
+| JUANITA     |
+| JUDE        |
+| JUDITH      |
+| JUDY        |
+| JULIA       |
+| JULIAN      |
+| JULIANNE    |
+| JULIE       |
+| JULIO       |
+| JUNE        |
+| JUSTIN      |
+| KAREN       |
+| KARL        |
+| KATHERINE   |
+| KATHLEEN    |
+| KATHRYN     |
+| KATHY       |
+| KATIE       |
+| KAY         |
+| KEITH       |
+| KELLY       |
+| KEN         |
+| KENNETH     |
+| KENT        |
+| KEVIN       |
+| KIM         |
+| KIMBERLY    |
+| KIRK        |
+| KIRSTEN     |
+| KRISTEN     |
+| KRISTIN     |
+| KRISTINA    |
+| KURT        |
+| KYLE        |
+| LANCE       |
+| LARRY       |
+| LAURA       |
+| LAUREN      |
+| LAURENCE    |
+| LAURIE      |
+| LAWRENCE    |
+| LEAH        |
+| LEE         |
+| LENA        |
+| LEO         |
+| LEON        |
+| LEONA       |
+| LEONARD     |
+| LEROY       |
+| LESLIE      |
+| LESTER      |
+| LEWIS       |
+| LILLIAN     |
+| LILLIE      |
+| LINDA       |
+| LISA        |
+| LIZA        |
+| LLOYD       |
+| LOIS        |
+| LONNIE      |
+| LORETTA     |
+| LORI        |
+| LORRAINE    |
+| LOUIS       |
+| LOUISE      |
+| LUCILLE     |
+| LUCY        |
+| LUIS        |
+| LYDIA       |
+| LYNN        |
+| MABEL       |
+| MAE         |
+| MANUEL      |
+| MARC        |
+| MARCIA      |
+| MARCUS      |
+| MARGARET    |
+| MARGIE      |
+| MARIA       |
+| MARIAN      |
+| MARIE       |
+| MARILYN     |
+| MARIO       |
+| MARION      |
+| MARJORIE    |
+| MARK        |
+| MARLENE     |
+| MARSHA      |
+| MARSHALL    |
+| MARTHA      |
+| MARTIN      |
+| MARVIN      |
+| MARY        |
+| MATHEW      |
+| MATTHEW     |
+| MATTIE      |
+| MAUREEN     |
+| MAURICE     |
+| MAX         |
+| MAXINE      |
+| MEG         |
+| MEGAN       |
+| MELANIE     |
+| MELINDA     |
+| MELISSA     |
+| MELVIN      |
+| MENA        |
+| MERYL       |
+| MICHAEL     |
+| MICHEAL     |
+| MICHELE     |
+| MICHELLE    |
+| MIGUEL      |
+| MIKE        |
+| MILDRED     |
+| MILLA       |
+| MILTON      |
+| MINNIE      |
+| MIRIAM      |
+| MISTY       |
+| MITCHELL    |
+| MONICA      |
+| MORGAN      |
+| MORRIS      |
+| MYRTLE      |
+| NANCY       |
+| NAOMI       |
+| NATALIE     |
+| NATHAN      |
+| NATHANIEL   |
+| NEIL        |
+| NELLIE      |
+| NELSON      |
+| NICHOLAS    |
+| NICK        |
+| NICOLE      |
+| NINA        |
+| NORA        |
+| NORMA       |
+| NORMAN      |
+| OLGA        |
+| OLYMPIA     |
+| OPRAH       |
+| OSCAR       |
+| PAMELA      |
+| PARKER      |
+| PATRICIA    |
+| PATRICK     |
+| PATSY       |
+| PAUL        |
+| PAULA       |
+| PAULINE     |
+| PEARL       |
+| PEDRO       |
+| PEGGY       |
+| PENELOPE    |
+| PENNY       |
+| PERRY       |
+| PETER       |
+| PHILIP      |
+| PHILLIP     |
+| PHYLLIS     |
+| PRISCILLA   |
+| RACHEL      |
+| RAFAEL      |
+| RALPH       |
+| RAMON       |
+| RAMONA      |
+| RANDALL     |
+| RANDY       |
+| RAUL        |
+| RAY         |
+| RAYMOND     |
+| REBECCA     |
+| REESE       |
+| REGINA      |
+| REGINALD    |
+| RENE        |
+| RENEE       |
+| RHONDA      |
+| RICARDO     |
+| RICHARD     |
+| RICK        |
+| RICKY       |
+| RIP         |
+| RITA        |
+| RIVER       |
+| ROBERT      |
+| ROBERTA     |
+| ROBERTO     |
+| ROBIN       |
+| ROCK        |
+| RODNEY      |
+| ROGER       |
+| ROLAND      |
+| RON         |
+| RONALD      |
+| RONNIE      |
+| ROSA        |
+| ROSE        |
+| ROSEMARY    |
+| ROSS        |
+| ROY         |
+| RUBEN       |
+| RUBY        |
+| RUSSELL     |
+| RUTH        |
+| RYAN        |
+| SALLY       |
+| SALMA       |
+| SALVADOR    |
+| SAM         |
+| SAMANTHA    |
+| SAMUEL      |
+| SANDRA      |
+| SARA        |
+| SARAH       |
+| SCARLETT    |
+| SCOTT       |
+| SEAN        |
+| SERGIO      |
+| SETH        |
+| SHANE       |
+| SHANNON     |
+| SHARON      |
+| SHAWN       |
+| SHEILA      |
+| SHELLY      |
+| SHERRI      |
+| SHERRY      |
+| SHIRLEY     |
+| SIDNEY      |
+| SISSY       |
+| SONIA       |
+| SPENCER     |
+| STACEY      |
+| STACY       |
+| STANLEY     |
+| STELLA      |
+| STEPHANIE   |
+| STEPHEN     |
+| STEVE       |
+| STEVEN      |
+| SUE         |
+| SUSAN       |
+| SUZANNE     |
+| SYLVESTER   |
+| SYLVIA      |
+| TAMARA      |
+| TAMMY       |
+| TANYA       |
+| TARA        |
+| TED         |
+| TERESA      |
+| TERRANCE    |
+| TERRENCE    |
+| TERRI       |
+| TERRY       |
+| THELMA      |
+| THEODORE    |
+| THERESA     |
+| THOMAS      |
+| THORA       |
+| TIFFANY     |
+| TIM         |
+| TIMOTHY     |
+| TINA        |
+| TODD        |
+| TOM         |
+| TOMMY       |
+| TONI        |
+| TONY        |
+| TONYA       |
+| TRACEY      |
+| TRACY       |
+| TRAVIS      |
+| TROY        |
+| TYLER       |
+| TYRONE      |
+| UMA         |
+| VAL         |
+| VALERIE     |
+| VANESSA     |
+| VELMA       |
+| VERA        |
+| VERNON      |
+| VERONICA    |
+| VICKI       |
+| VICKIE      |
+| VICTOR      |
+| VICTORIA    |
+| VINCENT     |
+| VIOLA       |
+| VIOLET      |
+| VIRGIL      |
+| VIRGINIA    |
+| VIVIAN      |
+| VIVIEN      |
+| WADE        |
+| WALLACE     |
+| WALTER      |
+| WANDA       |
+| WARREN      |
+| WAYNE       |
+| WENDY       |
+| WESLEY      |
+| WHOOPI      |
+| WILL        |
+| WILLARD     |
+| WILLIAM     |
+| WILLIE      |
+| WILMA       |
+| WOODY       |
+| YOLANDA     |
+| YVONNE      |
+| ZACHARY     |
+| ZERO        |
++-------------+
+647 rows in set (0.002 sec)
+
+MariaDB [sakila]> SELECT first_name
+-> FROM customer
+-> WHERE first_name LIKE "A%"
+-> UNION
+-> SELECT first_name
+-> FROM actor
+-> WHERE first_name LIKE "A%";
++------------+
+| first_name |
++------------+
+| ANGELA     |
+| AMY        |
+| ANNA       |
+| AMANDA     |
+| ANN        |
+| ALICE      |
+| ASHLEY     |
+| ANDREA     |
+| ANNE       |
+| ANNIE      |
+| ANITA      |
+| AMBER      |
+| APRIL      |
+| ALICIA     |
+| AUDREY     |
+| ANNETTE    |
+| ANA        |
+| ALMA       |
+| AGNES      |
+| ARLENE     |
+| ALLISON    |
+| ANTHONY    |
+| ANDREW     |
+| ARTHUR     |
+| ALBERT     |
+| ADAM       |
+| AARON      |
+| ALAN       |
+| ANTONIO    |
+| ALLEN      |
+| ALFRED     |
+| ALEXANDER  |
+| ALEX       |
+| ALVIN      |
+| ANGEL      |
+| ANDRE      |
+| ARNOLD     |
+| ADRIAN     |
+| ALLAN      |
+| ARMANDO    |
+| ALFREDO    |
+| ALBERTO    |
+| ANDY       |
+| AUSTIN     |
+| ALEC       |
+| ANGELINA   |
+| AL         |
++------------+
+47 rows in set (0.001 sec)
+
+MariaDB [sakila]> USE tbd_eva2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [tbd_eva2]> select * FROM tablaA;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | A      |
+|    2 | B      |
+|    3 | C      |
+|    4 | D      |
++------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> select * FROM tablaB;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | X      |
+|    2 | Y      |
+|    3 | Z      |
+|    4 | A      |
+|    5 | B      |
++------+--------+
+5 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaA
+-> INTERSECT
+-> SELECT * FROM tablaB;
+Empty set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT nombre FROM tablaA
+-> INTERSECT
+-> SELECT nombre from tablaB;
++--------+
+| nombre |
++--------+
+| A      |
+| B      |
++--------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT id FROM tablaA INTERSECT SELECT id from tablaB;
++------+
+| id   |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    4 |
++------+
+4 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT nombre FROM tablaA
+-> WHERE nombre IN (
+-> SELECT nombre FROM tablaB);
++--------+
+| nombre |
++--------+
+| A      |
+| B      |
++--------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SHOW tables;
++--------------------+
+| Tables_in_tbd_eva2 |
++--------------------+
+| cliente            |
+| factura            |
+| factura_detalle    |
+| producto           |
+| tablaA             |
+| tablaB             |
++--------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     9 |         7 |
+|    10 |         7 |
++-------+-----------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC cliente;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50) | NO   |     | NULL    |                |
+| apellidos | varchar(50) | YES  |     | NULL    |                |
+| rfc       | varchar(12) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT id FROM customer
+-> INTERSECT
+-> SELECT idCliente FROM factura;
+ERROR 1146 (42S02): Table 'tbd_eva2.customer' doesn't exist
+MariaDB [tbd_eva2]> SELECT id FROM cliente INTERSECT SELECT idCliente FROM factura;
++----+
+| id |
++----+
+|  7 |
++----+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> exit;
