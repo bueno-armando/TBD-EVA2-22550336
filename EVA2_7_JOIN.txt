@@ -1,0 +1,1868 @@
+╭─senorbuen0@Trimethy in ~ via  v3.12.6 as 🧙 took 8s
+[🔴] × sudo mysql -u root -p
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 5
+Server version: 11.5.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE sakila;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [sakila]> SHOW TABLES;
++----------------------------+
+| Tables_in_sakila           |
++----------------------------+
+| actor                      |
+| actor_info                 |
+| address                    |
+| category                   |
+| city                       |
+| country                    |
+| customer                   |
+| customer_list              |
+| film                       |
+| film_actor                 |
+| film_category              |
+| film_list                  |
+| film_text                  |
+| inventory                  |
+| language                   |
+| nicer_but_slower_film_list |
+| payment                    |
+| rental                     |
+| sales_by_film_category     |
+| sales_by_store             |
+| staff                      |
+| staff_list                 |
+| store                      |
++----------------------------+
+23 rows in set (0.000 sec)
+
+MariaDB [sakila]> DESC payment;
++--------------+----------------------+------+-----+---------------------+-------------------------------+
+| Field        | Type                 | Null | Key | Default             | Extra                         |
++--------------+----------------------+------+-----+---------------------+-------------------------------+
+| payment_id   | smallint(5) unsigned | NO   | PRI | NULL                | auto_increment                |
+| customer_id  | smallint(5) unsigned | NO   | MUL | NULL                |                               |
+| staff_id     | tinyint(3) unsigned  | NO   | MUL | NULL                |                               |
+| rental_id    | int(11)              | YES  | MUL | NULL                |                               |
+| amount       | decimal(5,2)         | NO   |     | NULL                |                               |
+| payment_date | datetime             | NO   |     | NULL                |                               |
+| last_update  | timestamp            | YES  |     | current_timestamp() | on update current_timestamp() |
++--------------+----------------------+------+-----+---------------------+-------------------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [sakila]> SELEC * FROM payment LIMIT 50;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'SELEC * FROM payment LIMIT 50' at line 1
+MariaDB [sakila]> SELECT * FROM payment LIMIT 50;
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+| payment_id | customer_id | staff_id | rental_id | amount | payment_date        | last_update         |
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+|          1 |           1 |        1 |        76 |   2.99 | 2005-05-25 11:30:37 | 2006-02-15 22:12:30 |
+|          2 |           1 |        1 |       573 |   0.99 | 2005-05-28 10:35:23 | 2006-02-15 22:12:30 |
+|          3 |           1 |        1 |      1185 |   5.99 | 2005-06-15 00:54:12 | 2006-02-15 22:12:30 |
+|          4 |           1 |        2 |      1422 |   0.99 | 2005-06-15 18:02:53 | 2006-02-15 22:12:30 |
+|          5 |           1 |        2 |      1476 |   9.99 | 2005-06-15 21:08:46 | 2006-02-15 22:12:30 |
+|          6 |           1 |        1 |      1725 |   4.99 | 2005-06-16 15:18:57 | 2006-02-15 22:12:30 |
+|          7 |           1 |        1 |      2308 |   4.99 | 2005-06-18 08:41:48 | 2006-02-15 22:12:30 |
+|          8 |           1 |        2 |      2363 |   0.99 | 2005-06-18 13:33:59 | 2006-02-15 22:12:30 |
+|          9 |           1 |        1 |      3284 |   3.99 | 2005-06-21 06:24:45 | 2006-02-15 22:12:30 |
+|         10 |           1 |        2 |      4526 |   5.99 | 2005-07-08 03:17:05 | 2006-02-15 22:12:30 |
+|         11 |           1 |        1 |      4611 |   5.99 | 2005-07-08 07:33:56 | 2006-02-15 22:12:30 |
+|         12 |           1 |        1 |      5244 |   4.99 | 2005-07-09 13:24:07 | 2006-02-15 22:12:30 |
+|         13 |           1 |        1 |      5326 |   4.99 | 2005-07-09 16:38:01 | 2006-02-15 22:12:30 |
+|         14 |           1 |        1 |      6163 |   7.99 | 2005-07-11 10:13:46 | 2006-02-15 22:12:30 |
+|         15 |           1 |        2 |      7273 |   2.99 | 2005-07-27 11:31:22 | 2006-02-15 22:12:30 |
+|         16 |           1 |        1 |      7841 |   4.99 | 2005-07-28 09:04:45 | 2006-02-15 22:12:30 |
+|         17 |           1 |        2 |      8033 |   4.99 | 2005-07-28 16:18:23 | 2006-02-15 22:12:30 |
+|         18 |           1 |        1 |      8074 |   0.99 | 2005-07-28 17:33:39 | 2006-02-15 22:12:30 |
+|         19 |           1 |        2 |      8116 |   0.99 | 2005-07-28 19:20:07 | 2006-02-15 22:12:30 |
+|         20 |           1 |        2 |      8326 |   2.99 | 2005-07-29 03:58:49 | 2006-02-15 22:12:30 |
+|         21 |           1 |        2 |      9571 |   2.99 | 2005-07-31 02:42:18 | 2006-02-15 22:12:30 |
+|         22 |           1 |        2 |     10437 |   4.99 | 2005-08-01 08:51:04 | 2006-02-15 22:12:30 |
+|         23 |           1 |        2 |     11299 |   3.99 | 2005-08-02 15:36:52 | 2006-02-15 22:12:30 |
+|         24 |           1 |        1 |     11367 |   0.99 | 2005-08-02 18:01:38 | 2006-02-15 22:12:30 |
+|         25 |           1 |        2 |     11824 |   4.99 | 2005-08-17 12:37:54 | 2006-02-15 22:12:30 |
+|         26 |           1 |        1 |     12250 |   0.99 | 2005-08-18 03:57:29 | 2006-02-15 22:12:30 |
+|         27 |           1 |        2 |     13068 |   0.99 | 2005-08-19 09:55:16 | 2006-02-15 22:12:30 |
+|         28 |           1 |        2 |     13176 |   2.99 | 2005-08-19 13:56:54 | 2006-02-15 22:12:30 |
+|         29 |           1 |        1 |     14762 |   0.99 | 2005-08-21 23:33:57 | 2006-02-15 22:12:30 |
+|         30 |           1 |        1 |     14825 |   1.99 | 2005-08-22 01:27:57 | 2006-02-15 22:12:30 |
+|         31 |           1 |        2 |     15298 |   2.99 | 2005-08-22 19:41:37 | 2006-02-15 22:12:30 |
+|         32 |           1 |        1 |     15315 |   5.99 | 2005-08-22 20:03:46 | 2006-02-15 22:12:30 |
+|         33 |           2 |        1 |       320 |   4.99 | 2005-05-27 00:09:24 | 2006-02-15 22:12:30 |
+|         34 |           2 |        1 |      2128 |   2.99 | 2005-06-17 20:54:58 | 2006-02-15 22:12:30 |
+|         35 |           2 |        1 |      5636 |   2.99 | 2005-07-10 06:31:24 | 2006-02-15 22:12:30 |
+|         36 |           2 |        1 |      5755 |   6.99 | 2005-07-10 12:38:56 | 2006-02-15 22:12:30 |
+|         37 |           2 |        2 |      7346 |   4.99 | 2005-07-27 14:30:42 | 2006-02-15 22:12:30 |
+|         38 |           2 |        1 |      7376 |   5.99 | 2005-07-27 15:23:02 | 2006-02-15 22:12:30 |
+|         39 |           2 |        2 |      7459 |   5.99 | 2005-07-27 18:40:20 | 2006-02-15 22:12:30 |
+|         40 |           2 |        2 |      8230 |   5.99 | 2005-07-29 00:12:59 | 2006-02-15 22:12:30 |
+|         41 |           2 |        1 |      8598 |   2.99 | 2005-07-29 12:56:59 | 2006-02-15 22:12:30 |
+|         42 |           2 |        2 |      8705 |   5.99 | 2005-07-29 17:14:29 | 2006-02-15 22:12:30 |
+|         43 |           2 |        1 |      9031 |   4.99 | 2005-07-30 06:06:10 | 2006-02-15 22:12:30 |
+|         44 |           2 |        2 |      9236 |  10.99 | 2005-07-30 13:47:43 | 2006-02-15 22:12:30 |
+|         45 |           2 |        2 |      9248 |   0.99 | 2005-07-30 14:14:11 | 2006-02-15 22:12:30 |
+|         46 |           2 |        2 |      9296 |   6.99 | 2005-07-30 16:21:13 | 2006-02-15 22:12:30 |
+|         47 |           2 |        2 |      9465 |   6.99 | 2005-07-30 22:39:53 | 2006-02-15 22:12:30 |
+|         48 |           2 |        1 |     10136 |   2.99 | 2005-07-31 21:58:56 | 2006-02-15 22:12:30 |
+|         49 |           2 |        1 |     10466 |   0.99 | 2005-08-01 09:45:26 | 2006-02-15 22:12:30 |
+|         50 |           2 |        1 |     10918 |   0.99 | 2005-08-02 02:10:56 | 2006-02-15 22:12:30 |
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+50 rows in set (0.002 sec)
+
+MariaDB [sakila]> SELECT payment_id, customer_id, amount FROM payment LIMIT 20;
++------------+-------------+--------+
+| payment_id | customer_id | amount |
++------------+-------------+--------+
+|          1 |           1 |   2.99 |
+|          2 |           1 |   0.99 |
+|          3 |           1 |   5.99 |
+|          4 |           1 |   0.99 |
+|          5 |           1 |   9.99 |
+|          6 |           1 |   4.99 |
+|          7 |           1 |   4.99 |
+|          8 |           1 |   0.99 |
+|          9 |           1 |   3.99 |
+|         10 |           1 |   5.99 |
+|         11 |           1 |   5.99 |
+|         12 |           1 |   4.99 |
+|         13 |           1 |   4.99 |
+|         14 |           1 |   7.99 |
+|         15 |           1 |   2.99 |
+|         16 |           1 |   4.99 |
+|         17 |           1 |   4.99 |
+|         18 |           1 |   0.99 |
+|         19 |           1 |   0.99 |
+|         20 |           1 |   2.99 |
++------------+-------------+--------+
+20 rows in set (0.000 sec)
+
+MariaDB [sakila]> SELECT payment_id, customer_id, amount
+-> ;
+ERROR 1054 (42S22): Unknown column 'payment_id' in 'field list'
+MariaDB [sakila]> SELECT a.payment_id, a.customer_id, a.amount,
+-> b.first_name, b_last_name
+-> FROM payment a
+-> INNER JOIN customer b
+-> ON a.customer_id = b.customer_id limit 50;
+ERROR 1054 (42S22): Unknown column 'b_last_name' in 'field list'
+MariaDB [sakila]> SELECT a.payment_id, a.customer_id, a.amount, b.first_name, b.last_name FROM payment a INNER JOIN customer bON a.customer_id = b.customer_id limit 50;
++------------+-------------+--------+------------+-----------+
+| payment_id | customer_id | amount | first_name | last_name |
++------------+-------------+--------+------------+-----------+
+|          1 |           1 |   2.99 | MARY       | SMITH     |
+|          2 |           1 |   0.99 | MARY       | SMITH     |
+|          3 |           1 |   5.99 | MARY       | SMITH     |
+|          4 |           1 |   0.99 | MARY       | SMITH     |
+|          5 |           1 |   9.99 | MARY       | SMITH     |
+|          6 |           1 |   4.99 | MARY       | SMITH     |
+|          7 |           1 |   4.99 | MARY       | SMITH     |
+|          8 |           1 |   0.99 | MARY       | SMITH     |
+|          9 |           1 |   3.99 | MARY       | SMITH     |
+|         10 |           1 |   5.99 | MARY       | SMITH     |
+|         11 |           1 |   5.99 | MARY       | SMITH     |
+|         12 |           1 |   4.99 | MARY       | SMITH     |
+|         13 |           1 |   4.99 | MARY       | SMITH     |
+|         14 |           1 |   7.99 | MARY       | SMITH     |
+|         15 |           1 |   2.99 | MARY       | SMITH     |
+|         16 |           1 |   4.99 | MARY       | SMITH     |
+|         17 |           1 |   4.99 | MARY       | SMITH     |
+|         18 |           1 |   0.99 | MARY       | SMITH     |
+|         19 |           1 |   0.99 | MARY       | SMITH     |
+|         20 |           1 |   2.99 | MARY       | SMITH     |
+|         21 |           1 |   2.99 | MARY       | SMITH     |
+|         22 |           1 |   4.99 | MARY       | SMITH     |
+|         23 |           1 |   3.99 | MARY       | SMITH     |
+|         24 |           1 |   0.99 | MARY       | SMITH     |
+|         25 |           1 |   4.99 | MARY       | SMITH     |
+|         26 |           1 |   0.99 | MARY       | SMITH     |
+|         27 |           1 |   0.99 | MARY       | SMITH     |
+|         28 |           1 |   2.99 | MARY       | SMITH     |
+|         29 |           1 |   0.99 | MARY       | SMITH     |
+|         30 |           1 |   1.99 | MARY       | SMITH     |
+|         31 |           1 |   2.99 | MARY       | SMITH     |
+|         32 |           1 |   5.99 | MARY       | SMITH     |
+|         33 |           2 |   4.99 | PATRICIA   | JOHNSON   |
+|         34 |           2 |   2.99 | PATRICIA   | JOHNSON   |
+|         35 |           2 |   2.99 | PATRICIA   | JOHNSON   |
+|         36 |           2 |   6.99 | PATRICIA   | JOHNSON   |
+|         37 |           2 |   4.99 | PATRICIA   | JOHNSON   |
+|         38 |           2 |   5.99 | PATRICIA   | JOHNSON   |
+|         39 |           2 |   5.99 | PATRICIA   | JOHNSON   |
+|         40 |           2 |   5.99 | PATRICIA   | JOHNSON   |
+|         41 |           2 |   2.99 | PATRICIA   | JOHNSON   |
+|         42 |           2 |   5.99 | PATRICIA   | JOHNSON   |
+|         43 |           2 |   4.99 | PATRICIA   | JOHNSON   |
+|         44 |           2 |  10.99 | PATRICIA   | JOHNSON   |
+|         45 |           2 |   0.99 | PATRICIA   | JOHNSON   |
+|         46 |           2 |   6.99 | PATRICIA   | JOHNSON   |
+|         47 |           2 |   6.99 | PATRICIA   | JOHNSON   |
+|         48 |           2 |   2.99 | PATRICIA   | JOHNSON   |
+|         49 |           2 |   0.99 | PATRICIA   | JOHNSON   |
+|         50 |           2 |   0.99 | PATRICIA   | JOHNSON   |
++------------+-------------+--------+------------+-----------+
+50 rows in set (0.000 sec)
+
+MariaDB [sakila]> USE world;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [world]> SHOW tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.000 sec)
+
+MariaDB [world]> DESC city;
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int(11)  | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int(11)  | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT COUNT(*) FROM city;
++----------+
+| COUNT(*) |
++----------+
+|     4079 |
++----------+
+1 row in set (0.001 sec)
+
+MariaDB [world]> SELECT * FROM city LIMIT 20;
++----+-------------------+-------------+---------------+------------+
+| ID | Name              | CountryCode | District      | Population |
++----+-------------------+-------------+---------------+------------+
+|  1 | Kabul             | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar          | AFG         | Qandahar      |     237500 |
+|  3 | Herat             | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif    | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam         | NLD         | Noord-Holland |     731200 |
+|  6 | Rotterdam         | NLD         | Zuid-Holland  |     593321 |
+|  7 | Haag              | NLD         | Zuid-Holland  |     440900 |
+|  8 | Utrecht           | NLD         | Utrecht       |     234323 |
+|  9 | Eindhoven         | NLD         | Noord-Brabant |     201843 |
+| 10 | Tilburg           | NLD         | Noord-Brabant |     193238 |
+| 11 | Groningen         | NLD         | Groningen     |     172701 |
+| 12 | Breda             | NLD         | Noord-Brabant |     160398 |
+| 13 | Apeldoorn         | NLD         | Gelderland    |     153491 |
+| 14 | Nijmegen          | NLD         | Gelderland    |     152463 |
+| 15 | Enschede          | NLD         | Overijssel    |     149544 |
+| 16 | Haarlem           | NLD         | Noord-Holland |     148772 |
+| 17 | Almere            | NLD         | Flevoland     |     142465 |
+| 18 | Arnhem            | NLD         | Gelderland    |     138020 |
+| 19 | Zaanstad          | NLD         | Noord-Holland |     135621 |
+| 20 | ´s-Hertogenbosch  | NLD         | Noord-Brabant |     129170 |
++----+-------------------+-------------+---------------+------------+
+20 rows in set (0.000 sec)
+
+MariaDB [world]> DESC country;
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                                                                  | Null | Key | Default | Extra |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Code           | char(3)                                                                               | NO   | PRI |       |       |
+| Name           | char(52)                                                                              | NO   |     |       |       |
+| Continent      | enum('Asia','Europe','North America','Africa','Oceania','Antarctica','South America') | NO   |     | Asia  |       |
+| Region         | char(26)                                                                              | NO   |     |       |       |
+| SurfaceArea    | decimal(10,2)                                                                         | NO   |     | 0.00  |       |
+| IndepYear      | smallint(6)                                                                           | YES  |     | NULL  |       |
+| Population     | int(11)                                                                               | NO   |     | 0     |       |
+| LifeExpectancy | decimal(3,1)                                                                          | YES  |     | NULL  |       |
+| GNP            | decimal(10,2)                                                                         | YES  |     | NULL  |       |
+| GNPOld         | decimal(10,2)                                                                         | YES  |     | NULL  |       |
+| LocalName      | char(45)                                                                              | NO   |     |       |       |
+| GovernmentForm | char(45)                                                                              | NO   |     |       |       |
+| HeadOfState    | char(60)                                                                              | YES  |     | NULL  |       |
+| Capital        | int(11)                                                                               | YES  |     | NULL  |       |
+| Code2          | char(2)                                                                               | NO   |     |       |       |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+15 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT * FROM country LIMIT 20;
++------+-----------------------------+---------------+---------------------------+-------------+-----------+------------+----------------+-----------+-----------+-------------------------------------+----------------------------------------------+-----------------------------+---------+-------+
+| Code | Name                        | Continent     | Region                    | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP       | GNPOld    | LocalName                           | GovernmentForm                               | HeadOfState                 | Capital | Code2 |
++------+-----------------------------+---------------+---------------------------+-------------+-----------+------------+----------------+-----------+-----------+-------------------------------------+----------------------------------------------+-----------------------------+---------+-------+
+| ABW  | Aruba                       | North America | Caribbean                 |      193.00 |      NULL |     103000 |     78.4 |    828.00 |    793.00 | Aruba                               | Nonmetropolitan Territory of The Netherlands | Beatrix                     |     129 | AW    |
+| AFG  | Afghanistan                 | Asia          | Southern and Central Asia |   652090.00 |      1919 |   22720000 |     45.9 |   5976.00 |      NULL | Afganistan/Afqanestan               | Islamic Emirate                              | Mohammad Omar               |       1 | AF    |
+| AGO  | Angola                      | Africa        | Central Africa            |  1246700.00 |      1975 |   12878000 |     38.3 |   6648.00 |   7984.00 | Angola                              | Republic                                     | JoséEduardo dos Santos     |      56 | AO    |
+| AIA  | Anguilla                    | North America | Caribbean                 |       96.00 |      NULL |       8000 |     76.1 |     63.20 |      NULL | Anguilla                            | Dependent Territory of the UK                | Elisabeth II                |      62 | AI    |
+| ALB  | Albania                     | Europe        | Southern Europe           |    28748.00 |      1912 |    3401200 |     71.6 |   3205.00 |   2500.00 | Shqipëria                           | Republic                                     | Rexhep Mejdani              |      34 | AL    |
+| AND  | Andorra                     | Europe        | Southern Europe           |      468.00 |      1278 |      78000 |     83.5 |   1630.00 |      NULL | Andorra                             | Parliamentary Coprincipality                 |     |      55 | AD    |
+| ANT  | Netherlands Antilles        | North America | Caribbean                 |      800.00 |      NULL |     217000 |     74.7 |   1941.00 |      NULL | Nederlandse Antillen                | Nonmetropolitan Territory of The Netherlands | Beatrix                     |      33 | AN    |
+| ARE  | United Arab Emirates        | Asia          | Middle East               |    83600.00 |      1971 |    2441000 |     74.1 |  37966.00 |  36846.00 | Al-Imarat al-´Arabiya al-Muttahida  | Emirate Federation                           | Zayid bin Sultan al-Nahayan |      65 | AE    |
+| ARG  | Argentina                   | South America | South America             |  2780400.00 |      1816 |   37032000 |     75.1 | 340238.00 | 323310.00 | Argentina                           | Federal Republic                             | Fernando de la Rúa          |      69 | AR    |
+| ARM  | Armenia                     | Asia          | Middle East               |    29800.00 |      1991 |    3520000 |     66.4 |   1813.00 |   1627.00 | Hajastan                            | Republic                                     | Robert Kotšarjan            |     126 | AM    |
+| ASM  | American Samoa              | Oceania       | Polynesia                 |      199.00 |      NULL |      68000 |     75.1 |    334.00 |      NULL | Amerika Samoa                       | US Territory                                 | George W. Bush              |      54 | AS    |
+| ATA  | Antarctica                  | Antarctica    | Antarctica                | 13120000.00 |      NULL |          0 |     NULL |      0.00 |      NULL | –                                   | Co-administrated                             |     |    NULL | AQ    |
+| ATF  | French Southern territories | Antarctica    | Antarctica                |     7780.00 |      NULL |          0 |     NULL |      0.00 |      NULL | Terres australes françaises         | Nonmetropolitan Territory of France          | Jacques Chirac              |    NULL | TF    |
+| ATG  | Antigua and Barbuda         | North America | Caribbean                 |      442.00 |      1981 |      68000 |     70.5 |    612.00 |    584.00 | Antigua and Barbuda                 | Constitutional Monarchy                      | Elisabeth II                |      63 | AG    |
+| AUS  | Australia                   | Oceania       | Australia and New Zealand |  7741220.00 |      1901 |   18886000 |     79.8 | 351182.00 | 392911.00 | Australia                           | Constitutional Monarchy, Federation          | Elisabeth II                |     135 | AU    |
+| AUT  | Austria                     | Europe        | Western Europe            |    83859.00 |      1918 |    8091800 |     77.7 | 211860.00 | 206025.00 | Österreich                          | Federal Republic                             | Thomas Klestil              |    1523 | AT    |
+| AZE  | Azerbaijan                  | Asia          | Middle East               |    86600.00 |      1991 |    7734000 |     62.9 |   4127.00 |   4100.00 | Azərbaycan                          | Republic                                     | İlham Əliyev                |     144 | AZ    |
+| BDI  | Burundi                     | Africa        | Eastern Africa            |    27834.00 |      1962 |    6695000 |     46.2 |    903.00 |    982.00 | Burundi/Uburundi                    | Republic                                     | Pierre Buyoya               |     552 | BI    |
+| BEL  | Belgium                     | Europe        | Western Europe            |    30518.00 |      1830 |   10239000 |     77.8 | 249704.00 | 243948.00 | België/Belgique                     | Constitutional Monarchy, Federation          | Albert II                   |     179 | BE    |
+| BEN  | Benin                       | Africa        | Western Africa            |   112622.00 |      1960 |    6097000 |     50.2 |   2357.00 |   2141.00 | Bénin                               | Republic                                     | Mathieu Kérékou             |     187 | BJ    |
++------+-----------------------------+---------------+---------------------------+-------------+-----------+------------+----------------+-----------+-----------+-------------------------------------+----------------------------------------------+-----------------------------+---------+-------+
+20 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT a.id, a.name, a.population, b.name
+-> FROM city a
+-> INNER JOIN country b
+-> ON a.countrycode = b.code LIMIT 20;
++-----+------------------+------------+----------------------+
+| id  | name             | population | name                 |
++-----+------------------+------------+----------------------+
+| 129 | Oranjestad       |      29034 | Aruba                |
+|   1 | Kabul            |    1780000 | Afghanistan          |
+|   2 | Qandahar         |     237500 | Afghanistan          |
+|   3 | Herat            |     186800 | Afghanistan          |
+|   4 | Mazar-e-Sharif   |     127800 | Afghanistan          |
+|  56 | Luanda           |    2022000 | Angola               |
+|  57 | Huambo           |     163100 | Angola               |
+|  58 | Lobito           |     130000 | Angola               |
+|  59 | Benguela         |     128300 | Angola               |
+|  60 | Namibe           |     118200 | Angola               |
+|  61 | South Hill       |        961 | Anguilla             |
+|  62 | The Valley       |        595 | Anguilla             |
+|  34 | Tirana           |     270000 | Albania              |
+|  55 | Andorra la Vella |      21189 | Andorra              |
+|  33 | Willemstad       |       2345 | Netherlands Antilles |
+|  64 | Dubai            |     669181 | United Arab Emirates |
+|  65 | Abu Dhabi        |     398695 | United Arab Emirates |
+|  66 | Sharja           |     320095 | United Arab Emirates |
+|  67 | al-Ayn           |     225970 | United Arab Emirates |
+|  68 | Ajman            |     114395 | United Arab Emirates |
++-----+------------------+------------+----------------------+
+20 rows in set (0.000 sec)
+
+MariaDB [world]> DESC country;
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                                                                  | Null | Key | Default | Extra |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Code           | char(3)                                                                               | NO   | PRI |       |       |
+| Name           | char(52)                                                                              | NO   |     |       |       |
+| Continent      | enum('Asia','Europe','North America','Africa','Oceania','Antarctica','South America') | NO   |     | Asia  |       |
+| Region         | char(26)                                                                              | NO   |     |       |       |
+| SurfaceArea    | decimal(10,2)                                                                         | NO   |     | 0.00  |       |
+| IndepYear      | smallint(6)                                                                           | YES  |     | NULL  |       |
+| Population     | int(11)                                                                               | NO   |     | 0     |       |
+| LifeExpectancy | decimal(3,1)                                                                          | YES  |     | NULL  |       |
+| GNP            | decimal(10,2)                                                                         | YES  |     | NULL  |       |
+| GNPOld         | decimal(10,2)                                                                         | YES  |     | NULL  |       |
+| LocalName      | char(45)                                                                              | NO   |     |       |       |
+| GovernmentForm | char(45)                                                                              | NO   |     |       |       |
+| HeadOfState    | char(60)                                                                              | YES  |     | NULL  |       |
+| Capital        | int(11)                                                                               | YES  |     | NULL  |       |
+| Code2          | char(2)                                                                               | NO   |     |       |       |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+15 rows in set (0.001 sec)
+
+MariaDB [world]> DESC countrylanguage;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| CountryCode | char(3)       | NO   | PRI |         |       |
+| Language    | char(30)      | NO   | PRI |         |       |
+| IsOfficial  | enum('T','F') | NO   |     | F       |       |
+| Percentage  | decimal(4,1)  | NO   |     | 0.0     |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT COUNT(*) FROM country;
++----------+
+| COUNT(*) |
++----------+
+|      239 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [world]> SELECT a.name, b.language
+-> FROM country a
+-> INNER JOIN countrylanguage b
+-> ON a.code = b.countrycode;
++---------------------------------------+---------------------------+
+| name                                  | language                  |
++---------------------------------------+---------------------------+
+| Aruba                                 | Dutch                     |
+| Aruba                                 | English                   |
+| Aruba                                 | Papiamento                |
+| Aruba                                 | Spanish                   |
+| Afghanistan                           | Balochi                   |
+| Afghanistan                           | Dari                      |
+| Afghanistan                           | Pashto                    |
+| Afghanistan                           | Turkmenian                |
+| Afghanistan                           | Uzbek                     |
+| Angola                                | Ambo                      |
+| Angola                                | Chokwe                    |
+| Angola                                | Kongo                     |
+| Angola                                | Luchazi                   |
+| Angola                                | Luimbe-nganguela          |
+| Angola                                | Luvale                    |
+| Angola                                | Mbundu                    |
+| Angola                                | Nyaneka-nkhumbi           |
+| Angola                                | Ovimbundu                 |
+| Anguilla                              | English                   |
+| Albania                               | Albaniana                 |
+| Albania                               | Greek                     |
+| Albania                               | Macedonian                |
+| Andorra                               | Catalan                   |
+| Andorra                               | French                    |
+| Andorra                               | Portuguese                |
+| Andorra                               | Spanish                   |
+| Netherlands Antilles                  | Dutch                     |
+| Netherlands Antilles                  | English                   |
+| Netherlands Antilles                  | Papiamento                |
+| United Arab Emirates                  | Arabic                    |
+| United Arab Emirates                  | Hindi                     |
+| Argentina                             | Indian Languages          |
+| Argentina                             | Italian                   |
+| Argentina                             | Spanish                   |
+| Armenia                               | Armenian                  |
+| Armenia                               | Azerbaijani               |
+| American Samoa                        | English                   |
+| American Samoa                        | Samoan                    |
+| American Samoa                        | Tongan                    |
+| Antigua and Barbuda                   | Creole English            |
+| Antigua and Barbuda                   | English                   |
+| Australia                             | Arabic                    |
+| Australia                             | Canton Chinese            |
+| Australia                             | English                   |
+| Australia                             | German                    |
+| Australia                             | Greek                     |
+| Australia                             | Italian                   |
+| Australia                             | Serbo-Croatian            |
+| Australia                             | Vietnamese                |
+| Austria                               | Czech                     |
+| Austria                               | German                    |
+| Austria                               | Hungarian                 |
+| Austria                               | Polish                    |
+| Austria                               | Romanian                  |
+| Austria                               | Serbo-Croatian            |
+| Austria                               | Slovene                   |
+| Austria                               | Turkish                   |
+| Azerbaijan                            | Armenian                  |
+| Azerbaijan                            | Azerbaijani               |
+| Azerbaijan                            | Lezgian                   |
+| Azerbaijan                            | Russian                   |
+| Burundi                               | French                    |
+| Burundi                               | Kirundi                   |
+| Burundi                               | Swahili                   |
+| Belgium                               | Arabic                    |
+| Belgium                               | Dutch                     |
+| Belgium                               | French                    |
+| Belgium                               | German                    |
+| Belgium                               | Italian                   |
+| Belgium                               | Turkish                   |
+| Benin                                 | Adja                      |
+| Benin                                 | Aizo                      |
+| Benin                                 | Bariba                    |
+| Benin                                 | Fon                       |
+| Benin                                 | Ful                       |
+| Benin                                 | Joruba                    |
+| Benin                                 | Somba                     |
+| Burkina Faso                          | Busansi                   |
+| Burkina Faso                          | Dagara                    |
+| Burkina Faso                          | Dyula                     |
+| Burkina Faso                          | Ful                       |
+| Burkina Faso                          | Gurma                     |
+| Burkina Faso                          | Mossi                     |
+| Bangladesh                            | Bengali                   |
+| Bangladesh                            | Chakma                    |
+| Bangladesh                            | Garo                      |
+| Bangladesh                            | Khasi                     |
+| Bangladesh                            | Marma                     |
+| Bangladesh                            | Santhali                  |
+| Bangladesh                            | Tripuri                   |
+| Bulgaria                              | Bulgariana                |
+| Bulgaria                              | Macedonian                |
+| Bulgaria                              | Romani                    |
+| Bulgaria                              | Turkish                   |
+| Bahrain                               | Arabic                    |
+| Bahrain                               | English                   |
+| Bahamas                               | Creole English            |
+| Bahamas                               | Creole French             |
+| Bosnia and Herzegovina                | Serbo-Croatian            |
+| Belarus                               | Belorussian               |
+| Belarus                               | Polish                    |
+| Belarus                               | Russian                   |
+| Belarus                               | Ukrainian                 |
+| Belize                                | English                   |
+| Belize                                | Garifuna                  |
+| Belize                                | Maya Languages            |
+| Belize                                | Spanish                   |
+| Bermuda                               | English                   |
+| Bolivia                               | Aimará                    |
+| Bolivia                               | Guaraní                   |
+| Bolivia                               | Ketšua                    |
+| Bolivia                               | Spanish                   |
+| Brazil                                | German                    |
+| Brazil                                | Indian Languages          |
+| Brazil                                | Italian                   |
+| Brazil                                | Japanese                  |
+| Brazil                                | Portuguese                |
+| Barbados                              | Bajan                     |
+| Barbados                              | English                   |
+| Brunei                                | Chinese                   |
+| Brunei                                | English                   |
+| Brunei                                | Malay                     |
+| Brunei                                | Malay-English             |
+| Bhutan                                | Asami                     |
+| Bhutan                                | Dzongkha                  |
+| Bhutan                                | Nepali                    |
+| Botswana                              | Khoekhoe                  |
+| Botswana                              | Ndebele                   |
+| Botswana                              | San                       |
+| Botswana                              | Shona                     |
+| Botswana                              | Tswana                    |
+| Central African Republic              | Banda                     |
+| Central African Republic              | Gbaya                     |
+| Central African Republic              | Mandjia                   |
+| Central African Republic              | Mbum                      |
+| Central African Republic              | Ngbaka                    |
+| Central African Republic              | Sara                      |
+| Canada                                | Chinese                   |
+| Canada                                | Dutch                     |
+| Canada                                | English                   |
+| Canada                                | Eskimo Languages          |
+| Canada                                | French                    |
+| Canada                                | German                    |
+| Canada                                | Italian                   |
+| Canada                                | Polish                    |
+| Canada                                | Portuguese                |
+| Canada                                | Punjabi                   |
+| Canada                                | Spanish                   |
+| Canada                                | Ukrainian                 |
+| Cocos (Keeling) Islands               | English                   |
+| Cocos (Keeling) Islands               | Malay                     |
+| Switzerland                           | French                    |
+| Switzerland                           | German                    |
+| Switzerland                           | Italian                   |
+| Switzerland                           | Romansh                   |
+| Chile                                 | Aimará                    |
+| Chile                                 | Araucan                   |
+| Chile                                 | Rapa nui                  |
+| Chile                                 | Spanish                   |
+| China                                 | Chinese                   |
+| China                                 | Dong                      |
+| China                                 | Hui                       |
+| China                                 | Mantšu                    |
+| China                                 | Miao                      |
+| China                                 | Mongolian                 |
+| China                                 | Puyi                      |
+| China                                 | Tibetan                   |
+| China                                 | Tujia                     |
+| China                                 | Uighur                    |
+| China                                 | Yi                        |
+| China                                 | Zhuang                    |
+| Côte d’Ivoire                         | [South]Mande              |
+| Côte d’Ivoire                         | Akan                      |
+| Côte d’Ivoire                         | Gur                       |
+| Côte d’Ivoire                         | Kru                       |
+| Côte d’Ivoire                         | Malinke                   |
+| Cameroon                              | Bamileke-bamum            |
+| Cameroon                              | Duala                     |
+| Cameroon                              | Fang                      |
+| Cameroon                              | Ful                       |
+| Cameroon                              | Maka                      |
+| Cameroon                              | Mandara                   |
+| Cameroon                              | Masana                    |
+| Cameroon                              | Tikar                     |
+| Congo, The Democratic Republic of the | Boa                       |
+| Congo, The Democratic Republic of the | Chokwe                    |
+| Congo, The Democratic Republic of the | Kongo                     |
+| Congo, The Democratic Republic of the | Luba                      |
+| Congo, The Democratic Republic of the | Mongo                     |
+| Congo, The Democratic Republic of the | Ngala and Bangi           |
+| Congo, The Democratic Republic of the | Rundi                     |
+| Congo, The Democratic Republic of the | Rwanda                    |
+| Congo, The Democratic Republic of the | Teke                      |
+| Congo, The Democratic Republic of the | Zande                     |
+| Congo                                 | Kongo                     |
+| Congo                                 | Mbete                     |
+| Congo                                 | Mboshi                    |
+| Congo                                 | Punu                      |
+| Congo                                 | Sango                     |
+| Congo                                 | Teke                      |
+| Cook Islands                          | English                   |
+| Cook Islands                          | Maori                     |
+| Colombia                              | Arawakan                  |
+| Colombia                              | Caribbean                 |
+| Colombia                              | Chibcha                   |
+| Colombia                              | Creole English            |
+| Colombia                              | Spanish                   |
+| Comoros                               | Comorian                  |
+| Comoros                               | Comorian-Arabic           |
+| Comoros                               | Comorian-French           |
+| Comoros                               | Comorian-madagassi        |
+| Comoros                               | Comorian-Swahili          |
+| Cape Verde                            | Crioulo                   |
+| Cape Verde                            | Portuguese                |
+| Costa Rica                            | Chibcha                   |
+| Costa Rica                            | Chinese                   |
+| Costa Rica                            | Creole English            |
+| Costa Rica                            | Spanish                   |
+| Cuba                                  | Spanish                   |
+| Christmas Island                      | Chinese                   |
+| Christmas Island                      | English                   |
+| Cayman Islands                        | English                   |
+| Cyprus                                | Greek                     |
+| Cyprus                                | Turkish                   |
+| Czech Republic                        | Czech                     |
+| Czech Republic                        | German                    |
+| Czech Republic                        | Hungarian                 |
+| Czech Republic                        | Moravian                  |
+| Czech Republic                        | Polish                    |
+| Czech Republic                        | Romani                    |
+| Czech Republic                        | Silesiana                 |
+| Czech Republic                        | Slovak                    |
+| Germany                               | German                    |
+| Germany                               | Greek                     |
+| Germany                               | Italian                   |
+| Germany                               | Polish                    |
+| Germany                               | Southern Slavic Languages |
+| Germany                               | Turkish                   |
+| Djibouti                              | Afar                      |
+| Djibouti                              | Arabic                    |
+| Djibouti                              | Somali                    |
+| Dominica                              | Creole English            |
+| Dominica                              | Creole French             |
+| Denmark                               | Arabic                    |
+| Denmark                               | Danish                    |
+| Denmark                               | English                   |
+| Denmark                               | German                    |
+| Denmark                               | Norwegian                 |
+| Denmark                               | Swedish                   |
+| Denmark                               | Turkish                   |
+| Dominican Republic                    | Creole French             |
+| Dominican Republic                    | Spanish                   |
+| Algeria                               | Arabic                    |
+| Algeria                               | Berberi                   |
+| Ecuador                               | Ketšua                    |
+| Ecuador                               | Spanish                   |
+| Egypt                                 | Arabic                    |
+| Egypt                                 | Sinaberberi               |
+| Eritrea                               | Afar                      |
+| Eritrea                               | Bilin                     |
+| Eritrea                               | Hadareb                   |
+| Eritrea                               | Saho                      |
+| Eritrea                               | Tigre                     |
+| Eritrea                               | Tigrinja                  |
+| Western Sahara                        | Arabic                    |
+| Spain                                 | Basque                    |
+| Spain                                 | Catalan                   |
+| Spain                                 | Galecian                  |
+| Spain                                 | Spanish                   |
+| Estonia                               | Belorussian               |
+| Estonia                               | Estonian                  |
+| Estonia                               | Finnish                   |
+| Estonia                               | Russian                   |
+| Estonia                               | Ukrainian                 |
+| Ethiopia                              | Amhara                    |
+| Ethiopia                              | Gurage                    |
+| Ethiopia                              | Oromo                     |
+| Ethiopia                              | Sidamo                    |
+| Ethiopia                              | Somali                    |
+| Ethiopia                              | Tigrinja                  |
+| Ethiopia                              | Walaita                   |
+| Finland                               | Estonian                  |
+| Finland                               | Finnish                   |
+| Finland                               | Russian                   |
+| Finland                               | Saame                     |
+| Finland                               | Swedish                   |
+| Fiji Islands                          | Fijian                    |
+| Fiji Islands                          | Hindi                     |
+| Falkland Islands                      | English                   |
+| France                                | Arabic                    |
+| France                                | French                    |
+| France                                | Italian                   |
+| France                                | Portuguese                |
+| France                                | Spanish                   |
+| France                                | Turkish                   |
+| Faroe Islands                         | Danish                    |
+| Faroe Islands                         | Faroese                   |
+| Micronesia, Federated States of       | Kosrean                   |
+| Micronesia, Federated States of       | Mortlock                  |
+| Micronesia, Federated States of       | Pohnpei                   |
+| Micronesia, Federated States of       | Trukese                   |
+| Micronesia, Federated States of       | Wolea                     |
+| Micronesia, Federated States of       | Yap                       |
+| Gabon                                 | Fang                      |
+| Gabon                                 | Mbete                     |
+| Gabon                                 | Mpongwe                   |
+| Gabon                                 | Punu-sira-nzebi           |
+| United Kingdom                        | English                   |
+| United Kingdom                        | Gaeli                     |
+| United Kingdom                        | Kymri                     |
+| Georgia                               | Abhyasi                   |
+| Georgia                               | Armenian                  |
+| Georgia                               | Azerbaijani               |
+| Georgia                               | Georgiana                 |
+| Georgia                               | Osseetti                  |
+| Georgia                               | Russian                   |
+| Ghana                                 | Akan                      |
+| Ghana                                 | Ewe                       |
+| Ghana                                 | Ga-adangme                |
+| Ghana                                 | Gurma                     |
+| Ghana                                 | Joruba                    |
+| Ghana                                 | Mossi                     |
+| Gibraltar                             | Arabic                    |
+| Gibraltar                             | English                   |
+| Guinea                                | Ful                       |
+| Guinea                                | Kissi                     |
+| Guinea                                | Kpelle                    |
+| Guinea                                | Loma                      |
+| Guinea                                | Malinke                   |
+| Guinea                                | Susu                      |
+| Guinea                                | Yalunka                   |
+| Guadeloupe                            | Creole French             |
+| Guadeloupe                            | French                    |
+| Gambia                                | Diola                     |
+| Gambia                                | Ful                       |
+| Gambia                                | Malinke                   |
+| Gambia                                | Soninke                   |
+| Gambia                                | Wolof                     |
+| Guinea-Bissau                         | Balante                   |
+| Guinea-Bissau                         | Crioulo                   |
+| Guinea-Bissau                         | Ful                       |
+| Guinea-Bissau                         | Malinke                   |
+| Guinea-Bissau                         | Mandyako                  |
+| Guinea-Bissau                         | Portuguese                |
+| Equatorial Guinea                     | Bubi                      |
+| Equatorial Guinea                     | Fang                      |
+| Greece                                | Greek                     |
+| Greece                                | Turkish                   |
+| Grenada                               | Creole English            |
+| Greenland                             | Danish                    |
+| Greenland                             | Greenlandic               |
+| Guatemala                             | Cakchiquel                |
+| Guatemala                             | Kekchí                    |
+| Guatemala                             | Mam                       |
+| Guatemala                             | Quiché                    |
+| Guatemala                             | Spanish                   |
+| French Guiana                         | Creole French             |
+| French Guiana                         | Indian Languages          |
+| Guam                                  | Chamorro                  |
+| Guam                                  | English                   |
+| Guam                                  | Japanese                  |
+| Guam                                  | Korean                    |
+| Guam                                  | Philippene Languages      |
+| Guyana                                | Arawakan                  |
+| Guyana                                | Caribbean                 |
+| Guyana                                | Creole English            |
+| Hong Kong                             | Canton Chinese            |
+| Hong Kong                             | Chiu chau                 |
+| Hong Kong                             | English                   |
+| Hong Kong                             | Fukien                    |
+| Hong Kong                             | Hakka                     |
+| Honduras                              | Creole English            |
+| Honduras                              | Garifuna                  |
+| Honduras                              | Miskito                   |
+| Honduras                              | Spanish                   |
+| Croatia                               | Serbo-Croatian            |
+| Croatia                               | Slovene                   |
+| Haiti                                 | French                    |
+| Haiti                                 | Haiti Creole              |
+| Hungary                               | German                    |
+| Hungary                               | Hungarian                 |
+| Hungary                               | Romani                    |
+| Hungary                               | Romanian                  |
+| Hungary                               | Serbo-Croatian            |
+| Hungary                               | Slovak                    |
+| Indonesia                             | Bali                      |
+| Indonesia                             | Banja                     |
+| Indonesia                             | Batakki                   |
+| Indonesia                             | Bugi                      |
+| Indonesia                             | Javanese                  |
+| Indonesia                             | Madura                    |
+| Indonesia                             | Malay                     |
+| Indonesia                             | Minangkabau               |
+| Indonesia                             | Sunda                     |
+| India                                 | Asami                     |
+| India                                 | Bengali                   |
+| India                                 | Gujarati                  |
+| India                                 | Hindi                     |
+| India                                 | Kannada                   |
+| India                                 | Malajalam                 |
+| India                                 | Marathi                   |
+| India                                 | Orija                     |
+| India                                 | Punjabi                   |
+| India                                 | Tamil                     |
+| India                                 | Telugu                    |
+| India                                 | Urdu                      |
+| Ireland                               | English                   |
+| Ireland                               | Irish                     |
+| Iran                                  | Arabic                    |
+| Iran                                  | Azerbaijani               |
+| Iran                                  | Bakhtyari                 |
+| Iran                                  | Balochi                   |
+| Iran                                  | Gilaki                    |
+| Iran                                  | Kurdish                   |
+| Iran                                  | Luri                      |
+| Iran                                  | Mazandarani               |
+| Iran                                  | Persian                   |
+| Iran                                  | Turkmenian                |
+| Iraq                                  | Arabic                    |
+| Iraq                                  | Assyrian                  |
+| Iraq                                  | Azerbaijani               |
+| Iraq                                  | Kurdish                   |
+| Iraq                                  | Persian                   |
+| Iceland                               | English                   |
+| Iceland                               | Icelandic                 |
+| Israel                                | Arabic                    |
+| Israel                                | Hebrew                    |
+| Israel                                | Russian                   |
+| Italy                                 | Albaniana                 |
+| Italy                                 | French                    |
+| Italy                                 | Friuli                    |
+| Italy                                 | German                    |
+| Italy                                 | Italian                   |
+| Italy                                 | Romani                    |
+| Italy                                 | Sardinian                 |
+| Italy                                 | Slovene                   |
+| Jamaica                               | Creole English            |
+| Jamaica                               | Hindi                     |
+| Jordan                                | Arabic                    |
+| Jordan                                | Armenian                  |
+| Jordan                                | Circassian                |
+| Japan                                 | Ainu                      |
+| Japan                                 | Chinese                   |
+| Japan                                 | English                   |
+| Japan                                 | Japanese                  |
+| Japan                                 | Korean                    |
+| Japan                                 | Philippene Languages      |
+| Kazakstan                             | German                    |
+| Kazakstan                             | Kazakh                    |
+| Kazakstan                             | Russian                   |
+| Kazakstan                             | Tatar                     |
+| Kazakstan                             | Ukrainian                 |
+| Kazakstan                             | Uzbek                     |
+| Kenya                                 | Gusii                     |
+| Kenya                                 | Kalenjin                  |
+| Kenya                                 | Kamba                     |
+| Kenya                                 | Kikuyu                    |
+| Kenya                                 | Luhya                     |
+| Kenya                                 | Luo                       |
+| Kenya                                 | Masai                     |
+| Kenya                                 | Meru                      |
+| Kenya                                 | Nyika                     |
+| Kenya                                 | Turkana                   |
+| Kyrgyzstan                            | Kazakh                    |
+| Kyrgyzstan                            | Kirgiz                    |
+| Kyrgyzstan                            | Russian                   |
+| Kyrgyzstan                            | Tadzhik                   |
+| Kyrgyzstan                            | Tatar                     |
+| Kyrgyzstan                            | Ukrainian                 |
+| Kyrgyzstan                            | Uzbek                     |
+| Cambodia                              | Chinese                   |
+| Cambodia                              | Khmer                     |
+| Cambodia                              | Tšam                      |
+| Cambodia                              | Vietnamese                |
+| Kiribati                              | Kiribati                  |
+| Kiribati                              | Tuvalu                    |
+| Saint Kitts and Nevis                 | Creole English            |
+| Saint Kitts and Nevis                 | English                   |
+| South Korea                           | Chinese                   |
+| South Korea                           | Korean                    |
+| Kuwait                                | Arabic                    |
+| Kuwait                                | English                   |
+| Laos                                  | Lao                       |
+| Laos                                  | Lao-Soung                 |
+| Laos                                  | Mon-khmer                 |
+| Laos                                  | Thai                      |
+| Lebanon                               | Arabic                    |
+| Lebanon                               | Armenian                  |
+| Lebanon                               | French                    |
+| Liberia                               | Bassa                     |
+| Liberia                               | Gio                       |
+| Liberia                               | Grebo                     |
+| Liberia                               | Kpelle                    |
+| Liberia                               | Kru                       |
+| Liberia                               | Loma                      |
+| Liberia                               | Malinke                   |
+| Liberia                               | Mano                      |
+| Libyan Arab Jamahiriya                | Arabic                    |
+| Libyan Arab Jamahiriya                | Berberi                   |
+| Saint Lucia                           | Creole French             |
+| Saint Lucia                           | English                   |
+| Liechtenstein                         | German                    |
+| Liechtenstein                         | Italian                   |
+| Liechtenstein                         | Turkish                   |
+| Sri Lanka                             | Mixed Languages           |
+| Sri Lanka                             | Singali                   |
+| Sri Lanka                             | Tamil                     |
+| Lesotho                               | English                   |
+| Lesotho                               | Sotho                     |
+| Lesotho                               | Zulu                      |
+| Lithuania                             | Belorussian               |
+| Lithuania                             | Lithuanian                |
+| Lithuania                             | Polish                    |
+| Lithuania                             | Russian                   |
+| Lithuania                             | Ukrainian                 |
+| Luxembourg                            | French                    |
+| Luxembourg                            | German                    |
+| Luxembourg                            | Italian                   |
+| Luxembourg                            | Luxembourgish             |
+| Luxembourg                            | Portuguese                |
+| Latvia                                | Belorussian               |
+| Latvia                                | Latvian                   |
+| Latvia                                | Lithuanian                |
+| Latvia                                | Polish                    |
+| Latvia                                | Russian                   |
+| Latvia                                | Ukrainian                 |
+| Macao                                 | Canton Chinese            |
+| Macao                                 | English                   |
+| Macao                                 | Mandarin Chinese          |
+| Macao                                 | Portuguese                |
+| Morocco                               | Arabic                    |
+| Morocco                               | Berberi                   |
+| Monaco                                | English                   |
+| Monaco                                | French                    |
+| Monaco                                | Italian                   |
+| Monaco                                | Monegasque                |
+| Moldova                               | Bulgariana                |
+| Moldova                               | Gagauzi                   |
+| Moldova                               | Romanian                  |
+| Moldova                               | Russian                   |
+| Moldova                               | Ukrainian                 |
+| Madagascar                            | French                    |
+| Madagascar                            | Malagasy                  |
+| Maldives                              | Dhivehi                   |
+| Maldives                              | English                   |
+| Mexico                                | Mixtec                    |
+| Mexico                                | Náhuatl                   |
+| Mexico                                | Otomí                     |
+| Mexico                                | Spanish                   |
+| Mexico                                | Yucatec                   |
+| Mexico                                | Zapotec                   |
+| Marshall Islands                      | English                   |
+| Marshall Islands                      | Marshallese               |
+| Macedonia                             | Albaniana                 |
+| Macedonia                             | Macedonian                |
+| Macedonia                             | Romani                    |
+| Macedonia                             | Serbo-Croatian            |
+| Macedonia                             | Turkish                   |
+| Mali                                  | Bambara                   |
+| Mali                                  | Ful                       |
+| Mali                                  | Senufo and Minianka       |
+| Mali                                  | Songhai                   |
+| Mali                                  | Soninke                   |
+| Mali                                  | Tamashek                  |
+| Malta                                 | English                   |
+| Malta                                 | Maltese                   |
+| Myanmar                               | Burmese                   |
+| Myanmar                               | Chin                      |
+| Myanmar                               | Kachin                    |
+| Myanmar                               | Karen                     |
+| Myanmar                               | Kayah                     |
+| Myanmar                               | Mon                       |
+| Myanmar                               | Rakhine                   |
+| Myanmar                               | Shan                      |
+| Mongolia                              | Bajad                     |
+| Mongolia                              | Buryat                    |
+| Mongolia                              | Dariganga                 |
+| Mongolia                              | Dorbet                    |
+| Mongolia                              | Kazakh                    |
+| Mongolia                              | Mongolian                 |
+| Northern Mariana Islands              | Carolinian                |
+| Northern Mariana Islands              | Chamorro                  |
+| Northern Mariana Islands              | Chinese                   |
+| Northern Mariana Islands              | English                   |
+| Northern Mariana Islands              | Korean                    |
+| Northern Mariana Islands              | Philippene Languages      |
+| Mozambique                            | Chuabo                    |
+| Mozambique                            | Lomwe                     |
+| Mozambique                            | Makua                     |
+| Mozambique                            | Marendje                  |
+| Mozambique                            | Nyanja                    |
+| Mozambique                            | Ronga                     |
+| Mozambique                            | Sena                      |
+| Mozambique                            | Shona                     |
+| Mozambique                            | Tsonga                    |
+| Mozambique                            | Tswa                      |
+| Mauritania                            | Ful                       |
+| Mauritania                            | Hassaniya                 |
+| Mauritania                            | Soninke                   |
+| Mauritania                            | Tukulor                   |
+| Mauritania                            | Wolof                     |
+| Mauritania                            | Zenaga                    |
+| Montserrat                            | English                   |
+| Martinique                            | Creole French             |
+| Martinique                            | French                    |
+| Mauritius                             | Bhojpuri                  |
+| Mauritius                             | Creole French             |
+| Mauritius                             | French                    |
+| Mauritius                             | Hindi                     |
+| Mauritius                             | Marathi                   |
+| Mauritius                             | Tamil                     |
+| Malawi                                | Chichewa                  |
+| Malawi                                | Lomwe                     |
+| Malawi                                | Ngoni                     |
+| Malawi                                | Yao                       |
+| Malaysia                              | Chinese                   |
+| Malaysia                              | Dusun                     |
+| Malaysia                              | English                   |
+| Malaysia                              | Iban                      |
+| Malaysia                              | Malay                     |
+| Malaysia                              | Tamil                     |
+| Mayotte                               | French                    |
+| Mayotte                               | Mahoré                    |
+| Mayotte                               | Malagasy                  |
+| Namibia                               | Afrikaans                 |
+| Namibia                               | Caprivi                   |
+| Namibia                               | German                    |
+| Namibia                               | Herero                    |
+| Namibia                               | Kavango                   |
+| Namibia                               | Nama                      |
+| Namibia                               | Ovambo                    |
+| Namibia                               | San                       |
+| New Caledonia                         | French                    |
+| New Caledonia                         | Malenasian Languages      |
+| New Caledonia                         | Polynesian Languages      |
+| Niger                                 | Ful                       |
+| Niger                                 | Hausa                     |
+| Niger                                 | Kanuri                    |
+| Niger                                 | Songhai-zerma             |
+| Niger                                 | Tamashek                  |
+| Norfolk Island                        | English                   |
+| Nigeria                               | Bura                      |
+| Nigeria                               | Edo                       |
+| Nigeria                               | Ful                       |
+| Nigeria                               | Hausa                     |
+| Nigeria                               | Ibibio                    |
+| Nigeria                               | Ibo                       |
+| Nigeria                               | Ijo                       |
+| Nigeria                               | Joruba                    |
+| Nigeria                               | Kanuri                    |
+| Nigeria                               | Tiv                       |
+| Nicaragua                             | Creole English            |
+| Nicaragua                             | Miskito                   |
+| Nicaragua                             | Spanish                   |
+| Nicaragua                             | Sumo                      |
+| Niue                                  | English                   |
+| Niue                                  | Niue                      |
+| Netherlands                           | Arabic                    |
+| Netherlands                           | Dutch                     |
+| Netherlands                           | Fries                     |
+| Netherlands                           | Turkish                   |
+| Norway                                | Danish                    |
+| Norway                                | English                   |
+| Norway                                | Norwegian                 |
+| Norway                                | Saame                     |
+| Norway                                | Swedish                   |
+| Nepal                                 | Bhojpuri                  |
+| Nepal                                 | Hindi                     |
+| Nepal                                 | Maithili                  |
+| Nepal                                 | Nepali                    |
+| Nepal                                 | Newari                    |
+| Nepal                                 | Tamang                    |
+| Nepal                                 | Tharu                     |
+| Nauru                                 | Chinese                   |
+| Nauru                                 | English                   |
+| Nauru                                 | Kiribati                  |
+| Nauru                                 | Nauru                     |
+| Nauru                                 | Tuvalu                    |
+| New Zealand                           | English                   |
+| New Zealand                           | Maori                     |
+| Oman                                  | Arabic                    |
+| Oman                                  | Balochi                   |
+| Pakistan                              | Balochi                   |
+| Pakistan                              | Brahui                    |
+| Pakistan                              | Hindko                    |
+| Pakistan                              | Pashto                    |
+| Pakistan                              | Punjabi                   |
+| Pakistan                              | Saraiki                   |
+| Pakistan                              | Sindhi                    |
+| Pakistan                              | Urdu                      |
+| Panama                                | Arabic                    |
+| Panama                                | Creole English            |
+| Panama                                | Cuna                      |
+| Panama                                | Embera                    |
+| Panama                                | Guaymí                    |
+| Panama                                | Spanish                   |
+| Pitcairn                              | Pitcairnese               |
+| Peru                                  | Aimará                    |
+| Peru                                  | Ketšua                    |
+| Peru                                  | Spanish                   |
+| Philippines                           | Bicol                     |
+| Philippines                           | Cebuano                   |
+| Philippines                           | Hiligaynon                |
+| Philippines                           | Ilocano                   |
+| Philippines                           | Maguindanao               |
+| Philippines                           | Maranao                   |
+| Philippines                           | Pampango                  |
+| Philippines                           | Pangasinan                |
+| Philippines                           | Pilipino                  |
+| Philippines                           | Waray-waray               |
+| Palau                                 | Chinese                   |
+| Palau                                 | English                   |
+| Palau                                 | Palau                     |
+| Palau                                 | Philippene Languages      |
+| Papua New Guinea                      | Malenasian Languages      |
+| Papua New Guinea                      | Papuan Languages          |
+| Poland                                | Belorussian               |
+| Poland                                | German                    |
+| Poland                                | Polish                    |
+| Poland                                | Ukrainian                 |
+| Puerto Rico                           | English                   |
+| Puerto Rico                           | Spanish                   |
+| North Korea                           | Chinese                   |
+| North Korea                           | Korean                    |
+| Portugal                              | Portuguese                |
+| Paraguay                              | German                    |
+| Paraguay                              | Guaraní                   |
+| Paraguay                              | Portuguese                |
+| Paraguay                              | Spanish                   |
+| Palestine                             | Arabic                    |
+| Palestine                             | Hebrew                    |
+| French Polynesia                      | Chinese                   |
+| French Polynesia                      | French                    |
+| French Polynesia                      | Tahitian                  |
+| Qatar                                 | Arabic                    |
+| Qatar                                 | Urdu                      |
+| Réunion                               | Chinese                   |
+| Réunion                               | Comorian                  |
+| Réunion                               | Creole French             |
+| Réunion                               | Malagasy                  |
+| Réunion                               | Tamil                     |
+| Romania                               | German                    |
+| Romania                               | Hungarian                 |
+| Romania                               | Romani                    |
+| Romania                               | Romanian                  |
+| Romania                               | Serbo-Croatian            |
+| Romania                               | Ukrainian                 |
+| Russian Federation                    | Avarian                   |
+| Russian Federation                    | Bashkir                   |
+| Russian Federation                    | Belorussian               |
+| Russian Federation                    | Chechen                   |
+| Russian Federation                    | Chuvash                   |
+| Russian Federation                    | Kazakh                    |
+| Russian Federation                    | Mari                      |
+| Russian Federation                    | Mordva                    |
+| Russian Federation                    | Russian                   |
+| Russian Federation                    | Tatar                     |
+| Russian Federation                    | Udmur                     |
+| Russian Federation                    | Ukrainian                 |
+| Rwanda                                | French                    |
+| Rwanda                                | Rwanda                    |
+| Saudi Arabia                          | Arabic                    |
+| Sudan                                 | Arabic                    |
+| Sudan                                 | Bari                      |
+| Sudan                                 | Beja                      |
+| Sudan                                 | Chilluk                   |
+| Sudan                                 | Dinka                     |
+| Sudan                                 | Fur                       |
+| Sudan                                 | Lotuko                    |
+| Sudan                                 | Nubian Languages          |
+| Sudan                                 | Nuer                      |
+| Sudan                                 | Zande                     |
+| Senegal                               | Diola                     |
+| Senegal                               | Ful                       |
+| Senegal                               | Malinke                   |
+| Senegal                               | Serer                     |
+| Senegal                               | Soninke                   |
+| Senegal                               | Wolof                     |
+| Singapore                             | Chinese                   |
+| Singapore                             | Malay                     |
+| Singapore                             | Tamil                     |
+| Saint Helena                          | English                   |
+| Svalbard and Jan Mayen                | Norwegian                 |
+| Svalbard and Jan Mayen                | Russian                   |
+| Solomon Islands                       | Malenasian Languages      |
+| Solomon Islands                       | Papuan Languages          |
+| Solomon Islands                       | Polynesian Languages      |
+| Sierra Leone                          | Bullom-sherbro            |
+| Sierra Leone                          | Ful                       |
+| Sierra Leone                          | Kono-vai                  |
+| Sierra Leone                          | Kuranko                   |
+| Sierra Leone                          | Limba                     |
+| Sierra Leone                          | Mende                     |
+| Sierra Leone                          | Temne                     |
+| Sierra Leone                          | Yalunka                   |
+| El Salvador                           | Nahua                     |
+| El Salvador                           | Spanish                   |
+| San Marino                            | Italian                   |
+| Somalia                               | Arabic                    |
+| Somalia                               | Somali                    |
+| Saint Pierre and Miquelon             | French                    |
+| Sao Tome and Principe                 | Crioulo                   |
+| Sao Tome and Principe                 | French                    |
+| Suriname                              | Hindi                     |
+| Suriname                              | Sranantonga               |
+| Slovakia                              | Czech and Moravian        |
+| Slovakia                              | Hungarian                 |
+| Slovakia                              | Romani                    |
+| Slovakia                              | Slovak                    |
+| Slovakia                              | Ukrainian and Russian     |
+| Slovenia                              | Hungarian                 |
+| Slovenia                              | Serbo-Croatian            |
+| Slovenia                              | Slovene                   |
+| Sweden                                | Arabic                    |
+| Sweden                                | Finnish                   |
+| Sweden                                | Norwegian                 |
+| Sweden                                | Southern Slavic Languages |
+| Sweden                                | Spanish                   |
+| Sweden                                | Swedish                   |
+| Swaziland                             | Swazi                     |
+| Swaziland                             | Zulu                      |
+| Seychelles                            | English                   |
+| Seychelles                            | French                    |
+| Seychelles                            | Seselwa                   |
+| Syria                                 | Arabic                    |
+| Syria                                 | Kurdish                   |
+| Turks and Caicos Islands              | English                   |
+| Chad                                  | Arabic                    |
+| Chad                                  | Gorane                    |
+| Chad                                  | Hadjarai                  |
+| Chad                                  | Kanem-bornu               |
+| Chad                                  | Mayo-kebbi                |
+| Chad                                  | Ouaddai                   |
+| Chad                                  | Sara                      |
+| Chad                                  | Tandjile                  |
+| Togo                                  | Ane                       |
+| Togo                                  | Ewe                       |
+| Togo                                  | Gurma                     |
+| Togo                                  | Kabyé                     |
+| Togo                                  | Kotokoli                  |
+| Togo                                  | Moba                      |
+| Togo                                  | Naudemba                  |
+| Togo                                  | Watyi                     |
+| Thailand                              | Chinese                   |
+| Thailand                              | Khmer                     |
+| Thailand                              | Kuy                       |
+| Thailand                              | Lao                       |
+| Thailand                              | Malay                     |
+| Thailand                              | Thai                      |
+| Tajikistan                            | Russian                   |
+| Tajikistan                            | Tadzhik                   |
+| Tajikistan                            | Uzbek                     |
+| Tokelau                               | English                   |
+| Tokelau                               | Tokelau                   |
+| Turkmenistan                          | Kazakh                    |
+| Turkmenistan                          | Russian                   |
+| Turkmenistan                          | Turkmenian                |
+| Turkmenistan                          | Uzbek                     |
+| East Timor                            | Portuguese                |
+| East Timor                            | Sunda                     |
+| Tonga                                 | English                   |
+| Tonga                                 | Tongan                    |
+| Trinidad and Tobago                   | Creole English            |
+| Trinidad and Tobago                   | English                   |
+| Trinidad and Tobago                   | Hindi                     |
+| Tunisia                               | Arabic                    |
+| Tunisia                               | Arabic-French             |
+| Tunisia                               | Arabic-French-English     |
+| Turkey                                | Arabic                    |
+| Turkey                                | Kurdish                   |
+| Turkey                                | Turkish                   |
+| Tuvalu                                | English                   |
+| Tuvalu                                | Kiribati                  |
+| Tuvalu                                | Tuvalu                    |
+| Taiwan                                | Ami                       |
+| Taiwan                                | Atayal                    |
+| Taiwan                                | Hakka                     |
+| Taiwan                                | Mandarin Chinese          |
+| Taiwan                                | Min                       |
+| Taiwan                                | Paiwan                    |
+| Tanzania                              | Chaga and Pare            |
+| Tanzania                              | Gogo                      |
+| Tanzania                              | Ha                        |
+| Tanzania                              | Haya                      |
+| Tanzania                              | Hehet                     |
+| Tanzania                              | Luguru                    |
+| Tanzania                              | Makonde                   |
+| Tanzania                              | Nyakusa                   |
+| Tanzania                              | Nyamwesi                  |
+| Tanzania                              | Shambala                  |
+| Tanzania                              | Swahili                   |
+| Uganda                                | Acholi                    |
+| Uganda                                | Ganda                     |
+| Uganda                                | Gisu                      |
+| Uganda                                | Kiga                      |
+| Uganda                                | Lango                     |
+| Uganda                                | Lugbara                   |
+| Uganda                                | Nkole                     |
+| Uganda                                | Rwanda                    |
+| Uganda                                | Soga                      |
+| Uganda                                | Teso                      |
+| Ukraine                               | Belorussian               |
+| Ukraine                               | Bulgariana                |
+| Ukraine                               | Hungarian                 |
+| Ukraine                               | Polish                    |
+| Ukraine                               | Romanian                  |
+| Ukraine                               | Russian                   |
+| Ukraine                               | Ukrainian                 |
+| United States Minor Outlying Islands  | English                   |
+| Uruguay                               | Spanish                   |
+| United States                         | Chinese                   |
+| United States                         | English                   |
+| United States                         | French                    |
+| United States                         | German                    |
+| United States                         | Italian                   |
+| United States                         | Japanese                  |
+| United States                         | Korean                    |
+| United States                         | Polish                    |
+| United States                         | Portuguese                |
+| United States                         | Spanish                   |
+| United States                         | Tagalog                   |
+| United States                         | Vietnamese                |
+| Uzbekistan                            | Karakalpak                |
+| Uzbekistan                            | Kazakh                    |
+| Uzbekistan                            | Russian                   |
+| Uzbekistan                            | Tadzhik                   |
+| Uzbekistan                            | Tatar                     |
+| Uzbekistan                            | Uzbek                     |
+| Holy See (Vatican City State)         | Italian                   |
+| Saint Vincent and the Grenadines      | Creole English            |
+| Saint Vincent and the Grenadines      | English                   |
+| Venezuela                             | Goajiro                   |
+| Venezuela                             | Spanish                   |
+| Venezuela                             | Warrau                    |
+| Virgin Islands, British               | English                   |
+| Virgin Islands, U.S.                  | English                   |
+| Virgin Islands, U.S.                  | French                    |
+| Virgin Islands, U.S.                  | Spanish                   |
+| Vietnam                               | Chinese                   |
+| Vietnam                               | Khmer                     |
+| Vietnam                               | Man                       |
+| Vietnam                               | Miao                      |
+| Vietnam                               | Muong                     |
+| Vietnam                               | Nung                      |
+| Vietnam                               | Thai                      |
+| Vietnam                               | Tho                       |
+| Vietnam                               | Vietnamese                |
+| Vanuatu                               | Bislama                   |
+| Vanuatu                               | English                   |
+| Vanuatu                               | French                    |
+| Wallis and Futuna                     | Futuna                    |
+| Wallis and Futuna                     | Wallis                    |
+| Samoa                                 | English                   |
+| Samoa                                 | Samoan                    |
+| Samoa                                 | Samoan-English            |
+| Yemen                                 | Arabic                    |
+| Yemen                                 | Soqutri                   |
+| Yugoslavia                            | Albaniana                 |
+| Yugoslavia                            | Hungarian                 |
+| Yugoslavia                            | Macedonian                |
+| Yugoslavia                            | Romani                    |
+| Yugoslavia                            | Serbo-Croatian            |
+| Yugoslavia                            | Slovak                    |
+| South Africa                          | Afrikaans                 |
+| South Africa                          | English                   |
+| South Africa                          | Ndebele                   |
+| South Africa                          | Northsotho                |
+| South Africa                          | Southsotho                |
+| South Africa                          | Swazi                     |
+| South Africa                          | Tsonga                    |
+| South Africa                          | Tswana                    |
+| South Africa                          | Venda                     |
+| South Africa                          | Xhosa                     |
+| South Africa                          | Zulu                      |
+| Zambia                                | Bemba                     |
+| Zambia                                | Chewa                     |
+| Zambia                                | Lozi                      |
+| Zambia                                | Nsenga                    |
+| Zambia                                | Nyanja                    |
+| Zambia                                | Tonga                     |
+| Zimbabwe                              | English                   |
+| Zimbabwe                              | Ndebele                   |
+| Zimbabwe                              | Nyanja                    |
+| Zimbabwe                              | Shona                     |
++---------------------------------------+---------------------------+
+984 rows in set (0.002 sec)
+
+MariaDB [world]> DESC city;
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int(11)  | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int(11)  | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [world]> DESC country;
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                                                                  | Null | Key | Default | Extra |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Code           | char(3)                                                                               | NO   | PRI |       |       |
+| Name           | char(52)                                                                              | NO   |     |       |       |
+| Continent      | enum('Asia','Europe','North America','Africa','Oceania','Antarctica','South America') | NO   |     | Asia  |       |
+| Region         | char(26)                                                                              | NO   |     |       |       |
+| SurfaceArea    | decimal(10,2)                                                                         | NO   |     | 0.00  |       |
+| IndepYear      | smallint(6)                                                                           | YES  |     | NULL  |       |
+| Population     | int(11)                                                                               | NO   |     | 0     |       |
+| LifeExpectancy | decimal(3,1)                                                                          | YES  |     | NULL  |       |
+| GNP            | decimal(10,2)                                                                         | YES  |     | NULL  |       |
+| GNPOld         | decimal(10,2)                                                                         | YES  |     | NULL  |       |
+| LocalName      | char(45)                                                                              | NO   |     |       |       |
+| GovernmentForm | char(45)                                                                              | NO   |     |       |       |
+| HeadOfState    | char(60)                                                                              | YES  |     | NULL  |       |
+| Capital        | int(11)                                                                               | YES  |     | NULL  |       |
+| Code2          | char(2)                                                                               | NO   |     |       |       |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+15 rows in set (0.001 sec)
+
+MariaDB [world]> DESC countrylanguage;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| CountryCode | char(3)       | NO   | PRI |         |       |
+| Language    | char(30)      | NO   | PRI |         |       |
+| IsOfficial  | enum('T','F') | NO   |     | F       |       |
+| Percentage  | decimal(4,1)  | NO   |     | 0.0     |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT a.name, b.name, c.language, FROM city a INNER JOIN country b INNER JOIN c.countrycode ON a.countrycode= b.code LIMIT 20;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'FROM city a INNER JOIN country b INNER JOIN c.countrycode ON a.countrycode = ...' at line 1
+MariaDB [world]> SELECT a.name, b.name, c.language
+-> FROM city a
+-> INNER JOIN country b
+-> ON b.code = a.countrycode
+-> INNER JOIN countrylanguage
+-> ON c.countrycode = a.countrycode
+-> LIMIT 20;
+ERROR 1054 (42S22): Unknown column 'c.language' in 'field list'
+MariaDB [world]> SELECT a.name, b.name, c.language FROM city a INNER JOIN country b ON b.code = a.countrycode INNER JOIN countrylanguage c ON c.countrycode = a.countrycode LIMIT 20;
++----------------+-------------+------------+
+| name           | name        | language   |
++----------------+-------------+------------+
+| Kabul          | Afghanistan | Balochi    |
+| Kabul          | Afghanistan | Dari       |
+| Kabul          | Afghanistan | Pashto     |
+| Kabul          | Afghanistan | Turkmenian |
+| Kabul          | Afghanistan | Uzbek      |
+| Qandahar       | Afghanistan | Balochi    |
+| Qandahar       | Afghanistan | Dari       |
+| Qandahar       | Afghanistan | Pashto     |
+| Qandahar       | Afghanistan | Turkmenian |
+| Qandahar       | Afghanistan | Uzbek      |
+| Herat          | Afghanistan | Balochi    |
+| Herat          | Afghanistan | Dari       |
+| Herat          | Afghanistan | Pashto     |
+| Herat          | Afghanistan | Turkmenian |
+| Herat          | Afghanistan | Uzbek      |
+| Mazar-e-Sharif | Afghanistan | Balochi    |
+| Mazar-e-Sharif | Afghanistan | Dari       |
+| Mazar-e-Sharif | Afghanistan | Pashto     |
+| Mazar-e-Sharif | Afghanistan | Turkmenian |
+| Mazar-e-Sharif | Afghanistan | Uzbek      |
++----------------+-------------+------------+
+20 rows in set (0.000 sec)
+
+MariaDB [world]> SELECT a.name, b.name, c.language FROM city a INNER JOIN country b ON b.code = a.countrycode INNER JOIN countrylanguage c ON c.countrycode = a.countrycode LIMIT 50;
++----------------+-------------+------------+
+| name           | name        | language   |
++----------------+-------------+------------+
+| Kabul          | Afghanistan | Balochi    |
+| Kabul          | Afghanistan | Dari       |
+| Kabul          | Afghanistan | Pashto     |
+| Kabul          | Afghanistan | Turkmenian |
+| Kabul          | Afghanistan | Uzbek      |
+| Qandahar       | Afghanistan | Balochi    |
+| Qandahar       | Afghanistan | Dari       |
+| Qandahar       | Afghanistan | Pashto     |
+| Qandahar       | Afghanistan | Turkmenian |
+| Qandahar       | Afghanistan | Uzbek      |
+| Herat          | Afghanistan | Balochi    |
+| Herat          | Afghanistan | Dari       |
+| Herat          | Afghanistan | Pashto     |
+| Herat          | Afghanistan | Turkmenian |
+| Herat          | Afghanistan | Uzbek      |
+| Mazar-e-Sharif | Afghanistan | Balochi    |
+| Mazar-e-Sharif | Afghanistan | Dari       |
+| Mazar-e-Sharif | Afghanistan | Pashto     |
+| Mazar-e-Sharif | Afghanistan | Turkmenian |
+| Mazar-e-Sharif | Afghanistan | Uzbek      |
+| Amsterdam      | Netherlands | Arabic     |
+| Amsterdam      | Netherlands | Dutch      |
+| Amsterdam      | Netherlands | Fries      |
+| Amsterdam      | Netherlands | Turkish    |
+| Rotterdam      | Netherlands | Arabic     |
+| Rotterdam      | Netherlands | Dutch      |
+| Rotterdam      | Netherlands | Fries      |
+| Rotterdam      | Netherlands | Turkish    |
+| Haag           | Netherlands | Arabic     |
+| Haag           | Netherlands | Dutch      |
+| Haag           | Netherlands | Fries      |
+| Haag           | Netherlands | Turkish    |
+| Utrecht        | Netherlands | Arabic     |
+| Utrecht        | Netherlands | Dutch      |
+| Utrecht        | Netherlands | Fries      |
+| Utrecht        | Netherlands | Turkish    |
+| Eindhoven      | Netherlands | Arabic     |
+| Eindhoven      | Netherlands | Dutch      |
+| Eindhoven      | Netherlands | Fries      |
+| Eindhoven      | Netherlands | Turkish    |
+| Tilburg        | Netherlands | Arabic     |
+| Tilburg        | Netherlands | Dutch      |
+| Tilburg        | Netherlands | Fries      |
+| Tilburg        | Netherlands | Turkish    |
+| Groningen      | Netherlands | Arabic     |
+| Groningen      | Netherlands | Dutch      |
+| Groningen      | Netherlands | Fries      |
+| Groningen      | Netherlands | Turkish    |
+| Breda          | Netherlands | Arabic     |
+| Breda          | Netherlands | Dutch      |
++----------------+-------------+------------+
+50 rows in set (0.000 sec)
+
+MariaDB [world]> SELECT a.name, b.name, c.language FROM city a INNER JOIN country b ON b.code = a.countrycode INNER JOIN countrylanguage c ON c.countrycode = a.countrycode WHERE b.name LIKE "M%" LIMIT 50;
++---------------+------------+------------------+
+| name          | name       | language         |
++---------------+------------+------------------+
+| Macao         | Macao      | Canton Chinese   |
+| Macao         | Macao      | English          |
+| Macao         | Macao      | Mandarin Chinese |
+| Macao         | Macao      | Portuguese       |
+| Antananarivo  | Madagascar | French           |
+| Antananarivo  | Madagascar | Malagasy         |
+| Toamasina     | Madagascar | French           |
+| Toamasina     | Madagascar | Malagasy         |
+| Antsirabé     | Madagascar | French           |
+| Antsirabé     | Madagascar | Malagasy         |
+| Mahajanga     | Madagascar | French           |
+| Mahajanga     | Madagascar | Malagasy         |
+| Fianarantsoa  | Madagascar | French           |
+| Fianarantsoa  | Madagascar | Malagasy         |
+| Skopje        | Macedonia  | Albaniana        |
+| Skopje        | Macedonia  | Macedonian       |
+| Skopje        | Macedonia  | Romani           |
+| Skopje        | Macedonia  | Serbo-Croatian   |
+| Skopje        | Macedonia  | Turkish          |
+| Blantyre      | Malawi     | Chichewa         |
+| Blantyre      | Malawi     | Lomwe            |
+| Blantyre      | Malawi     | Ngoni            |
+| Blantyre      | Malawi     | Yao              |
+| Lilongwe      | Malawi     | Chichewa         |
+| Lilongwe      | Malawi     | Lomwe            |
+| Lilongwe      | Malawi     | Ngoni            |
+| Lilongwe      | Malawi     | Yao              |
+| Male          | Maldives   | Dhivehi          |
+| Male          | Maldives   | English          |
+| Kuala Lumpur  | Malaysia   | Chinese          |
+| Kuala Lumpur  | Malaysia   | Dusun            |
+| Kuala Lumpur  | Malaysia   | English          |
+| Kuala Lumpur  | Malaysia   | Iban             |
+| Kuala Lumpur  | Malaysia   | Malay            |
+| Kuala Lumpur  | Malaysia   | Tamil            |
+| Ipoh          | Malaysia   | Chinese          |
+| Ipoh          | Malaysia   | Dusun            |
+| Ipoh          | Malaysia   | English          |
+| Ipoh          | Malaysia   | Iban             |
+| Ipoh          | Malaysia   | Malay            |
+| Ipoh          | Malaysia   | Tamil            |
+| Johor Baharu  | Malaysia   | Chinese          |
+| Johor Baharu  | Malaysia   | Dusun            |
+| Johor Baharu  | Malaysia   | English          |
+| Johor Baharu  | Malaysia   | Iban             |
+| Johor Baharu  | Malaysia   | Malay            |
+| Johor Baharu  | Malaysia   | Tamil            |
+| Petaling Jaya | Malaysia   | Chinese          |
+| Petaling Jaya | Malaysia   | Dusun            |
+| Petaling Jaya | Malaysia   | English          |
++---------------+------------+------------------+
+50 rows in set (0.002 sec)
+
+MariaDB [world]> SELECT a.name, b.name, c.language FROM city a INNER JOIN country b ON b.code = a.countrycode INNER JOIN countrylanguage c ON c.countrycode = a.countrycode WHERE b.name LIKE "Mexico" LIMIT 50;
++---------------------+--------+----------+
+| name                | name   | language |
++---------------------+--------+----------+
+| Ciudad de México    | Mexico | Mixtec   |
+| Ciudad de México    | Mexico | Náhuatl  |
+| Ciudad de México    | Mexico | Otomí    |
+| Ciudad de México    | Mexico | Spanish  |
+| Ciudad de México    | Mexico | Yucatec  |
+| Ciudad de México    | Mexico | Zapotec  |
+| Guadalajara         | Mexico | Mixtec   |
+| Guadalajara         | Mexico | Náhuatl  |
+| Guadalajara         | Mexico | Otomí    |
+| Guadalajara         | Mexico | Spanish  |
+| Guadalajara         | Mexico | Yucatec  |
+| Guadalajara         | Mexico | Zapotec  |
+| Ecatepec de Morelos | Mexico | Mixtec   |
+| Ecatepec de Morelos | Mexico | Náhuatl  |
+| Ecatepec de Morelos | Mexico | Otomí    |
+| Ecatepec de Morelos | Mexico | Spanish  |
+| Ecatepec de Morelos | Mexico | Yucatec  |
+| Ecatepec de Morelos | Mexico | Zapotec  |
+| Puebla              | Mexico | Mixtec   |
+| Puebla              | Mexico | Náhuatl  |
+| Puebla              | Mexico | Otomí    |
+| Puebla              | Mexico | Spanish  |
+| Puebla              | Mexico | Yucatec  |
+| Puebla              | Mexico | Zapotec  |
+| Nezahualcóyotl      | Mexico | Mixtec   |
+| Nezahualcóyotl      | Mexico | Náhuatl  |
+| Nezahualcóyotl      | Mexico | Otomí    |
+| Nezahualcóyotl      | Mexico | Spanish  |
+| Nezahualcóyotl      | Mexico | Yucatec  |
+| Nezahualcóyotl      | Mexico | Zapotec  |
+| Juárez              | Mexico | Mixtec   |
+| Juárez              | Mexico | Náhuatl  |
+| Juárez              | Mexico | Otomí    |
+| Juárez              | Mexico | Spanish  |
+| Juárez              | Mexico | Yucatec  |
+| Juárez              | Mexico | Zapotec  |
+| Tijuana             | Mexico | Mixtec   |
+| Tijuana             | Mexico | Náhuatl  |
+| Tijuana             | Mexico | Otomí    |
+| Tijuana             | Mexico | Spanish  |
+| Tijuana             | Mexico | Yucatec  |
+| Tijuana             | Mexico | Zapotec  |
+| León                | Mexico | Mixtec   |
+| León                | Mexico | Náhuatl  |
+| León                | Mexico | Otomí    |
+| León                | Mexico | Spanish  |
+| León                | Mexico | Yucatec  |
+| León                | Mexico | Zapotec  |
+| Monterrey           | Mexico | Mixtec   |
+| Monterrey           | Mexico | Náhuatl  |
++---------------------+--------+----------+
+50 rows in set (0.002 sec)
+
+MariaDB [world]> DESC countrylanguage,
+-> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '' at line 1
+MariaDB [world]> DESC countrylanguage;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| CountryCode | char(3)       | NO   | PRI |         |       |
+| Language    | char(30)      | NO   | PRI |         |       |
+| IsOfficial  | enum('T','F') | NO   |     | F       |       |
+| Percentage  | decimal(4,1)  | NO   |     | 0.0     |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT a.name, b.name, c.language FROM city a INNER JOIN country b ON b.code = a.countrycode INNER JOIN countrylanguage c ON c.countrycode = a.countrycode WHERE b.name LIKE "Mexico" AND a.IsOfficial LIKE 'T' LIMIT 50;
+ERROR 1054 (42S22): Unknown column 'a.IsOfficial' in 'where clause'
+MariaDB [world]> SELECT a.name, b.name, c.language FROM city a INNER JOIN country b ON b.code = a.countrycode INNER JOIN countrylanguage c ON c.countrycode = a.countrycode WHERE b.name LIKE "Mexico" AND c.IsOfficial LIKE 'T' LIMIT 50;
++-----------------------------+--------+----------+
+| name                        | name   | language |
++-----------------------------+--------+----------+
+| Ciudad de México            | Mexico | Spanish  |
+| Guadalajara                 | Mexico | Spanish  |
+| Ecatepec de Morelos         | Mexico | Spanish  |
+| Puebla                      | Mexico | Spanish  |
+| Nezahualcóyotl              | Mexico | Spanish  |
+| Juárez                      | Mexico | Spanish  |
+| Tijuana                     | Mexico | Spanish  |
+| León                        | Mexico | Spanish  |
+| Monterrey                   | Mexico | Spanish  |
+| Zapopan                     | Mexico | Spanish  |
+| Naucalpan de Juárez         | Mexico | Spanish  |
+| Mexicali                    | Mexico | Spanish  |
+| Culiacán                    | Mexico | Spanish  |
+| Acapulco de Juárez          | Mexico | Spanish  |
+| Tlalnepantla de Baz         | Mexico | Spanish  |
+| Mérida                      | Mexico | Spanish  |
+| Chihuahua                   | Mexico | Spanish  |
+| San Luis Potosí             | Mexico | Spanish  |
+| Guadalupe                   | Mexico | Spanish  |
+| Toluca                      | Mexico | Spanish  |
+| Aguascalientes              | Mexico | Spanish  |
+| Querétaro                   | Mexico | Spanish  |
+| Morelia                     | Mexico | Spanish  |
+| Hermosillo                  | Mexico | Spanish  |
+| Saltillo                    | Mexico | Spanish  |
+| Torreón                     | Mexico | Spanish  |
+| Centro (Villahermosa)       | Mexico | Spanish  |
+| San Nicolás de los Garza    | Mexico | Spanish  |
+| Durango                     | Mexico | Spanish  |
+| Chimalhuacán                | Mexico | Spanish  |
+| Tlaquepaque                 | Mexico | Spanish  |
+| Atizapán de Zaragoza        | Mexico | Spanish  |
+| Veracruz                    | Mexico | Spanish  |
+| Cuautitlán Izcalli          | Mexico | Spanish  |
+| Irapuato                    | Mexico | Spanish  |
+| Tuxtla Gutiérrez            | Mexico | Spanish  |
+| Tultitlán                   | Mexico | Spanish  |
+| Reynosa                     | Mexico | Spanish  |
+| Benito Juárez               | Mexico | Spanish  |
+| Matamoros                   | Mexico | Spanish  |
+| Xalapa                      | Mexico | Spanish  |
+| Celaya                      | Mexico | Spanish  |
+| Mazatlán                    | Mexico | Spanish  |
+| Ensenada                    | Mexico | Spanish  |
+| Ahome                       | Mexico | Spanish  |
+| Cajeme                      | Mexico | Spanish  |
+| Cuernavaca                  | Mexico | Spanish  |
+| Tonalá                      | Mexico | Spanish  |
+| Valle de Chalco Solidaridad | Mexico | Spanish  |
+| Nuevo Laredo                | Mexico | Spanish  |
++-----------------------------+--------+----------+
+50 rows in set (0.002 sec)
+
+MariaDB [world]> SELECT a.name, b.name, c.language, c.IsOfficial FROM city a INNER JOIN country b ON b.code = a.countrycode INNER JOIN countrylanguage c ON c.countrycode = a.countrycode WHERE b.name LIKE "Mexico" AND c.IsOfficial LIKE 'T' LIMIT 50;
++-----------------------------+--------+----------+------------+
+| name                        | name   | language | IsOfficial |
++-----------------------------+--------+----------+------------+
+| Ciudad de México            | Mexico | Spanish  | T          |
+| Guadalajara                 | Mexico | Spanish  | T          |
+| Ecatepec de Morelos         | Mexico | Spanish  | T          |
+| Puebla                      | Mexico | Spanish  | T          |
+| Nezahualcóyotl              | Mexico | Spanish  | T          |
+| Juárez                      | Mexico | Spanish  | T          |
+| Tijuana                     | Mexico | Spanish  | T          |
+| León                        | Mexico | Spanish  | T          |
+| Monterrey                   | Mexico | Spanish  | T          |
+| Zapopan                     | Mexico | Spanish  | T          |
+| Naucalpan de Juárez         | Mexico | Spanish  | T          |
+| Mexicali                    | Mexico | Spanish  | T          |
+| Culiacán                    | Mexico | Spanish  | T          |
+| Acapulco de Juárez          | Mexico | Spanish  | T          |
+| Tlalnepantla de Baz         | Mexico | Spanish  | T          |
+| Mérida                      | Mexico | Spanish  | T          |
+| Chihuahua                   | Mexico | Spanish  | T          |
+| San Luis Potosí             | Mexico | Spanish  | T          |
+| Guadalupe                   | Mexico | Spanish  | T          |
+| Toluca                      | Mexico | Spanish  | T          |
+| Aguascalientes              | Mexico | Spanish  | T          |
+| Querétaro                   | Mexico | Spanish  | T          |
+| Morelia                     | Mexico | Spanish  | T          |
+| Hermosillo                  | Mexico | Spanish  | T          |
+| Saltillo                    | Mexico | Spanish  | T          |
+| Torreón                     | Mexico | Spanish  | T          |
+| Centro (Villahermosa)       | Mexico | Spanish  | T          |
+| San Nicolás de los Garza    | Mexico | Spanish  | T          |
+| Durango                     | Mexico | Spanish  | T          |
+| Chimalhuacán                | Mexico | Spanish  | T          |
+| Tlaquepaque                 | Mexico | Spanish  | T          |
+| Atizapán de Zaragoza        | Mexico | Spanish  | T          |
+| Veracruz                    | Mexico | Spanish  | T          |
+| Cuautitlán Izcalli          | Mexico | Spanish  | T          |
+| Irapuato                    | Mexico | Spanish  | T          |
+| Tuxtla Gutiérrez            | Mexico | Spanish  | T          |
+| Tultitlán                   | Mexico | Spanish  | T          |
+| Reynosa                     | Mexico | Spanish  | T          |
+| Benito Juárez               | Mexico | Spanish  | T          |
+| Matamoros                   | Mexico | Spanish  | T          |
+| Xalapa                      | Mexico | Spanish  | T          |
+| Celaya                      | Mexico | Spanish  | T          |
+| Mazatlán                    | Mexico | Spanish  | T          |
+| Ensenada                    | Mexico | Spanish  | T          |
+| Ahome                       | Mexico | Spanish  | T          |
+| Cajeme                      | Mexico | Spanish  | T          |
+| Cuernavaca                  | Mexico | Spanish  | T          |
+| Tonalá                      | Mexico | Spanish  | T          |
+| Valle de Chalco Solidaridad | Mexico | Spanish  | T          |
+| Nuevo Laredo                | Mexico | Spanish  | T          |
++-----------------------------+--------+----------+------------+
+50 rows in set (0.002 sec)
+
+MariaDB [world]> USE tbd_eva2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM cliente;
++----+--------+-----------+--------------+
+| id | nombre | apellidos | rfc          |
++----+--------+-----------+--------------+
+|  7 | Gas    | Hipergas  | GH0123456890 |
++----+--------+-----------+--------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SHOW TABLES;
++--------------------+
+| Tables_in_tbd_eva2 |
++--------------------+
+| cliente            |
+| factura            |
+| factura_detalle    |
+| producto           |
+| tablaA             |
+| tablaB             |
++--------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC cliente;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50) | NO   |     | NULL    |                |
+| apellidos | varchar(50) | YES  |     | NULL    |                |
+| rfc       | varchar(12) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> DESC producto;
++--------+---------------+------+-----+---------+----------------+
+| Field  | Type          | Null | Key | Default | Extra          |
++--------+---------------+------+-----+---------+----------------+
+| id     | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50)   | NO   |     | NULL    |                |
+| precio | decimal(10,2) | NO   |     | NULL    |                |
++--------+---------------+------+-----+---------+----------------+
+3 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellido, b.nombre
+-> FROM cliente a
+-> INNER JOIN producto b
+-> ON a.;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '' at line 4
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SHOW TABLES;
++--------------------+
+| Tables_in_tbd_eva2 |
++--------------------+
+| cliente            |
+| factura            |
+| factura_detalle    |
+| producto           |
+| tablaA             |
+| tablaB             |
++--------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC factura_detalle;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| id         | int(11) | NO   | PRI | NULL    | auto_increment |
+| idFactura  | int(11) | NO   | MUL | NULL    |                |
+| idProducto | int(11) | NO   | MUL | NULL    |                |
+| cantidad   | int(11) | NO   |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> exit;
+Bye
