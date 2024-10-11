@@ -1,0 +1,826 @@
+╭─senorbuen0@Trimethy in repo: TBD-EVA2-22550336 on  main took 8ms
+╰─λ sudo mysql -u root -p
+[sudo] password for senorbuen0:
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 6
+Server version: 11.5.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SELECT a customer_id, a.fisr_aname,
+-> a.last_name, b.amount
+-> FROM customer a
+-> INNER JOIN payment b
+-> ON a.customer_id = b.customer_id
+-> LIMIT 50;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> USE tbd_eva2;,
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+-> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '' at line 1
+MariaDB [tbd_eva2]> SELECT a customer_id, a.fisr_aname, a.last_name, b.amount FROM customer a INNER JOIN payment b ON a.customer_id = b.customer_id LIMIT 50;
+ERROR 1146 (42S02): Table 'tbd_eva2.customer' doesn't exist
+MariaDB [tbd_eva2]> SELECT a.customer_id, a.fisr_aname, a.last_name, b.amount FROM customer a INNER JOIN payment b ON a.customer_id = b.customer_id LIMIT 50;
+ERROR 1146 (42S02): Table 'tbd_eva2.customer' doesn't exist
+MariaDB [tbd_eva2]> SHOW TABLES;
++--------------------+
+| Tables_in_tbd_eva2 |
++--------------------+
+| cliente            |
+| factura            |
+| factura_detalle    |
+| producto           |
+| tablaA             |
+| tablaB             |
++--------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> USE sakila;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [sakila]> SELECT a.customer_id, a.fisr_aname, a.last_name, b.amount FROM customer a INNER JOIN payment b ON a.customer_id = b.customer_id LIMIT 50;
+ERROR 1054 (42S22): Unknown column 'a.fisr_aname' in 'field list'
+MariaDB [sakila]> SELECT a.customer_id, a.first_name, a.last_name, b.amount FROM customer a INNER JOIN payment b ON a.customer_id = b.customer_id LIMIT 50;
++-------------+------------+-----------+--------+
+| customer_id | first_name | last_name | amount |
++-------------+------------+-----------+--------+
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   9.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   3.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   7.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   3.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   1.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |  10.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
++-------------+------------+-----------+--------+
+50 rows in set (0.001 sec)
+
+MariaDB [sakila]> SELECT sum(amount) FROM payment
+-> WHERE customer_id = 1;
++-------------+
+| sum(amount) |
++-------------+
+|      118.68 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [sakila]> SELECT
+-> a.customer_id,
+-> a.first_name,
+-> a.last_name,
+-> SUM(b.amount) AS total
+-> FROM
+-> customer a
+-> INNER JOIN
+-> payment b ON a.customer_id = b.customer_id
+-> GROUP BY
+-> a.customer_id, a.first_name, a.last_name
+-> LIMIT 50,
+-> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '' at line 12
+MariaDB [sakila]> SELECT a.customer_id, a.first_name, a.last_name, SUM(b.amount) AS total FROM customer a INNER JOIN payment bON a.customer_id = b.customer_id GROUP BY a.customer_id, a.first_name, a.last_name LIMIT 50;
++-------------+------------+-----------+--------+
+| customer_id | first_name | last_name | total  |
++-------------+------------+-----------+--------+
+|           1 | MARY       | SMITH     | 118.68 |
+|           2 | PATRICIA   | JOHNSON   | 128.73 |
+|           3 | LINDA      | WILLIAMS  | 135.74 |
+|           4 | BARBARA    | JONES     |  81.78 |
+|           5 | ELIZABETH  | BROWN     | 144.62 |
+|           6 | JENNIFER   | DAVIS     |  93.72 |
+|           7 | MARIA      | MILLER    | 151.67 |
+|           8 | SUSAN      | WILSON    |  92.76 |
+|           9 | MARGARET   | MOORE     |  89.77 |
+|          10 | DOROTHY    | TAYLOR    |  99.75 |
+|          11 | LISA       | ANDERSON  | 106.76 |
+|          12 | NANCY      | THOMAS    | 103.72 |
+|          13 | KAREN      | JACKSON   | 131.73 |
+|          14 | BETTY      | WHITE     | 117.72 |
+|          15 | HELEN      | HARRIS    | 134.68 |
+|          16 | SANDRA     | MARTIN    | 118.72 |
+|          17 | DONNA      | THOMPSON  |  98.79 |
+|          18 | CAROL      | GARCIA    |  91.78 |
+|          19 | RUTH       | MARTINEZ  | 125.76 |
+|          20 | SHARON     | ROBINSON  | 115.70 |
+|          21 | MICHELLE   | CLARK     | 155.65 |
+|          22 | LAURA      | RODRIGUEZ | 113.78 |
+|          23 | SARAH      | LEWIS     | 119.70 |
+|          24 | KIMBERLY   | LEE       |  95.75 |
+|          25 | DEBORAH    | WALKER    | 115.71 |
+|          26 | JESSICA    | HALL      | 152.66 |
+|          27 | SHIRLEY    | ALLEN     | 126.69 |
+|          28 | CYNTHIA    | YOUNG     | 111.68 |
+|          29 | ANGELA     | HERNANDEZ | 140.64 |
+|          30 | MELISSA    | KING      | 123.66 |
+|          31 | BRENDA     | WRIGHT    | 104.74 |
+|          32 | AMY        | LOPEZ     | 127.71 |
+|          33 | ANNA       | HILL      |  91.79 |
+|          34 | REBECCA    | SCOTT     |  89.76 |
+|          35 | VIRGINIA   | GREEN     | 129.68 |
+|          36 | KATHLEEN   | ADAMS     |  92.73 |
+|          37 | PAMELA     | BAKER     |  95.77 |
+|          38 | MARTHA     | GONZALEZ  | 127.66 |
+|          39 | DEBRA      | NELSON    | 141.71 |
+|          40 | AMANDA     | CARTER    | 110.73 |
+|          41 | STEPHANIE  | MITCHELL  | 118.75 |
+|          42 | CAROLYN    | PEREZ     | 117.70 |
+|          43 | CHRISTINE  | ROBERTS   |  99.76 |
+|          44 | MARIE      | TURNER    | 114.74 |
+|          45 | JANET      | PHILLIPS  | 127.73 |
+|          46 | CATHERINE  | CAMPBELL  | 142.66 |
+|          47 | FRANCES    | PARKER    | 108.78 |
+|          48 | ANN        | EVANS     |  76.83 |
+|          49 | JOYCE      | EDWARDS   | 130.72 |
+|          50 | DIANE      | COLLINS   | 169.65 |
++-------------+------------+-----------+--------+
+50 rows in set (0.039 sec)
+
+MariaDB [sakila]> SELECT a.customer_id, a.first_name, a.last_name, SUM(b.amount) AS total FROM customer a INNER JOIN payment bON a.customer_id = b.customer_id GROUP BY a.customer_id, a.first_name, a.last_name ORDER BY total DESC LIMIT 1;
++-------------+------------+-----------+--------+
+| customer_id | first_name | last_name | total  |
++-------------+------------+-----------+--------+
+|         526 | KARL       | SEAL      | 221.55 |
++-------------+------------+-----------+--------+
+1 row in set (0.034 sec)
+
+MariaDB [sakila]> SELECT a.customer_id, a.first_name, a.last_name, SUM(b.amount) AS total FROM customer a INNER JOIN payment bON a.customer_id = b.customer_id GROUP BY a.customer_id, a.first_name, a.last_name ORDER BY total ASC LIMIT 1;
++-------------+------------+-----------+-------+
+| customer_id | first_name | last_name | total |
++-------------+------------+-----------+-------+
+|         248 | CAROLINE   | BOWMAN    | 50.85 |
++-------------+------------+-----------+-------+
+1 row in set (0.035 sec)
+
+MariaDB [sakila]> USE worlds;
+ERROR 1049 (42000): Unknown database 'worlds'
+MariaDB [sakila]> USE world;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [world]> SHOW TABLES;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.000 sec)
+
+MariaDB [world]> DESC country;
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                                                                  | Null | Key | Default | Extra |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Code           | char(3)                                                                               | NO   | PRI |       |       |
+| Name           | char(52)                                                                              | NO   |     |       |       |
+| Continent      | enum('Asia','Europe','North America','Africa','Oceania','Antarctica','South America') | NO   |     | Asia  |       |
+| Region         | char(26)                                                                              | NO   |     |       |       |
+| SurfaceArea    | decimal(10,2)                                                                         | NO   |     | 0.00  |       |
+| IndepYear      | smallint(6)                                                                           | YES  |     | NULL  |       |
+| Population     | int(11)                                                                               | NO   |     | 0     |       |
+| LifeExpectancy | decimal(3,1)                                                                          | YES  |     | NULL  |       |
+| GNP            | decimal(10,2)                                                                         | YES  |     | NULL  |       |
+| GNPOld         | decimal(10,2)                                                                         | YES  |     | NULL  |       |
+| LocalName      | char(45)                                                                              | NO   |     |       |       |
+| GovernmentForm | char(45)                                                                              | NO   |     |       |       |
+| HeadOfState    | char(60)                                                                              | YES  |     | NULL  |       |
+| Capital        | int(11)                                                                               | YES  |     | NULL  |       |
+| Code2          | char(2)                                                                               | NO   |     |       |       |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+15 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT COUNT(*) FROM country;
++----------+
+| COUNT(*) |
++----------+
+|      239 |
++----------+
+1 row in set (0.001 sec)
+
+MariaDB [world]> DESC city;
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int(11)  | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int(11)  | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT * FROM country LIMIT 5;
++------+-------------+---------------+---------------------------+-------------+-----------+------------+----------------+---------+---------+-----------------------+----------------------------------------------+--------------------------+---------+-------+
+| Code | Name        | Continent     | Region                    | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP| GNPOld  | LocalName             | GovernmentForm                               | HeadOfState              | Capital | Code2 |
++------+-------------+---------------+---------------------------+-------------+-----------+------------+----------------+---------+---------+-----------------------+----------------------------------------------+--------------------------+---------+-------+
+| ABW  | Aruba       | North America | Caribbean                 |      193.00 |      NULL |     103000 |           78.4 |  828.00 |  793.00 | Aruba                 | Nonmetropolitan Territory of The Netherlands | Beatrix                  |     129 | AW    |
+| AFG  | Afghanistan | Asia          | Southern and Central Asia |   652090.00 |      1919 |   22720000 |           45.9 | 5976.00 |    NULL | Afganistan/Afqanestan | Islamic Emirate                              | Mohammad Omar            |       1 | AF    |
+| AGO  | Angola      | Africa        | Central Africa            |  1246700.00 |      1975 |   12878000 |           38.3 | 6648.00 | 7984.00 | Angola                | Republic                                     | José Eduardo dos Santos  |      56 | AO    |
+| AIA  | Anguilla    | North America | Caribbean                 |       96.00 |      NULL |       8000 |           76.1 |   63.20 |    NULL | Anguilla              | Dependent Territory of the UK                | Elisabeth II             |      62 | AI    |
+| ALB  | Albania     | Europe        | Southern Europe           |    28748.00 |      1912 |    3401200 |           71.6 | 3205.00 | 2500.00 | Shqipëria             | Republic                                     | Rexhep Mejdani           |      34 | AL    |
++------+-------------+---------------+---------------------------+-------------+-----------+------------+----------------+---------+---------+-----------------------+----------------------------------------------+--------------------------+---------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT code, name FROM country;
++------+----------------------------------------------+
+| code | name                                         |
++------+----------------------------------------------+
+| ABW  | Aruba                                        |
+| AFG  | Afghanistan                                  |
+| AGO  | Angola                                       |
+| AIA  | Anguilla                                     |
+| ALB  | Albania                                      |
+| AND  | Andorra                                      |
+| ANT  | Netherlands Antilles                         |
+| ARE  | United Arab Emirates                         |
+| ARG  | Argentina                                    |
+| ARM  | Armenia                                      |
+| ASM  | American Samoa                               |
+| ATA  | Antarctica                                   |
+| ATF  | French Southern territories                  |
+| ATG  | Antigua and Barbuda                          |
+| AUS  | Australia                                    |
+| AUT  | Austria                                      |
+| AZE  | Azerbaijan                                   |
+| BDI  | Burundi                                      |
+| BEL  | Belgium                                      |
+| BEN  | Benin                                        |
+| BFA  | Burkina Faso                                 |
+| BGD  | Bangladesh                                   |
+| BGR  | Bulgaria                                     |
+| BHR  | Bahrain                                      |
+| BHS  | Bahamas                                      |
+| BIH  | Bosnia and Herzegovina                       |
+| BLR  | Belarus                                      |
+| BLZ  | Belize                                       |
+| BMU  | Bermuda                                      |
+| BOL  | Bolivia                                      |
+| BRA  | Brazil                                       |
+| BRB  | Barbados                                     |
+| BRN  | Brunei                                       |
+| BTN  | Bhutan                                       |
+| BVT  | Bouvet Island                                |
+| BWA  | Botswana                                     |
+| CAF  | Central African Republic                     |
+| CAN  | Canada                                       |
+| CCK  | Cocos (Keeling) Islands                      |
+| CHE  | Switzerland                                  |
+| CHL  | Chile                                        |
+| CHN  | China                                        |
+| CIV  | Côte d’Ivoire                                |
+| CMR  | Cameroon                                     |
+| COD  | Congo, The Democratic Republic of the        |
+| COG  | Congo                                        |
+| COK  | Cook Islands                                 |
+| COL  | Colombia                                     |
+| COM  | Comoros                                      |
+| CPV  | Cape Verde                                   |
+| CRI  | Costa Rica                                   |
+| CUB  | Cuba                                         |
+| CXR  | Christmas Island                             |
+| CYM  | Cayman Islands                               |
+| CYP  | Cyprus                                       |
+| CZE  | Czech Republic                               |
+| DEU  | Germany                                      |
+| DJI  | Djibouti                                     |
+| DMA  | Dominica                                     |
+| DNK  | Denmark                                      |
+| DOM  | Dominican Republic                           |
+| DZA  | Algeria                                      |
+| ECU  | Ecuador                                      |
+| EGY  | Egypt                                        |
+| ERI  | Eritrea                                      |
+| ESH  | Western Sahara                               |
+| ESP  | Spain                                        |
+| EST  | Estonia                                      |
+| ETH  | Ethiopia                                     |
+| FIN  | Finland                                      |
+| FJI  | Fiji Islands                                 |
+| FLK  | Falkland Islands                             |
+| FRA  | France                                       |
+| FRO  | Faroe Islands                                |
+| FSM  | Micronesia, Federated States of              |
+| GAB  | Gabon                                        |
+| GBR  | United Kingdom                               |
+| GEO  | Georgia                                      |
+| GHA  | Ghana                                        |
+| GIB  | Gibraltar                                    |
+| GIN  | Guinea                                       |
+| GLP  | Guadeloupe                                   |
+| GMB  | Gambia                                       |
+| GNB  | Guinea-Bissau                                |
+| GNQ  | Equatorial Guinea                            |
+| GRC  | Greece                                       |
+| GRD  | Grenada                                      |
+| GRL  | Greenland                                    |
+| GTM  | Guatemala                                    |
+| GUF  | French Guiana                                |
+| GUM  | Guam                                         |
+| GUY  | Guyana                                       |
+| HKG  | Hong Kong                                    |
+| HMD  | Heard Island and McDonald Islands            |
+| HND  | Honduras                                     |
+| HRV  | Croatia                                      |
+| HTI  | Haiti                                        |
+| HUN  | Hungary                                      |
+| IDN  | Indonesia                                    |
+| IND  | India                                        |
+| IOT  | British Indian Ocean Territory               |
+| IRL  | Ireland                                      |
+| IRN  | Iran                                         |
+| IRQ  | Iraq                                         |
+| ISL  | Iceland                                      |
+| ISR  | Israel                                       |
+| ITA  | Italy                                        |
+| JAM  | Jamaica                                      |
+| JOR  | Jordan                                       |
+| JPN  | Japan                                        |
+| KAZ  | Kazakstan                                    |
+| KEN  | Kenya                                        |
+| KGZ  | Kyrgyzstan                                   |
+| KHM  | Cambodia                                     |
+| KIR  | Kiribati                                     |
+| KNA  | Saint Kitts and Nevis                        |
+| KOR  | South Korea                                  |
+| KWT  | Kuwait                                       |
+| LAO  | Laos                                         |
+| LBN  | Lebanon                                      |
+| LBR  | Liberia                                      |
+| LBY  | Libyan Arab Jamahiriya                       |
+| LCA  | Saint Lucia                                  |
+| LIE  | Liechtenstein                                |
+| LKA  | Sri Lanka                                    |
+| LSO  | Lesotho                                      |
+| LTU  | Lithuania                                    |
+| LUX  | Luxembourg                                   |
+| LVA  | Latvia                                       |
+| MAC  | Macao                                        |
+| MAR  | Morocco                                      |
+| MCO  | Monaco                                       |
+| MDA  | Moldova                                      |
+| MDG  | Madagascar                                   |
+| MDV  | Maldives                                     |
+| MEX  | Mexico                                       |
+| MHL  | Marshall Islands                             |
+| MKD  | Macedonia                                    |
+| MLI  | Mali                                         |
+| MLT  | Malta                                        |
+| MMR  | Myanmar                                      |
+| MNG  | Mongolia                                     |
+| MNP  | Northern Mariana Islands                     |
+| MOZ  | Mozambique                                   |
+| MRT  | Mauritania                                   |
+| MSR  | Montserrat                                   |
+| MTQ  | Martinique                                   |
+| MUS  | Mauritius                                    |
+| MWI  | Malawi                                       |
+| MYS  | Malaysia                                     |
+| MYT  | Mayotte                                      |
+| NAM  | Namibia                                      |
+| NCL  | New Caledonia                                |
+| NER  | Niger                                        |
+| NFK  | Norfolk Island                               |
+| NGA  | Nigeria                                      |
+| NIC  | Nicaragua                                    |
+| NIU  | Niue                                         |
+| NLD  | Netherlands                                  |
+| NOR  | Norway                                       |
+| NPL  | Nepal                                        |
+| NRU  | Nauru                                        |
+| NZL  | New Zealand                                  |
+| OMN  | Oman                                         |
+| PAK  | Pakistan                                     |
+| PAN  | Panama                                       |
+| PCN  | Pitcairn                                     |
+| PER  | Peru                                         |
+| PHL  | Philippines                                  |
+| PLW  | Palau                                        |
+| PNG  | Papua New Guinea                             |
+| POL  | Poland                                       |
+| PRI  | Puerto Rico                                  |
+| PRK  | North Korea                                  |
+| PRT  | Portugal                                     |
+| PRY  | Paraguay                                     |
+| PSE  | Palestine                                    |
+| PYF  | French Polynesia                             |
+| QAT  | Qatar                                        |
+| REU  | Réunion                                      |
+| ROM  | Romania                                      |
+| RUS  | Russian Federation                           |
+| RWA  | Rwanda                                       |
+| SAU  | Saudi Arabia                                 |
+| SDN  | Sudan                                        |
+| SEN  | Senegal                                      |
+| SGP  | Singapore                                    |
+| SGS  | South Georgia and the South Sandwich Islands |
+| SHN  | Saint Helena                                 |
+| SJM  | Svalbard and Jan Mayen                       |
+| SLB  | Solomon Islands                              |
+| SLE  | Sierra Leone                                 |
+| SLV  | El Salvador                                  |
+| SMR  | San Marino                                   |
+| SOM  | Somalia                                      |
+| SPM  | Saint Pierre and Miquelon                    |
+| STP  | Sao Tome and Principe                        |
+| SUR  | Suriname                                     |
+| SVK  | Slovakia                                     |
+| SVN  | Slovenia                                     |
+| SWE  | Sweden                                       |
+| SWZ  | Swaziland                                    |
+| SYC  | Seychelles                                   |
+| SYR  | Syria                                        |
+| TCA  | Turks and Caicos Islands                     |
+| TCD  | Chad                                         |
+| TGO  | Togo                                         |
+| THA  | Thailand                                     |
+| TJK  | Tajikistan                                   |
+| TKL  | Tokelau                                      |
+| TKM  | Turkmenistan                                 |
+| TMP  | East Timor                                   |
+| TON  | Tonga                                        |
+| TTO  | Trinidad and Tobago                          |
+| TUN  | Tunisia                                      |
+| TUR  | Turkey                                       |
+| TUV  | Tuvalu                                       |
+| TWN  | Taiwan                                       |
+| TZA  | Tanzania                                     |
+| UGA  | Uganda                                       |
+| UKR  | Ukraine                                      |
+| UMI  | United States Minor Outlying Islands         |
+| URY  | Uruguay                                      |
+| USA  | United States                                |
+| UZB  | Uzbekistan                                   |
+| VAT  | Holy See (Vatican City State)                |
+| VCT  | Saint Vincent and the Grenadines             |
+| VEN  | Venezuela                                    |
+| VGB  | Virgin Islands, British                      |
+| VIR  | Virgin Islands, U.S.                         |
+| VNM  | Vietnam                                      |
+| VUT  | Vanuatu                                      |
+| WLF  | Wallis and Futuna                            |
+| WSM  | Samoa                                        |
+| YEM  | Yemen                                        |
+| YUG  | Yugoslavia                                   |
+| ZAF  | South Africa                                 |
+| ZMB  | Zambia                                       |
+| ZWE  | Zimbabwe                                     |
++------+----------------------------------------------+
+239 rows in set (0.001 sec)
+
+MariaDB [world]> SELECT * FROM city WHERE countrycode = 'MEX' LIMIT 10;
++------+---------------------+-------------+------------------+------------+
+| ID   | Name                | CountryCode | District         | Population |
++------+---------------------+-------------+------------------+------------+
+| 2515 | Ciudad de México    | MEX         | Distrito Federal |    8591309 |
+| 2516 | Guadalajara         | MEX         | Jalisco          |    1647720 |
+| 2517 | Ecatepec de Morelos | MEX         | México           |    1620303 |
+| 2518 | Puebla              | MEX         | Puebla           |    1346176 |
+| 2519 | Nezahualcóyotl      | MEX         | México           |    1224924 |
+| 2520 | Juárez              | MEX         | Chihuahua        |    1217818 |
+| 2521 | Tijuana             | MEX         | Baja California  |    1212232 |
+| 2522 | León                | MEX         | Guanajuato       |    1133576 |
+| 2523 | Monterrey           | MEX         | Nuevo León       |    1108499 |
+| 2524 | Zapopan             | MEX         | Jalisco          |    1002239 |
++------+---------------------+-------------+------------------+------------+
+10 rows in set (0.000 sec)
+
+MariaDB [world]> SELECT COUNT(*) FROM city WHERE countrycode = 'MEX' LIMIT 10;
++----------+
+| COUNT(*) |
++----------+
+|      173 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [world]> SELECT a.name, COUNT(*) AS total
+-> FROM city a
+-> ;
++-------+-------+
+| name  | total |
++-------+-------+
+| Kabul |  4079 |
++-------+-------+
+1 row in set (0.002 sec)
+
+MariaDB [world]> SELECT a.name, COUNT(*)
+-> FROM country a
+-> INNER JOIN
+-> city b
+-> ON ac.doe = b.countrycode
+-> GROUP BY a.code
+-> ORDER BY count(*)
+-> ;
+ERROR 1054 (42S22): Unknown column 'ac.doe' in 'on clause'
+MariaDB [world]> SELECT a.name, COUNT(*) FROM country a INNER JOIN city b ON a.code = b.countrycode GROUP BY a.code ORDER BY count(*);
++---------------------------------------+----------+
+| name                                  | COUNT(*) |
++---------------------------------------+----------+
+| Sierra Leone                          |        1 |
+| Northern Mariana Islands              |        1 |
+| Solomon Islands                       |        1 |
+| Togo                                  |        1 |
+| Gabon                                 |        1 |
+| Guyana                                |        1 |
+| Lesotho                               |        1 |
+| Mongolia                              |        1 |
+| Niue                                  |        1 |
+| Svalbard and Jan Mayen                |        1 |
+| Uruguay                               |        1 |
+| Dominica                              |        1 |
+| Saint Helena                          |        1 |
+| Turks and Caicos Islands              |        1 |
+| Netherlands Antilles                  |        1 |
+| Bahamas                               |        1 |
+| Djibouti                              |        1 |
+| Faroe Islands                         |        1 |
+| French Guiana                         |        1 |
+| Singapore                             |        1 |
+| Uganda                                |        1 |
+| Andorra                               |        1 |
+| Bahrain                               |        1 |
+| Saint Lucia                           |        1 |
+| Mali                                  |        1 |
+| Norfolk Island                        |        1 |
+| Papua New Guinea                      |        1 |
+| Seychelles                            |        1 |
+| Albania                               |        1 |
+| Falkland Islands                      |        1 |
+| Greenland                             |        1 |
+| Macedonia                             |        1 |
+| Palau                                 |        1 |
+| Swaziland                             |        1 |
+| Fiji Islands                          |        1 |
+| Grenada                               |        1 |
+| Iceland                               |        1 |
+| Liberia                               |        1 |
+| Marshall Islands                      |        1 |
+| New Caledonia                         |        1 |
+| Tuvalu                                |        1 |
+| Samoa                                 |        1 |
+| Cayman Islands                        |        1 |
+| Namibia                               |        1 |
+| Rwanda                                |        1 |
+| Wallis and Futuna                     |        1 |
+| Central African Republic              |        1 |
+| Christmas Island                      |        1 |
+| Equatorial Guinea                     |        1 |
+| Maldives                              |        1 |
+| Mayotte                               |        1 |
+| Pitcairn                              |        1 |
+| Vanuatu                               |        1 |
+| Aruba                                 |        1 |
+| Guinea-Bissau                         |        1 |
+| Suriname                              |        1 |
+| Burundi                               |        1 |
+| Bhutan                                |        1 |
+| Costa Rica                            |        1 |
+| Sao Tome and Principe                 |        1 |
+| Tonga                                 |        1 |
+| Virgin Islands, U.S.                  |        1 |
+| Brunei                                |        1 |
+| Cape Verde                            |        1 |
+| Western Sahara                        |        1 |
+| Saint Kitts and Nevis                 |        1 |
+| Réunion                               |        1 |
+| Saint Pierre and Miquelon             |        1 |
+| East Timor                            |        1 |
+| Virgin Islands, British               |        1 |
+| Barbados                              |        1 |
+| Comoros                               |        1 |
+| Eritrea                               |        1 |
+| Guinea                                |        1 |
+| Martinique                            |        1 |
+| Qatar                                 |        1 |
+| Gibraltar                             |        1 |
+| Macao                                 |        1 |
+| Montserrat                            |        1 |
+| Tokelau                               |        1 |
+| Saint Vincent and the Grenadines      |        1 |
+| Antigua and Barbuda                   |        1 |
+| Cook Islands                          |        1 |
+| Holy See (Vatican City State)         |        1 |
+| Luxembourg                            |        1 |
+| Belize                                |        2 |
+| Hong Kong                             |        2 |
+| Chad                                  |        2 |
+| Micronesia, Federated States of       |        2 |
+| Guam                                  |        2 |
+| Liechtenstein                         |        2 |
+| Malta                                 |        2 |
+| Anguilla                              |        2 |
+| Cocos (Keeling) Islands               |        2 |
+| Cyprus                                |        2 |
+| Lebanon                               |        2 |
+| Slovenia                              |        2 |
+| Laos                                  |        2 |
+| Botswana                              |        2 |
+| Estonia                               |        2 |
+| Ireland                               |        2 |
+| Panama                                |        2 |
+| Trinidad and Tobago                   |        2 |
+| Gambia                                |        2 |
+| Malawi                                |        2 |
+| Guadeloupe                            |        2 |
+| Monaco                                |        2 |
+| Kiribati                              |        2 |
+| Nauru                                 |        2 |
+| French Polynesia                      |        2 |
+| San Marino                            |        2 |
+| Kyrgyzstan                            |        2 |
+| Mauritania                            |        2 |
+| Tajikistan                            |        2 |
+| American Samoa                        |        2 |
+| Bermuda                               |        2 |
+| Congo                                 |        2 |
+| Armenia                               |        3 |
+| Bosnia and Herzegovina                |        3 |
+| Jamaica                               |        3 |
+| Niger                                 |        3 |
+| Burkina Faso                          |        3 |
+| Slovakia                              |        3 |
+| Kuwait                                |        3 |
+| Mauritius                             |        3 |
+| Somalia                               |        3 |
+| Cambodia                              |        3 |
+| Latvia                                |        3 |
+| Honduras                              |        3 |
+| Nicaragua                             |        4 |
+| Guatemala                             |        4 |
+| Libyan Arab Jamahiriya                |        4 |
+| Afghanistan                           |        4 |
+| Benin                                 |        4 |
+| Moldova                               |        4 |
+| Azerbaijan                            |        4 |
+| Turkmenistan                          |        4 |
+| Haiti                                 |        4 |
+| Croatia                               |        4 |
+| Lithuania                             |        5 |
+| Portugal                              |        5 |
+| Denmark                               |        5 |
+| United Arab Emirates                  |        5 |
+| Côte d’Ivoire                         |        5 |
+| Jordan                                |        5 |
+| Switzerland                           |        5 |
+| Angola                                |        5 |
+| Madagascar                            |        5 |
+| Oman                                  |        5 |
+| Ghana                                 |        5 |
+| Nepal                                 |        5 |
+| Georgia                               |        5 |
+| Norway                                |        5 |
+| Paraguay                              |        5 |
+| Dominican Republic                    |        6 |
+| Zimbabwe                              |        6 |
+| Yemen                                 |        6 |
+| Austria                               |        6 |
+| Palestine                             |        6 |
+| Cameroon                              |        7 |
+| Sri Lanka                             |        7 |
+| Zambia                                |        7 |
+| Finland                               |        7 |
+| Ethiopia                              |        7 |
+| El Salvador                           |        7 |
+| Yugoslavia                            |        8 |
+| Greece                                |        8 |
+| Tunisia                               |        8 |
+| Bolivia                               |        8 |
+| Kenya                                 |        8 |
+| Puerto Rico                           |        9 |
+| Senegal                               |        9 |
+| Belgium                               |        9 |
+| Hungary                               |        9 |
+| New Zealand                           |        9 |
+| Tanzania                              |       10 |
+| Bulgaria                              |       10 |
+| Czech Republic                        |       10 |
+| Syria                                 |       11 |
+| Thailand                              |       12 |
+| Sudan                                 |       12 |
+| Mozambique                            |       12 |
+| North Korea                           |       13 |
+| Israel                                |       14 |
+| Cuba                                  |       14 |
+| Australia                             |       14 |
+| Sweden                                |       15 |
+| Iraq                                  |       15 |
+| Ecuador                               |       15 |
+| Belarus                               |       16 |
+| Myanmar                               |       16 |
+| Uzbekistan                            |       17 |
+| Congo, The Democratic Republic of the |       18 |
+| Malaysia                              |       18 |
+| Algeria                               |       18 |
+| Kazakstan                             |       21 |
+| Peru                                  |       22 |
+| Vietnam                               |       22 |
+| Morocco                               |       22 |
+| Bangladesh                            |       24 |
+| Saudi Arabia                          |       24 |
+| Netherlands                           |       28 |
+| Chile                                 |       29 |
+| Romania                               |       29 |
+| Egypt                                 |       37 |
+| Colombia                              |       38 |
+| France                                |       40 |
+| Venezuela                             |       41 |
+| Taiwan                                |       42 |
+| Poland                                |       44 |
+| South Africa                          |       44 |
+| Canada                                |       49 |
+| Argentina                             |       57 |
+| Ukraine                               |       57 |
+| Italy                                 |       58 |
+| Spain                                 |       59 |
+| Pakistan                              |       59 |
+| Turkey                                |       62 |
+| Nigeria                               |       64 |
+| Iran                                  |       67 |
+| South Korea                           |       70 |
+| United Kingdom                        |       81 |
+| Indonesia                             |       85 |
+| Germany                               |       93 |
+| Philippines                           |      136 |
+| Mexico                                |      173 |
+| Russian Federation                    |      189 |
+| Japan                                 |      248 |
+| Brazil                                |      250 |
+| United States                         |      274 |
+| India                                 |      341 |
+| China                                 |      363 |
++---------------------------------------+----------+
+232 rows in set (0.003 sec)
+
+MariaDB [world]> SELECT a.name, COUNT(*) FROM country a INNER JOIN city b ON a.code = b.countrycode GROUP BY a.code ORDER BY count(*) ORDER BY COUNT(*) DESC LIMIT 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'ORDER BY COUNT(*) DESC LIMIT 1' at line 1
+MariaDB [world]> SELECT a.name, COUNT(*) FROM country a INNER JOIN city b ON a.code = b.countrycode GROUP BY a.code ORDER BY count(*) ORDER BY COUNT(*) DESC LIMIT 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'ORDER BY COUNT(*) DESC LIMIT 1' at line 1
+MariaDB [world]> SELECT a.name, COUNT(*) FROM country a INNER JOIN city b ON a.code = b.countrycode GROUP BY a.code ORDER BY COUNT(*) DESC LIMIT 1;
++-------+----------+
+| name  | COUNT(*) |
++-------+----------+
+| China |      363 |
++-------+----------+
+1 row in set (0.005 sec)
+
+MariaDB [world]> SELECT a.name, COUNT(*) FROM country a INNER JOIN city b ON a.code = b.countrycode GROUP BY a.code ORDER BY COUNT(*) ASC LIMIT 1;
++--------------------------+----------+
+| name                     | COUNT(*) |
++--------------------------+----------+
+| Northern Mariana Islands |        1 |
++--------------------------+----------+
+1 row in set (0.003 sec)
+
+MariaDB [world]> exit;
+Bye
