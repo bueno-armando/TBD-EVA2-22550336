@@ -1,0 +1,372 @@
+╭─senorbuen0@Trimethy in repo: TBD-EVA2-22550336 on  main took 9m44s
+[⚡] × sudo mariadb -u root -p
+[sudo] password for senorbuen0:
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 11.5.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE tbd_eva2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [tbd_eva2]> SELECT * FROM cliente
+-> ;
++----+--------+-----------+--------------+
+| id | nombre | apellidos | rfc          |
++----+--------+-----------+--------------+
+|  7 | Gas    | Hipergas  | GH0123456890 |
++----+--------+-----------+--------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO cliente(nombre, apellidos, rfc)
+-> VALUES("Juan", "Perez", "1234567891234"),
+-> ("Jorge", "DeGuzman", "1234567890123"),
+-> ("Charles", "McGill", "1234567890123"),
+-> ("Charles", "Ehrmanthraut", "0123456789123"),
+-> ("James", "McGill", "0123456789111");
+ERROR 1406 (22001): Data too long for column 'rfc' at row 1
+MariaDB [tbd_eva2]> DESC cliente;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50) | NO   |     | NULL    |                |
+| apellidos | varchar(50) | YES  |     | NULL    |                |
+| rfc       | varchar(12) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO cliente(nombre, apellidos, rfc) VALUES("Juan", "Perez", "123456789124"), ("Jorge", "DeGuzman","123456789012"), ("Charles", "McGill", "123456789012"), ("Charles", "Ehrmanthraut", "012345678913"), ("James", "McGill", "012345678911");
+Query OK, 5 rows affected (0.004 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     9 |         7 |
+|    10 |         7 |
++-------+-----------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM producto;
++----+--------+--------+
+| id | nombre | precio |
++----+--------+--------+
+|  1 | Elote  |  30.00 |
+|  2 | Nachos |  50.00 |
++----+--------+--------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO FACTURA(idCliente)
+-> VALUES(21) (22) (23) (24) (25);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '(22) (23) (24) (25)' at line 2
+MariaDB [tbd_eva2]> INSERT INTO FACTURA(idCliente) VALUES(21), (22), (23), (24), (25);
+ERROR 1146 (42S02): Table 'tbd_eva2.FACTURA' doesn't exist
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUES(21), (22), (23), (24), (25);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`tbd_eva2`.`factura`, CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+MariaDB [tbd_eva2]> INSERT INTO PRODUCTO(nombre, precio)
+-> VALUES("Caracol", 12),
+-> ("Estufa", 200),
+-> ("Mesita", 12),
+-> ("Termo", 400),
+-> ("Mouse", 1),
+-> ("Microondas", 12),
+-> ("Facturas", 5),
+-> ("Churros", 21);
+ERROR 1146 (42S02): Table 'tbd_eva2.PRODUCTO' doesn't exist
+MariaDB [tbd_eva2]> INSERT INTO prodcuto(nombre, precio) VALUES("Caracol", 12), ("Estufa", 200), ("Mesita", 12), ("Termo", 400), ("Mouse", 1), ("Microondas", 12), ("Facturas", 5), ("Churros", 21);
+ERROR 1146 (42S02): Table 'tbd_eva2.prodcuto' doesn't exist
+MariaDB [tbd_eva2]> INSERT INTO producto(nombre, precio) VALUES("Caracol", 12), ("Estufa", 200), ("Mesita", 12), ("Termo", 400), ("Mouse", 1), ("Microondas", 12), ("Facturas", 5), ("Churros", 21);
+Query OK, 8 rows affected (0.003 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SHOW * FROM cliente;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '* FROM cliente' at line 1
+MariaDB [tbd_eva2]> SELECT * FROM cliente;
++----+---------+--------------+--------------+
+| id | nombre  | apellidos    | rfc          |
++----+---------+--------------+--------------+
+|  7 | Gas     | Hipergas     | GH0123456890 |
+| 22 | Juan    | Perez        | 123456789124 |
+| 23 | Jorge   | DeGuzman     | 123456789012 |
+| 24 | Charles | McGill       | 123456789012 |
+| 25 | Charles | Ehrmanthraut | 012345678913 |
+| 26 | James   | McGill       | 012345678911 |
++----+---------+--------------+--------------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUES(22), (23), (24), (25), (26);
+Query OK, 5 rows affected (0.003 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> INSERT INTO factura(idCliente) VALUES(22), (23), (24), (25), (26), (22), (23), (24), (25), (25), (24), (23), (22);
+Query OK, 13 rows affected (0.003 sec)
+Records: 13  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> DELETE FROM factura WHERE idCliente = 22;
+Query OK, 4 rows affected (0.003 sec)
+
+MariaDB [tbd_eva2]> DELETE FROM factura WHERE idCliente = 25;
+Query OK, 4 rows affected (0.003 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM producto;
++----+------------+--------+
+| id | nombre     | precio |
++----+------------+--------+
+|  1 | Elote      |  30.00 |
+|  2 | Nachos     |  50.00 |
+|  4 | Caracol    |  12.00 |
+|  5 | Estufa     | 200.00 |
+|  6 | Mesita     |  12.00 |
+|  7 | Termo      | 400.00 |
+|  8 | Mouse      |   1.00 |
+|  9 | Microondas |  12.00 |
+| 10 | Facturas   |   5.00 |
+| 11 | Churros    |  21.00 |
++----+------------+--------+
+10 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     9 |         7 |
+|    10 |         7 |
+|    20 |        23 |
+|    25 |        23 |
+|    30 |        23 |
+|    35 |        23 |
+|    21 |        24 |
+|    26 |        24 |
+|    31 |        24 |
+|    34 |        24 |
+|    23 |        26 |
+|    28 |        26 |
++-------+-----------+
+12 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC factura_detalle;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| id         | int(11) | NO   | PRI | NULL    | auto_increment |
+| idFactura  | int(11) | NO   | MUL | NULL    |                |
+| idProducto | int(11) | NO   | MUL | NULL    |                |
+| cantidad   | int(11) | NO   |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura_detalle(idFactura, idProducto, cantidad)
+-> VALUES (39, 7, 1), (40, 8, 2), (41, 9, 3), (42, 11, 4), (43, 11, 10), (44, 5, 22), (45, 7, 12), (45, 1, 20), (46, 10, 100), (47, 11, 11), (48, 3, 33);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`tbd_eva2`.`factura_detalle`, CONSTRAINT`factura_detalle_ibfk_1` FOREIGN KEY (`idFactura`) REFERENCES `factura` (`folio`) ON DELETE CASCADE ON UPDATE CASCADE)
+MariaDB [tbd_eva2]> INSERT INTO factura_detalle(idFactura, idProducto, cantidad) VALUES (10, 7, 1), (20, 8, 2), (25, 9, 3), (30, 11, 4), (35, 11, 10), (21, 5, 22), (26, 7, 12), (31, 1, 20), (34, 10, 100), (23, 11, 11), (28, 3, 33);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`tbd_eva2`.`factura_detalle`, CONSTRAINT`factura_detalle_ibfk_3` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+MariaDB [tbd_eva2]> SELECT * FROM factura;
++-------+-----------+
+| folio | idCliente |
++-------+-----------+
+|     9 |         7 |
+|    10 |         7 |
+|    20 |        23 |
+|    25 |        23 |
+|    30 |        23 |
+|    35 |        23 |
+|    21 |        24 |
+|    26 |        24 |
+|    31 |        24 |
+|    34 |        24 |
+|    23 |        26 |
+|    28 |        26 |
++-------+-----------+
+12 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM producto;
++----+------------+--------+
+| id | nombre     | precio |
++----+------------+--------+
+|  1 | Elote      |  30.00 |
+|  2 | Nachos     |  50.00 |
+|  4 | Caracol    |  12.00 |
+|  5 | Estufa     | 200.00 |
+|  6 | Mesita     |  12.00 |
+|  7 | Termo      | 400.00 |
+|  8 | Mouse      |   1.00 |
+|  9 | Microondas |  12.00 |
+| 10 | Facturas   |   5.00 |
+| 11 | Churros    |  21.00 |
++----+------------+--------+
+10 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO factura_detalle(idFactura, idProducto, cantidad) VALUES (10, 7, 1), (20, 8, 2), (25, 9, 3), (30, 11, 4), (35, 11, 10), (21, 5, 22), (26, 7, 12), (31, 1, 20), (34, 10, 100), (23, 11, 11), (28, 2, 33);
+Query OK, 11 rows affected (0.004 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> DESC cliente;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50) | NO   |     | NULL    |                |
+| apellidos | varchar(50) | YES  |     | NULL    |                |
+| rfc       | varchar(12) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos, COUNT(*) as total
+-> FROM cliente a
+-> INNER JOIN factura b
+-> ON a.id = b.idCliente
+-> GROUP BY a.id
+-> ORDER BY apellidos, nombre;
++---------+-----------+-------+
+| nombre  | apellidos | total |
++---------+-----------+-------+
+| Jorge   | DeGuzman  |     4 |
+| Gas     | Hipergas  |     2 |
+| Charles | McGill    |     4 |
+| James   | McGill    |     2 |
++---------+-----------+-------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos, COUNT(*) as total FROM cliente a LEFT JOIN factura b ON a.id = b.idCliente GROUP BY a.id ORDER BY apellidos, nombre;
++---------+--------------+-------+
+| nombre  | apellidos    | total |
++---------+--------------+-------+
+| Jorge   | DeGuzman     |     4 |
+| Charles | Ehrmanthraut |     1 |
+| Gas     | Hipergas     |     2 |
+| Charles | McGill       |     4 |
+| James   | McGill       |     2 |
+| Juan    | Perez        |     1 |
++---------+--------------+-------+
+6 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos, COUNT(b.folio) AS total FROM cliente a LEFT JOIN factura b ON a.id = b.idCliente GROUP BY a.id ORDER BY apellidos, nombre;
++---------+--------------+-------+
+| nombre  | apellidos    | total |
++---------+--------------+-------+
+| Jorge   | DeGuzman     |     4 |
+| Charles | Ehrmanthraut |     0 |
+| Gas     | Hipergas     |     2 |
+| Charles | McGill       |     4 |
+| James   | McGill       |     2 |
+| Juan    | Perez        |     0 |
++---------+--------------+-------+
+6 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> DESC producto;
++--------+---------------+------+-----+---------+----------------+
+| Field  | Type          | Null | Key | Default | Extra          |
++--------+---------------+------+-----+---------+----------------+
+| id     | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50)   | NO   |     | NULL    |                |
+| precio | decimal(10,2) | NO   |     | NULL    |                |
++--------+---------------+------+-----+---------+----------------+
+3 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.idFactura, b.nombre, a.cantidad, b.precio
+-> FROM factura_detalle a
+-> INNER JOIN
+-> producto b on a.idProducto = b.id;
++-----------+------------+----------+--------+
+| idFactura | nombre     | cantidad | precio |
++-----------+------------+----------+--------+
+|         9 | Elote      |        1 |  30.00 |
+|        10 | Elote      |        1 |  30.00 |
+|        10 | Elote      |       50 |  30.00 |
+|        10 | Nachos     |       25 |  50.00 |
+|        10 | Termo      |        1 | 400.00 |
+|        20 | Mouse      |        2 |   1.00 |
+|        25 | Microondas |        3 |  12.00 |
+|        30 | Churros    |        4 |  21.00 |
+|        35 | Churros    |       10 |  21.00 |
+|        21 | Estufa     |       22 | 200.00 |
+|        26 | Termo      |       12 | 400.00 |
+|        31 | Elote      |       20 |  30.00 |
+|        34 | Facturas   |      100 |   5.00 |
+|        23 | Churros    |       11 |  21.00 |
+|        28 | Nachos     |       33 |  50.00 |
++-----------+------------+----------+--------+
+15 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT a.idFactura, b.nombre, a.cantidad, b.precio, a.cantidad*b.precio AS total FROM factura_detalle a INNER JOIN  producto b on a.idProducto = b.id;
++-----------+------------+----------+--------+---------+
+| idFactura | nombre     | cantidad | precio | total   |
++-----------+------------+----------+--------+---------+
+|         9 | Elote      |        1 |  30.00 |   30.00 |
+|        10 | Elote      |        1 |  30.00 |   30.00 |
+|        10 | Elote      |       50 |  30.00 | 1500.00 |
+|        10 | Nachos     |       25 |  50.00 | 1250.00 |
+|        10 | Termo      |        1 | 400.00 |  400.00 |
+|        20 | Mouse      |        2 |   1.00 |    2.00 |
+|        25 | Microondas |        3 |  12.00 |   36.00 |
+|        30 | Churros    |        4 |  21.00 |   84.00 |
+|        35 | Churros    |       10 |  21.00 |  210.00 |
+|        21 | Estufa     |       22 | 200.00 | 4400.00 |
+|        26 | Termo      |       12 | 400.00 | 4800.00 |
+|        31 | Elote      |       20 |  30.00 |  600.00 |
+|        34 | Facturas   |      100 |   5.00 |  500.00 |
+|        23 | Churros    |       11 |  21.00 |  231.00 |
+|        28 | Nachos     |       33 |  50.00 | 1650.00 |
++-----------+------------+----------+--------+---------+
+15 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos,
+-> SUM(c.cantidad * d.precio) AS total
+-> FROM cliente a
+-> LEFT JOIN factura b
+-> ON a.id = b.idCliente
+-> LEFT JOIN factura_detalle c
+-> ON b.folio = c.idFactura
+-> LEFT JOIN producto d
+-> ON c.idProducto = d.id
+-> GROUP BY a.id
+-> ORDER BY a.apellidos, a.nombre;
++---------+--------------+----------+
+| nombre  | apellidos    | total    |
++---------+--------------+----------+
+| Jorge   | DeGuzman     |   332.00 |
+| Charles | Ehrmanthraut |     NULL |
+| Gas     | Hipergas     |  3210.00 |
+| Charles | McGill       | 10300.00 |
+| James   | McGill       |  1881.00 |
+| Juan    | Perez        |     NULL |
++---------+--------------+----------+
+6 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> EXIT;
+Bye
