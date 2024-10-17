@@ -1,0 +1,417 @@
+╭─senorbuen0@Trimethy in repo: TBD-EVA2-22550336 on  main [⇡1] took 1s
+╰─λ sudo mysql -u root -p
+[sudo] password for senorbuen0:
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 5
+Server version: 11.5.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| prueba             |
+| sakila             |
+| sys                |
+| tbd_eva1           |
+| tbd_eva2           |
+| test               |
+| workplace          |
+| world              |
++--------------------+
+11 rows in set (0.001 sec)
+
+MariaDB [(none)]> !ls -la
+-> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '!ls -la' at line 1
+MariaDB [(none)]> system ls -la
+total 676
+drwxr-xr-x 1 senorbuen0 senorbuen0    474 Oct 15 19:49 .
+drwxr-xr-x 1 senorbuen0 senorbuen0    716 Oct  2 19:33 ..
+-rw-r--r-- 1 senorbuen0 senorbuen0  12583 Sep 24 19:47 EVA2_1_INTEGRIDAD_REFERENCIAL.txt
+-rw-r--r-- 1 senorbuen0 senorbuen0  20140 Sep 25 19:46 EVA2_2_INTEGRIDAD_REFERENCIAL.txt
+-rw-r--r-- 1 senorbuen0 senorbuen0  19955 Sep 26 19:45 EVA2_3_INTEGRIDAD_REFERENCIAL.txt
+-rw-r--r-- 1 senorbuen0 senorbuen0  19760 Oct  1 00:12 EVA2_4_SELECT_AS_GROUP_BY_ORDER_BY.txt
+-rw-r--r-- 1 senorbuen0 senorbuen0 308466 Oct  2 19:51 EVA2_5_IN_HAVING.txt
+-rw-r--r-- 1 senorbuen0 senorbuen0 108868 Oct  8 19:44 EVA2_6_CONJUNTOS.txt
+-rw-r--r-- 1 senorbuen0 senorbuen0 126862 Oct  9 19:49 EVA2_7_JOIN.txt
+-rw-r--r-- 1 senorbuen0 senorbuen0  45527 Oct 10 19:46 EVA2_8_INNER_JOIN.txt
+-rw-r--r-- 1 senorbuen0 senorbuen0  16311 Oct 15 19:49 EVA2_9_LEFT_JOIN.txt
+drwxr-xr-x 1 senorbuen0 senorbuen0    144 Oct 15 19:49 .git
+MariaDB [(none)]> USE tbd_eva2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [tbd_eva2]> SHOW tables;
++--------------------+
+| Tables_in_tbd_eva2 |
++--------------------+
+| cliente            |
+| factura            |
+| factura_detalle    |
+| producto           |
+| tablaA             |
+| tablaB             |
++--------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> system tail -n 50 EVA2_9_LEFT_JOIN.txt
++-----------+------------+----------+--------+
+15 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT a.idFactura, b.nombre, a.cantidad, b.precio, a.cantidad*b.precio AS total FROM factura_detalle a INNER JOIN  producto b on a.idProducto = b.id;
++-----------+------------+----------+--------+---------+
+| idFactura | nombre     | cantidad | precio | total   |
++-----------+------------+----------+--------+---------+
+|         9 | Elote      |        1 |  30.00 |   30.00 |
+|        10 | Elote      |        1 |  30.00 |   30.00 |
+|        10 | Elote      |       50 |  30.00 | 1500.00 |
+|        10 | Nachos     |       25 |  50.00 | 1250.00 |
+|        10 | Termo      |        1 | 400.00 |  400.00 |
+|        20 | Mouse      |        2 |   1.00 |    2.00 |
+|        25 | Microondas |        3 |  12.00 |   36.00 |
+|        30 | Churros    |        4 |  21.00 |   84.00 |
+|        35 | Churros    |       10 |  21.00 |  210.00 |
+|        21 | Estufa     |       22 | 200.00 | 4400.00 |
+|        26 | Termo      |       12 | 400.00 | 4800.00 |
+|        31 | Elote      |       20 |  30.00 |  600.00 |
+|        34 | Facturas   |      100 |   5.00 |  500.00 |
+|        23 | Churros    |       11 |  21.00 |  231.00 |
+|        28 | Nachos     |       33 |  50.00 | 1650.00 |
++-----------+------------+----------+--------+---------+
+15 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos,
+-> SUM(c.cantidad * d.precio) AS total
+-> FROM cliente a
+-> LEFT JOIN factura b
+-> ON a.id = b.idCliente
+-> LEFT JOIN factura_detalle c
+-> ON b.folio = c.idFactura
+-> LEFT JOIN producto d
+-> ON c.idProducto = d.id
+-> GROUP BY a.id
+-> ORDER BY a.apellidos, a.nombre;
++---------+--------------+----------+
+| nombre  | apellidos    | total    |
++---------+--------------+----------+
+| Jorge   | DeGuzman     |   332.00 |
+| Charles | Ehrmanthraut |     NULL |
+| Gas     | Hipergas     |  3210.00 |
+| Charles | McGill       | 10300.00 |
+| James   | McGill       |  1881.00 |
+| Juan    | Perez        |     NULL |
++---------+--------------+----------+
+6 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> EXIT;
+Bye
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos,
+-> -> SUM(c.cantidad * d.precio) AS total
+-> -> FROM cliente a
+-> -> LEFT JOIN factura b
+-> -> ON a.id = b.idCliente
+-> -> LEFT JOIN factura_detalle c
+-> -> ON b.folio = c.idFactura
+-> -> LEFT JOIN producto d
+-> -> ON c.idProducto = d.id
+-> -> GROUP BY a.id
+-> -> ORDER BY a.apellidos, a.nombre;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '> SUM(c.cantidad * d.precio) AS total
+-> FROM cliente a
+-> LEFT JOIN factura ...' at line 2
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos,
+-> -> SUM(c.cantidad * d.precio) AS total
+-> -> FROM cliente a
+-> -> LEFT JOIN factura b
+-> -> ON a.id = b.idCliente
+-> -> LEFT JOIN factura_detalle c
+-> -> ON b.folio = c.idFactura
+-> -> LEFT JOIN producto d
+-> -> ON c.idProducto = d.id
+-> -> GROUP BY a.id
+-> -> ORDER BY a.apellidos, a.nombre;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near '> SUM(c.cantidad * d.precio) AS total
+-> FROM cliente a
+-> LEFT JOIN factura ...' at line 2
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos,
+->        SUM(c.cantidad * d.precio) AS total
+-> FROM cliente a
+-> LEFT JOIN factura b
+-> ON a.id = b.idCliente
+-> LEFT JOIN factura_detalle c
+-> ON b.folio = c.idFactura
+-> LEFT JOIN producto d
+-> ON c.idProducto = d.id
+-> GROUP BY a.id
+-> ORDER BY a.apellidos, a.nombre;
++---------+--------------+----------+
+| nombre  | apellidos    | total    |
++---------+--------------+----------+
+| Jorge   | DeGuzman     |   332.00 |
+| Charles | Ehrmanthraut |     NULL |
+| Gas     | Hipergas     |  3210.00 |
+| Charles | McGill       | 10300.00 |
+| James   | McGill       |  1881.00 |
+| Juan    | Perez        |     NULL |
++---------+--------------+----------+
+6 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SHOW CREATE TABLE factura_detalle;
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table           | Create Table                                                                                              |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| factura_detalle | CREATE TABLE `factura_detalle` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`idFactura` int(11) NOT NULL,
+`idProducto` int(11) NOT NULL,
+`cantidad` int(11) NOT NULL,
+PRIMARY KEY (`id`),
+KEY `idFactura` (`idFactura`),
+KEY `idProducto` (`idProducto`),
+CONSTRAINT `factura_detalle_ibfk_1` FOREIGN KEY (`idFactura`) REFERENCES `factura` (`folio`) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT `factura_detalle_ibfk_3` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC producto;
++--------+---------------+------+-----+---------+----------------+
+| Field  | Type          | Null | Key | Default | Extra          |
++--------+---------------+------+-----+---------+----------------+
+| id     | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50)   | NO   |     | NULL    |                |
+| precio | decimal(10,2) | NO   |     | NULL    |                |
++--------+---------------+------+-----+---------+----------------+
+3 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM producto;
++----+------------+--------+
+| id | nombre     | precio |
++----+------------+--------+
+|  1 | Elote      |  30.00 |
+|  2 | Nachos     |  50.00 |
+|  4 | Caracol    |  12.00 |
+|  5 | Estufa     | 200.00 |
+|  6 | Mesita     |  12.00 |
+|  7 | Termo      | 400.00 |
+|  8 | Mouse      |   1.00 |
+|  9 | Microondas |  12.00 |
+| 10 | Facturas   |   5.00 |
+| 11 | Churros    |  21.00 |
++----+------------+--------+
+10 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos,        IFNULL(SUM(c.cantidad * d.precio),0) AS total FROM cliente a LEFT JOIN factura b ON a.id = b.idCliente LEFT JOIN factura_detalle c ON b.folio = c.idFactura LEFT JOIN producto d ON c.idProducto = d.id GROUP BY a.id ORDER BY a.apellidos, a.nombre;
++---------+--------------+----------+
+| nombre  | apellidos    | total    |
++---------+--------------+----------+
+| Jorge   | DeGuzman     |   332.00 |
+| Charles | Ehrmanthraut |     0.00 |
+| Gas     | Hipergas     |  3210.00 |
+| Charles | McGill       | 10300.00 |
+| James   | McGill       |  1881.00 |
+| Juan    | Perez        |     0.00 |
++---------+--------------+----------+
+6 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> DESC factura;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| folio     | int(11) | NO   | PRI | NULL    | auto_increment |
+| idCliente | int(11) | NO   | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> DESC factura_detalle;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| id         | int(11) | NO   | PRI | NULL    | auto_increment |
+| idFactura  | int(11) | NO   | MUL | NULL    |                |
+| idProducto | int(11) | NO   | MUL | NULL    |                |
+| cantidad   | int(11) | NO   |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, IFNULL(SUM(b.cantidad), 0) AS vendidos, IFNULL(sum(b.cantidad * a.precio),0) AS total FROM producto a LEFT JOIN factura_detalle b ON a.id = b.idProducto GROUP BY a.id ORDER BY a.nombre;
++------------+----------+---------+
+| nombre     | vendidos | total   |
++------------+----------+---------+
+| Caracol    |        0 |    0.00 |
+| Churros    |       25 |  525.00 |
+| Elote      |       72 | 2160.00 |
+| Estufa     |       22 | 4400.00 |
+| Facturas   |      100 |  500.00 |
+| Mesita     |        0 |    0.00 |
+| Microondas |        3 |   36.00 |
+| Mouse      |        2 |    2.00 |
+| Nachos     |       58 | 2900.00 |
+| Termo      |       13 | 5200.00 |
++------------+----------+---------+
+10 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, IFNULL(SUM(b.cantidad), 0) AS vendidos, IFNULL(sum(b.cantidad * a.precio),0) AS total FROM producto a RIGHT JOIN factura_detalle b ON a.id = b.idProducto GROUP BY a.id ORDER BY a.nombre;
++------------+----------+---------+
+| nombre     | vendidos | total   |
++------------+----------+---------+
+| Churros    |       25 |  525.00 |
+| Elote      |       72 | 2160.00 |
+| Estufa     |       22 | 4400.00 |
+| Facturas   |      100 |  500.00 |
+| Microondas |        3 |   36.00 |
+| Mouse      |        2 |    2.00 |
+| Nachos     |       58 | 2900.00 |
+| Termo      |       13 | 5200.00 |
++------------+----------+---------+
+8 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> CREATE TABLE tablaA(
+-> id KEY AUTO_INCREMENT,
+-> nombre VARCHAR(50));
+ERROR 4161 (HY000): Unknown data type: 'KEY'
+MariaDB [tbd_eva2]> CREATE TABLE tablaA(INT id KEY AUTO_INCREMENT, nombre VARCHAR(50));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'INT id KEY AUTO_INCREMENT, nombre VARCHAR(50))' at line 1
+MariaDB [tbd_eva2]> SELECT * FROM tablaA;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | A      |
+|    2 | B      |
+|    3 | C      |
+|    4 | D      |
++------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaB;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | X      |
+|    2 | Y      |
+|    3 | Z      |
+|    4 | A      |
+|    5 | B      |
++------+--------+
+5 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> CREATE TABLE tablaBB(
+-> id INT KEY AUTO_INCREMENT,
+-> idTabla INT,
+-> nombre VARCHAR(50));
+Query OK, 0 rows affected (0.019 sec)
+
+MariaDB [tbd_eva2]> DESC tablaBB;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| id      | int(11)     | NO   | PRI | NULL    | auto_increment |
+| idTabla | int(11)     | YES  |     | NULL    |                |
+| nombre  | varchar(50) | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+3 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT * FROM tablaA;
++------+--------+
+| id   | nombre |
++------+--------+
+|    1 | A      |
+|    2 | B      |
+|    3 | C      |
+|    4 | D      |
++------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> INSERT INTO tablaA(idTabla, nombre)
+-> VALUES(1, "XXXX"),(2, "YYYY"),(2,"ZZZZ"),(3, "DDDD"),(NULL,"111"),(NULL,"222");
+ERROR 1054 (42S22): Unknown column 'idTabla' in 'field list'
+MariaDB [tbd_eva2]> INSERT INTO tablaBB(idTabla, nombre) VALUES(1, "XXXX"),(2, "YYYY"),(2,"ZZZZ"),(3, "DDDD"),(NULL,"111"),(NULL,"222");
+Query OK, 6 rows affected (0.003 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [tbd_eva2]> SELECT a.nombre, b.nombre
+-> FROM tablaA a
+-> LEFT JOIN tablaBB b
+-> oON a.id = b.idTabla;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version forthe right syntax to use near 'oON a.id = b.idTabla' at line 4
+MariaDB [tbd_eva2]> SELECT a.nombre, b.nombre FROM tablaA a LEFT JOIN tablaBB b ON a.id = b.idTabla;
++--------+--------+
+| nombre | nombre |
++--------+--------+
+| A      | XXXX   |
+| B      | YYYY   |
+| B      | ZZZZ   |
+| C      | DDDD   |
+| D      | NULL   |
++--------+--------+
+5 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, b.nombre FROM tablaA a RIGHT JOIN tablaBB b ON a.id = b.idTabla;
++--------+--------+
+| nombre | nombre |
++--------+--------+
+| A      | XXXX   |
+| B      | YYYY   |
+| B      | ZZZZ   |
+| C      | DDDD   |
+| NULL   | 111    |
+| NULL   | 222    |
++--------+--------+
+6 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> DESC cliente;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50) | NO   |     | NULL    |                |
+| apellidos | varchar(50) | YES  |     | NULL    |                |
+| rfc       | varchar(12) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos, b.folio
+-> FROM cliente a
+-> LEFT JOIN factura b
+-> ON a.id = b.idCliente;
++---------+--------------+-------+
+| nombre  | apellidos    | folio |
++---------+--------------+-------+
+| Gas     | Hipergas     |     9 |
+| Gas     | Hipergas     |    10 |
+| Juan    | Perez        |  NULL |
+| Jorge   | DeGuzman     |    20 |
+| Jorge   | DeGuzman     |    25 |
+| Jorge   | DeGuzman     |    30 |
+| Jorge   | DeGuzman     |    35 |
+| Charles | McGill       |    21 |
+| Charles | McGill       |    26 |
+| Charles | McGill       |    31 |
+| Charles | McGill       |    34 |
+| Charles | Ehrmanthraut |  NULL |
+| James   | McGill       |    23 |
+| James   | McGill       |    28 |
++---------+--------------+-------+
+14 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> SELECT a.nombre, a.apellidos, b.folio FROM cliente a LEFT JOIN factura b  ON a.id = b.idCliente WHERE b.folio IS NULL;
++---------+--------------+-------+
+| nombre  | apellidos    | folio |
++---------+--------------+-------+
+| Juan    | Perez        |  NULL |
+| Charles | Ehrmanthraut |  NULL |
++---------+--------------+-------+
+2 rows in set (0.000 sec)
+
+MariaDB [tbd_eva2]> exit;
+Bye
